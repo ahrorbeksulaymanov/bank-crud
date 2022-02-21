@@ -1,0 +1,46 @@
+.search-input{
+    width: 300px;
+}
+
+.data-table-header{
+    padding: 16px !important;
+    cursor: pointer;
+    &:hover{
+        background-color: #e4e4e4 !important;
+    }
+    svg{
+        height: 10px;
+        color: rgb(150, 150, 150);
+    }
+}
+.bg-table-header{
+    background-color: #EAEAEA;
+}
+.table-body{
+    max-height: 75vh !important;
+    overflow-y: auto;
+    .table-body-padding{
+        div{
+            padding: 5px 10px;
+            display: inline-block;
+            margin: 0;
+        }
+        button{
+            border: 1px solid #B7EB8F;
+            color: #B7EB8F;
+            background-color: #F6FFED;
+            border-radius: 4px;
+            cursor: auto;
+        }
+        &:hover{
+            background-color: #f7f7f7;
+        }
+    }
+}
+.bank-add-wrapper{
+    label{
+        margin-right: 40px;
+        text-align: left;
+    }
+}
+

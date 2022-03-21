@@ -1,18 +1,18 @@
 {
   "files": {
-    "main.css": "/bank-crud/static/css/main.ab99b61b.css",
-    "main.js": "/bank-crud/static/js/main.a7bb8c85.js",
+    "main.css": "/bank-crud/static/css/main.e42d0639.css",
+    "main.js": "/bank-crud/static/js/main.d718d213.js",
     "static/js/787.a35eab4c.chunk.js": "/bank-crud/static/js/787.a35eab4c.chunk.js",
     "static/media/main-r2.jpg": "/bank-crud/static/media/main-r2.fad09c78201ad98ec68a.jpg",
     "static/media/main-left.jpg": "/bank-crud/static/media/main-left.c65a1dad927b6e7bc186.jpg",
     "static/media/main-r1.jpg": "/bank-crud/static/media/main-r1.1ec0cdce2908e7ba7f0e.jpg",
     "index.html": "/bank-crud/index.html",
-    "main.ab99b61b.css.map": "/bank-crud/static/css/main.ab99b61b.css.map",
-    "main.a7bb8c85.js.map": "/bank-crud/static/js/main.a7bb8c85.js.map",
+    "main.e42d0639.css.map": "/bank-crud/static/css/main.e42d0639.css.map",
+    "main.d718d213.js.map": "/bank-crud/static/js/main.d718d213.js.map",
     "787.a35eab4c.chunk.js.map": "/bank-crud/static/js/787.a35eab4c.chunk.js.map"
   },
   "entrypoints": [
-    "static/css/main.ab99b61b.css",
-    "static/js/main.a7bb8c85.js"
+    "static/css/main.e42d0639.css",
+    "static/js/main.d718d213.js"
   ]
 }

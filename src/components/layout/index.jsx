@@ -53,7 +53,7 @@ const MyLayout = ({ children }) => {
         <div className="logo"></div>
         <Menu theme="dark" mode="inline" >
           <Menu.Item key="1" icon={<UserOutlined />}>
-            <Link to="/">Banks</Link>
+            <Link to="/admin">Banks</Link>
           </Menu.Item>
           <Menu.Item key="2" icon={<VideoCameraOutlined />}>
             <Link to="/pageone">Page one</Link>

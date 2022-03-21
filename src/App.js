@@ -26,7 +26,7 @@ function App() {
       })
         .then((res) => {
           if (res?.status === 200 || res?.status === "200") {
-            history.push("/");
+            history.push("/admin");
           } else {
             localStorage.clear();
             history.push("/login");
@@ -37,7 +37,7 @@ function App() {
           history.push("/login");
         });
     } else {
-      history.push("/login");
+      history.push("/");
     }
   }, []);
 

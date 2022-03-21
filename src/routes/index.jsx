@@ -3,11 +3,22 @@ import AddBank from "../components/content/dataAdd";
 import PageOne from "../components/emptyPages/pageOne";
 import PageTwo from "../components/emptyPages/pageTwo";
 import LoginPage from "../components/login";
+import HomePage from "../pages/homePage";
 
 export const all_routes = [
     {
-        title: "Bank",
+        title: "Home page",
         path: "/",
+        component: HomePage,
+        exact:true,
+        config: {
+            showLink: true,
+            structure: "nonlayout"
+        }
+    },
+    {
+        title: "Bank",
+        path: "/admin",
         component: BankList,
         exact:true,
         config: {

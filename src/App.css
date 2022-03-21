@@ -1,3 +1,8 @@
+:root {
+    --dark: rgb(24, 22, 22);
+  }
+    
+
 .pointer{
     cursor: pointer;
 }

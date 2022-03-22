@@ -23,6 +23,15 @@
   }
 }
 
+.left-main-img{
+    max-height: 605px;
+    overflow: hidden;
+}
+.right-main-img{
+    max-height: 290px;
+    overflow: hidden;
+}
+
 .image-sale-smaller {
   box-sizing: border-box;
   position: relative;
@@ -54,8 +63,7 @@
   &:hover img {
     transform: scale(1.15);
   }
-
   img {
-    transition: transform 0.4s ease;
+    transition: transform 0.3s ease;
   }
 }

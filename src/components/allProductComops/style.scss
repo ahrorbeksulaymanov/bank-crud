@@ -1,0 +1,72 @@
+.filter-checkbox {
+  width: 250px;
+  .ant-checkbox-wrapper {
+    width: 100%;
+    padding: 5px 0;
+    &:hover {
+      background-color: rgb(245, 245, 245);
+    }
+  }
+  button {
+    width: 100%;
+    background-color: var(--dark);
+    color: #fff;
+    font-size: 18px;
+    border: none;
+    padding: 7px 0;
+    margin-top: 15px;
+    &:hover {
+      background-color: rgb(54, 54, 54);
+    }
+  }
+}
+.all_products {
+  img {
+    margin-bottom: 2rem;
+  }
+  .card-filtered-item {
+    border: none;
+    box-shadow: 1px 1px 5px rgb(231, 231, 231);
+  }
+  .comp-name {
+    text-transform: uppercase;
+    margin-top: 2rem;
+    font-size: 20px;
+    letter-spacing: 2px;
+  }
+  .comp-sale {
+    .through {
+      text-decoration: line-through;
+    }
+  }
+  .comp-price {
+    font-size: 18px;
+    font-weight: 600;
+  }
+  .filter-button {
+    background-color: transparent;
+    border: none;
+    font-size: 17px;
+  }
+  .filter_icon{
+      display: none;
+  }
+}
+
+@media only screen and (max-width:768px){
+  .ant-modal,
+  .ant-modal-content {
+    height: 100vh;
+    width: 100vw;
+    margin: 0;
+    top: 0;
+  }
+  .ant-modal-body {
+    height: calc(100vh - 110px);
+  }
+    .all_products{
+        .filter_icon{
+            display: block;
+        }
+    }
+}

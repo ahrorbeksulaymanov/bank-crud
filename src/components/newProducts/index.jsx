@@ -10,7 +10,7 @@ const NewProducts = () => {
     <div className="py-5">
       <div className="row">
         <div className="col-md-6">
-          <div className="image-sale">
+          <div className="image-sale left-main-img mb-4">
             <div>
               <p>Lorem, ipsum dolor.</p>
               <h5>Lorem ipsum dolor sit.</h5>
@@ -19,14 +19,14 @@ const NewProducts = () => {
           </div>
         </div>
         <div className="col-md-6">
-          <div className="image-sale">
+          <div className="image-sale right-main-img mb-4">
             <div>
               <p>Lorem, ipsum dolor.</p>
               <h5>Lorem ipsum dolor sit.</h5>
             </div>
-            <img className="w-100 mb-4" src={mainRight1Img} alt="" />
+            <img className="w-100" src={mainRight1Img} alt="" />
           </div>
-          <div className="image-sale">
+          <div className="image-sale right-main-img">
             <div>
               <p>Lorem, ipsum dolor.</p>
               <h5>Lorem ipsum dolor sit.</h5>

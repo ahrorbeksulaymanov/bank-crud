@@ -53,7 +53,7 @@ const SliderNews = () => {
               delay: 1000,
               disableOnInteraction: true,
             }}
-            speed={800}
+            speed={300}
             slidesPerView={slideItem}
             spaceBetween={30}
             navigation={{

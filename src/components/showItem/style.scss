@@ -1,0 +1,51 @@
+.show-items {
+  .back-button {
+    font-weight: 600;
+    font-size: 18px;
+  }
+  .litle-img {
+    border: 1px solid #111;
+  }
+  .comp-sale {
+    .through {
+      text-decoration: line-through;
+    }
+  }
+  .comp-price {
+    font-size: 18px;
+    font-weight: 600;
+  }
+  .offer-button{
+      background-color: var(--dark);
+      color: #fff;
+      font-size: 18px;
+      padding: 7px 0;
+      border: none;
+      width: 100%;
+      margin: 20px 0;
+      &:hover{
+          background-color: rgb(48, 48, 48);
+      }
+  }
+}
+.offer-button-modal{
+    background-color: var(--dark);
+    color: #fff;
+    font-size: 18px;
+    padding: 7px 0;
+    border: none;
+    width: 100%;
+    &:hover{
+        background-color: rgb(48, 48, 48);
+    }
+}
+.input_mask_tel{
+    padding: 3px 5px;
+    border: 1px solid rgb(217,217,217) !important;
+    &:hover{
+        border: 1px solid rgb(98,180,247) !important;
+    }
+    &:focus-visible{
+        outline: 1px solid rgb(98,180,247) !important;
+    }
+}

@@ -1,0 +1,27 @@
+.header-top-content{
+    display: flex;
+    justify-content: space-between;
+    .search_input{
+        width: 200px;
+    }
+    .search_input2{
+        display: none;
+    }
+}
+
+@media only screen and (max-width:768px){
+    .header-top-content{
+        display: block;
+        .radio_gender{
+            width: 100%;
+            text-align: center;
+        }
+        .search_input{
+            display: none;
+        }
+        .search_input2{
+            display: block;
+            margin-bottom: 10px;
+        }
+    }
+}

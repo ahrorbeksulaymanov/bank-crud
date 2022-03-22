@@ -4,6 +4,9 @@ import PageOne from "../components/emptyPages/pageOne";
 import PageTwo from "../components/emptyPages/pageTwo";
 import LoginPage from "../components/login";
 import HomePage from "../pages/homePage";
+import AllProductsPage from '../pages/all-products';
+import ShowItemPage from "../pages/show-item";
+import ContactUs from "../pages/contact-us";
 
 export const all_routes = [
     {
@@ -13,7 +16,37 @@ export const all_routes = [
         exact:true,
         config: {
             showLink: true,
-            structure: "nonlayout"
+            structure: "sectionlayout"
+        }
+    },
+    {
+        title: "All products",
+        path: "/all-products",
+        component: AllProductsPage,
+        exact:true,
+        config: {
+            showLink: true,
+            structure: "sectionlayout"
+        }
+    },
+    {
+        title: "Item show",
+        path: "/product/:id",
+        component: ShowItemPage,
+        exact:true,
+        config: {
+            showLink: true,
+            structure: "sectionlayout"
+        }
+    },
+    {
+        title: "Contact Us",
+        path: "/contact-us",
+        component: ContactUs,
+        exact:true,
+        config: {
+            showLink: true,
+            structure: "sectionlayout"
         }
     },
     {

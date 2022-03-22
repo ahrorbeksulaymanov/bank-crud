@@ -7,6 +7,8 @@ import { useHistory } from "react-router-dom";
 import RoutesMiddleware from "./routes/reuterMiddleware";
 import axios from "axios";
 import { PATH_API } from "./constants";
+import ScrollToTop from "react-scroll-to-top";
+import {IoIosArrowUp} from 'react-icons/io'
 
 function App() {
   const history = useHistory();
@@ -43,6 +45,7 @@ function App() {
 
   return (
       <div className="App">
+        <ScrollToTop smooth component={<IoIosArrowUp className="to_tp" />} />
         <RoutesMiddleware />
       </div>
   );

@@ -1,4 +1,5 @@
 import React from "react";
+import './style.scss'
 import { Radio } from "antd";
 import { Input } from "antd";
 const { Search } = Input;
@@ -8,8 +9,13 @@ const HeaderTop = () => {
 
   return (
     <div>
-      <div className="d-flex justify-content-between my-3">
-        <Radio.Group defaultValue="a" buttonStyle="outline">
+      <div className="my-3 header-top-content">
+      <Search
+          placeholder="Search..."
+          onSearch={onSearch}
+          className='search_input2'
+        />
+        <Radio.Group className="radio_gender" defaultValue="a" buttonStyle="outline">
           <Radio.Button value="a">WOMEN</Radio.Button>
           <Radio.Button value="b">MEN</Radio.Button>
           <Radio.Button value="c">CHILDREN</Radio.Button>
@@ -17,7 +23,7 @@ const HeaderTop = () => {
         <Search
           placeholder="Search..."
           onSearch={onSearch}
-          style={{ width: 200 }}
+          className='search_input'
         />
       </div>
     </div>

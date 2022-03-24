@@ -9,6 +9,7 @@ import axios from "axios";
 import { PATH_API } from "./constants";
 import ScrollToTop from "react-scroll-to-top";
 import {IoIosArrowUp} from 'react-icons/io'
+import "swiper/css/bundle";
 
 function App() {
   const history = useHistory();

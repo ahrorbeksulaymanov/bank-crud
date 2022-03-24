@@ -5,36 +5,40 @@ import "./style.scss";
 import { Select, Collapse } from "antd";
 import SubmitData from "./submitDataModal";
 import SliderSimiliar from "./sliderSimiliar";
+import ShowItemMobile from "./sliderShowMobile";
+import { Link } from "react-router-dom";
+import { useHistory } from "react-router-dom";
 const { Panel } = Collapse;
 const { Option } = Select;
 
 const ItemShow = () => {
   const [isModalVisible, setIsModalVisible] = useState(false);
 
+  const history = useHistory()
   function handleChange(value) {
     console.log(`selected ${value}`);
   }
-  const onFinish = (values) => {
-    console.log("Success:", values);
-  };
+
   return (
     <div className="show-items pt-4">
       <div className="row">
-        <div className="col-md-7">
+        <div className="col-md-7 d-none-md">
           <p className="d-flex align-items-center fw-600 back-button">
-            <IoIosArrowBack />
-            Back
+            <div onClick={() => history.goBack()} className="d-flex align-items-center fw-600 back-button pointer">
+              <IoIosArrowBack /> Back
+            </div>
           </p>
           <img src={product2} className="w-100" alt="" />
         </div>
-        <div className="col-md-1">
+        <div className="col-md-1 d-none-md">
           <img src={product2} className="w-100 mb-4 litle-img" alt="" />
           <img src={product2} className="w-100 mb-4 litle-img" alt="" />
           <img src={product2} className="w-100 mb-4 litle-img" alt="" />
           <img src={product2} className="w-100 mb-4 litle-img" alt="" />
         </div>
+        <ShowItemMobile />
         <div className="col-md-4">
-          <h3 className="m-0">OAMC</h3>
+          <h3 className="m-0"><Link to='/company/:id' className="text-dark">OAMC</Link></h3>
           <p className="m-0">Sneakers - AO36030A</p>
           <p className="">Colour ellow</p>
           <p className="comp-sale mb-1">

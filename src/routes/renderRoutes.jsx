@@ -21,9 +21,11 @@ const RenderComponent = ({ component: Component, structure }) => {
             </SectionLayout>
           );
         } else {
-          <NonLayout>
-            <Component {...props} />
-          </NonLayout>;
+          return (
+            <NonLayout>
+              <Component {...props} />
+            </NonLayout>
+          );
         }
       }}
     />

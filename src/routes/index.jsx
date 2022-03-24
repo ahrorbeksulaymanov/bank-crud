@@ -7,6 +7,7 @@ import HomePage from "../pages/homePage";
 import AllProductsPage from '../pages/all-products';
 import ShowItemPage from "../pages/show-item";
 import ContactUs from "../pages/contact-us";
+import CompanyPage from "../pages/company-page";
 
 export const all_routes = [
     {
@@ -43,6 +44,16 @@ export const all_routes = [
         title: "Contact Us",
         path: "/contact-us",
         component: ContactUs,
+        exact:true,
+        config: {
+            showLink: true,
+            structure: "sectionlayout"
+        }
+    },
+    {
+        title: "Company",
+        path: "/company/:id",
+        component: CompanyPage,
         exact:true,
         config: {
             showLink: true,

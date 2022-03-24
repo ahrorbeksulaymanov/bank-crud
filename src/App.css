@@ -18,18 +18,17 @@
 .to_tp{
     font-size: 22px;
 }
+.d-block-md{
+    display: none;
+}
 
 @media only screen and (max-width:768px){
     .d-none-md{
         display: none !important;
     }
     .d-block-md{
-        display: block;
+        display: block !important;
     }
-}
-
-
-@media only screen and (max-width:768px){
     .styles_scroll-to-top__2A70v{
         right: 10px !important;
         box-shadow: 0 0 7px 0px rgb(32, 32, 32) !important;

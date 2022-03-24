@@ -1,20 +1,21 @@
 {
   "files": {
-    "main.css": "/bank-crud/static/css/main.9f7669a4.css",
-    "main.js": "/bank-crud/static/js/main.d4cb14fd.js",
+    "main.css": "/bank-crud/static/css/main.3a05554a.css",
+    "main.js": "/bank-crud/static/js/main.63ab1faf.js",
     "static/js/787.a35eab4c.chunk.js": "/bank-crud/static/js/787.a35eab4c.chunk.js",
     "static/media/main-r2.jpg": "/bank-crud/static/media/main-r2.fad09c78201ad98ec68a.jpg",
     "static/media/main-left.jpg": "/bank-crud/static/media/main-left.c65a1dad927b6e7bc186.jpg",
     "static/media/main-r1.jpg": "/bank-crud/static/media/main-r1.1ec0cdce2908e7ba7f0e.jpg",
+    "static/media/login-img.jpg": "/bank-crud/static/media/login-img.e7d543c41d86c6e6bf70.jpg",
     "static/media/product2.jpg": "/bank-crud/static/media/product2.ff3800e8eec018a0abe9.jpg",
     "static/media/krasofka.jpg": "/bank-crud/static/media/krasofka.48fcd835adac003998ec.jpg",
     "index.html": "/bank-crud/index.html",
-    "main.9f7669a4.css.map": "/bank-crud/static/css/main.9f7669a4.css.map",
-    "main.d4cb14fd.js.map": "/bank-crud/static/js/main.d4cb14fd.js.map",
+    "main.3a05554a.css.map": "/bank-crud/static/css/main.3a05554a.css.map",
+    "main.63ab1faf.js.map": "/bank-crud/static/js/main.63ab1faf.js.map",
     "787.a35eab4c.chunk.js.map": "/bank-crud/static/js/787.a35eab4c.chunk.js.map"
   },
   "entrypoints": [
-    "static/css/main.9f7669a4.css",
-    "static/js/main.d4cb14fd.js"
+    "static/css/main.3a05554a.css",
+    "static/js/main.63ab1faf.js"
   ]
 }

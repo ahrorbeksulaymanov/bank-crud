@@ -1,14 +1,14 @@
 import React, { useEffect, useState } from "react";
 import { Swiper, SwiperSlide } from "swiper/react";
 import "swiper/css";
-import SwiperCore, { Navigation, Pagination } from "swiper";
+import SwiperCore, { Navigation, Pagination, Autoplay } from "swiper";
 import { BiChevronLeftSquare } from "react-icons/bi";
 import { BiChevronRightSquare } from "react-icons/bi";
 import 'swiper/css/navigation';
 import 'swiper/css/pagination';
 import mainRight2Img from "../../assets/images/main-r2.jpg";
 
-SwiperCore.use([Pagination, Navigation]);
+SwiperCore.use([Pagination, Navigation, Autoplay]);
 
 const SliderNews = () => {
   const [width, setWidth] = useState(0);
@@ -50,7 +50,7 @@ const SliderNews = () => {
             loop={true}
             className="mySwiper"
             autoplay={{
-              delay: 1000,
+              delay: 2000,
               disableOnInteraction: true,
             }}
             speed={300}

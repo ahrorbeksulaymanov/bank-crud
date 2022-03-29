@@ -2,9 +2,10 @@ import React, { useEffect, useState } from "react";
 import { Swiper, SwiperSlide } from "swiper/react";
 import "swiper/css";
 import "swiper/css/pagination";
-import { Pagination } from "swiper";
+import SwiperCore, { Pagination, Autoplay } from "swiper";
 import product2 from "../../assets/images/product2.jpg";
 
+SwiperCore.use([Pagination, Autoplay]);
 const SliderSimiliar = () => {
   const [width, setWidth] = useState(0);
   const [slideItem, setslideItem] = useState(4);
@@ -39,7 +40,7 @@ const SliderSimiliar = () => {
           dynamicBullets: true,
         }}
         autoplay={{
-          delay: 1000,
+          delay: 2000,
           disableOnInteraction: true,
         }}
         modules={[Pagination]}

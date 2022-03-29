@@ -1,1 +1,1 @@
-export const PATH_API = "http://templ-api.webase.uz"
+export const PATH_API = "https://e-store-apis.herokuapp.com/api"

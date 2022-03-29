@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useContext, useState } from "react";
 import "./style.scss";
 import { Layout, Menu } from "antd";
 import {
@@ -12,11 +12,13 @@ import {
 } from "@ant-design/icons";
 import { Link, useHistory } from "react-router-dom";
 import { Dropdown } from "antd";
+import MainContext from "../../context";
 
 const { Header, Sider, Content } = Layout;
+const { SubMenu } = Menu;
 
 const MyLayout = ({ children }) => {
-  
+  const { user } = useContext(MainContext);
   const logOut = () => {
     localStorage.clear();
     history.push("/login");
@@ -46,20 +48,56 @@ const MyLayout = ({ children }) => {
   );
   const [collapsed, setcollapsed] = useState(false);
   const history = useHistory();
-  
+
   return (
     <Layout>
       <Sider trigger={null} collapsible collapsed={collapsed}>
         <div className="logo"></div>
-        <Menu theme="dark" mode="inline" >
+        <Menu theme="dark" mode="inline">
           <Menu.Item key="1" icon={<UserOutlined />}>
-            <Link to="/admin">Banks</Link>
+            <Link to="/admin">
+              Userlar
+            </Link>
           </Menu.Item>
           <Menu.Item key="2" icon={<VideoCameraOutlined />}>
-            <Link to="/pageone">Page one</Link>
+            <Link to="/brand">
+              Brandlar
+            </Link>
           </Menu.Item>
+          <Menu
+            theme="dark" mode="inline"
+            style={{ borderRight: 0, }}
+          >
+            <SubMenu key="sub1" icon={<UserOutlined />} title="Filterlar">
+              <Menu.Item key="11">
+                <Link to="/discount">
+                  Skidkalar
+                </Link>
+              </Menu.Item>
+              <Menu.Item key="12">
+                <Link to="/size">
+                  Sizelar
+                </Link>
+              </Menu.Item>
+              <Menu.Item key="13">
+                <Link to="/season">
+                  Fasllar
+                </Link>
+              </Menu.Item>
+              <Menu.Item key="14">
+                <Link to="/gender">
+                  Jinsi
+                </Link>
+              </Menu.Item>
+              <Menu.Item key="15">
+                <Link to="/category">
+                  Categoriyalar
+                </Link>
+              </Menu.Item>
+            </SubMenu>
+          </Menu>
           <Menu.Item key="3" icon={<UploadOutlined />}>
-            <Link to="/pagetwo">page two</Link>
+            <Link to="/product">Product</Link>
           </Menu.Item>
         </Menu>
       </Sider>
@@ -75,7 +113,8 @@ const MyLayout = ({ children }) => {
           <div className="profile-avatar">
             <Dropdown overlay={menu} trigger={["click"]}>
               <div className="profile-avatar-data d-flex justify-content-center align-items-center mt-2 pointer text-danger">
-                HB
+                {user?.firstName && user?.firstName[0]}
+                {user?.lastName && user?.lastName[0]}
               </div>
             </Dropdown>
           </div>

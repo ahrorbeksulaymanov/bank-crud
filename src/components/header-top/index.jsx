@@ -2,7 +2,6 @@ import React from "react";
 import './style.scss'
 import { Radio } from "antd";
 import { Input } from "antd";
-import { Link } from "react-router-dom";
 const { Search } = Input;
 
 const HeaderTop = () => {
@@ -27,9 +26,6 @@ const HeaderTop = () => {
             onSearch={onSearch}
             className='search_input'
           />
-          <Link to='/login'>
-            <button>Kirish</button>
-          </Link>
         </div>
       </div>
     </div>

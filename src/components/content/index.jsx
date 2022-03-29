@@ -4,65 +4,40 @@ import {
   Button,
   Empty,
   message,
-  Pagination,
   Popover,
   Spin,
   Tooltip,
 } from "antd";
 import {
-  CaretDownOutlined,
-  CaretUpOutlined,
   DeleteOutlined,
   EditOutlined,
-  HomeOutlined,
 } from "@ant-design/icons";
-import { Input } from "antd";
 import axios from "axios";
 import { PATH_API } from "../../constants";
-import useDebounce from "../../debounce";
 import { Link } from "react-router-dom";
-
-const { Search } = Input;
 
 const BankList = () => {
   const [data, setData] = useState([]);
-  const [total, setTotal] = useState(null);
-  const [showCount, setShowCount] = useState(10);
-  const [page, setPage] = useState(1);
-  const [searchVal, setSearchVal] = useState("");
   const [loading, setLoading] = useState(true);
-  const [sortOrder, setSortOrder] = useState({
-    type:"",
-    id: true,
-    code: true,
-    name: true,
-  });
-  const [refresh, setRefresh] = useState(false);
 
-  const debounce = useDebounce(searchVal, 1500);
+  const [refresh, setRefresh] = useState(false);
 
   useEffect(() => {
     setLoading(true);
     const token = localStorage.getItem("token");
     axios({
-      url: PATH_API + `/Bank/GetList`,
-      method: "get",
+      url: PATH_API + `/users`,
+      method: "GET",
       headers: {
         Authorization: "Bearer " + token,
       },
-      params: {
-        PageNumber: page,
-        PageLimit: showCount,
-        Search: searchVal,
-        SortColumn: sortOrder.type,
-        OrderType: sortOrder[sortOrder.type] ? "asc" : "desc",
-      },
     }).then((res) => {
-      setData(res?.data?.rows);
-      setTotal(res?.data?.total);
-      setLoading(false);
+      if (res?.status === 200) {
+        setData(res?.data?.data);
+        setLoading(false);
+      }
     });
-  }, [page, showCount, debounce, sortOrder, refresh, sortOrder]);
+  }, []);
 
   const deleteData = (id) => {
     const token = localStorage.getItem("token");
@@ -86,116 +61,44 @@ const BankList = () => {
     <Spin spinning={loading}>
       <div>
         <div className="d-flex justify-content-between align-items-center">
-          <h5>Bank</h5>
-          <Button
-            className="d-flex justify-content-between align-items-center"
-            type="primary"
-          >
-            <HomeOutlined className="me-1" />
-            Home
-          </Button>
-        </div>
-        <hr />
-        <div className="d-flex justify-content-between align-items-center my-3">
-          <div className="search-input">
-            <Search
-              placeholder="input search text"
-              onChange={(e) => setSearchVal(e.target.value)}
-              enterButton
-            />
-          </div>
+          <h5>Userlar</h5>
           <Link to="/admin/bank/0">
-            <Button type="primary">+ Add</Button>
+            <Button type="primary">+ Qo'shish</Button>
           </Link>
         </div>
-        <table className="table mb-0">
-          <thead className="bg-table-header">
-            <tr>
-              <th scope="col" className="p-0" style={{ width: "8%" }}>
-                <div
-                  className="data-table-header d-flex justify-content-start align-items-center"
-                  onClick={() =>
-                    setSortOrder({
-                      type:"id",
-                      id: !sortOrder.id,
-                      code: sortOrder.code,
-                      name: sortOrder.name,
-                    })
-                  }
-                >
-                  id{" "}
-                  <div className="d-flex flex-column bd-highlight ms-1">
-                    <CaretUpOutlined />
-                    <CaretDownOutlined />
-                  </div>
-                </div>
-              </th>
-              <th scope="col" className="p-0" style={{ width: "10%" }}>
-                <div
-                  className="data-table-header d-flex justify-content-start align-items-center"
-                  onClick={() =>
-                    setSortOrder({
-                      type:"code",
-                      id: sortOrder.id,
-                      code: !sortOrder.code,
-                      name: sortOrder.name,
-                    })
-                  }
-                >
-                  code{" "}
-                  <div className="d-flex flex-column bd-highlight ms-1">
-                    <CaretUpOutlined />
-                    <CaretDownOutlined />
-                  </div>
-                </div>
-              </th>
-              <th scope="col" className="p-0" style={{ width: "60%" }}>
-                <div
-                  className="data-table-header d-flex justify-content-start align-items-center"
-                  onClick={() =>
-                    setSortOrder({
-                      type:"name",
-                      id: sortOrder.id,
-                      code: sortOrder.code,
-                      name: !sortOrder.name,
-                    })
-                  }
-                >
-                  name{" "}
-                  <div className="d-flex flex-column bd-highlight ms-1">
-                    <CaretUpOutlined />
-                    <CaretDownOutlined />
-                  </div>
-                </div>
-              </th>
-              <th scope="col" style={{ padding: "16px", width: "10%" }}>
-                status
-              </th>
-              <th scope="col" style={{ padding: "16px" }}>
-                action
-              </th>
-            </tr>
-          </thead>
-        </table>
+        <hr />
         <div className="table-body">
           <table className="table">
+            <thead className="bg-table-header">
+              <tr>
+                <th scope="col">
+                  No
+                </th>
+                <th scope="col">
+                  Fullname
+                </th>
+                <th scope="col">
+                  Tel nomer
+                </th>
+                <th scope="col">
+                  Roli
+                </th>
+                <th scope="col">
+                  status
+                </th>
+                <th scope="col">
+                  action
+                </th>
+              </tr>
+            </thead>
             <tbody>
-              {data?.map((item, index) => (
+              {data && data?.map((item, index) => (
                 <tr key={index} className="table-body-padding">
-                  <td style={{ width: "8%" }}>
-                    <div>{item?.id}</div>
-                  </td>
-                  <td style={{ width: "10%" }}>
-                    <div>{item?.code}</div>
-                  </td>
-                  <td style={{ width: "60%" }}>
-                    <div>{item?.name}</div>
-                  </td>
-                  <td style={{ width: "10%" }}>
-                    <div>
-                      <button>{item.status}</button>
-                    </div>
-                  </td>
+                  <td>{index+1}</td>
+                  <td>{item?.firstName + " " + item?.lastName}</td>
+                  <td>{item?.phoneNumber}</td>
+                  <td>{item?.roles[0]?.roleName}</td>
+                  <td>{item.active ? <span className="badge rounded-pill bg-success">Success</span> : <span className="badge rounded-pill bg-danger">Danger</span>}</td>
                   <td>
                     <div>
                       <Link to={`/admin/bank/${item.id}`}>
@@ -244,21 +147,7 @@ const BankList = () => {
             </tbody>
           </table>
         </div>
-        {data.length === 0 && <Empty />}
-        <div className="text-end mt-2">
-          <Pagination
-            total={total}
-            showTotal={(total, range) =>
-              `${range[0]}-${range[1]} of ${total} items`
-            }
-            defaultPageSize={showCount || 10}
-            onChange={(page, showCount) => {
-              setShowCount(showCount);
-              setPage(page);
-            }}
-            current={page}
-          />
-        </div>
+        {data?.length === 0 || data === null && <Empty />}
       </div>
     </Spin>
   );

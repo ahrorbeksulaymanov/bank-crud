@@ -9,6 +9,25 @@
 }
 .navbar-mobile{
     display: none;
+    box-shadow: 1px 0 8px rgb(175, 175, 175);
+}
+.navbr_link_md{
+    &:hover{
+        color: rgb(223, 223, 223);
+    }
+}
+.selected{
+    color: rgb(223, 223, 223) !important;
+    border-bottom: 0.5px solid rgb(223, 223, 223);
+}
+
+.selecter-mobile{
+    svg{
+        color: rgb(0, 84, 153) !important;
+    }
+    p{
+        color: black;
+    }
 }
 @media only screen and (max-width:768px){
     .navbar-horizant{

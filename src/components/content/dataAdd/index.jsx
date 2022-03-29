@@ -93,7 +93,7 @@ const AddBank = () => {
             autoComplete="off"
           >
             <div className="d-flex justify-content-between align-items-center">
-              <h5>Bank</h5>
+              <h5>User</h5>
               <div className="d-flex justify-content-end">
                 <Button
                   className="d-flex justify-content-between align-items-center me-2"

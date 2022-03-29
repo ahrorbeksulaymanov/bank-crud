@@ -8,6 +8,23 @@ import AllProductsPage from '../pages/all-products';
 import ShowItemPage from "../pages/show-item";
 import ContactUs from "../pages/contact-us";
 import CompanyPage from "../pages/company-page";
+import DiscountList from "../pages/filters/discount";
+import AddDiscount from "../pages/filters/discount/dataAdd";
+import SizeList from "../pages/filters/size";
+import AddSize from "../pages/filters/size/dataAdd";
+import SeasonList from "../pages/filters/season";
+import AddSeason from "../pages/filters/season/dataAdd";
+import GenderList from "../pages/filters/gender";
+import AddGender from "../pages/filters/gender/dataAdd";
+import BrandList from "../pages/brand";
+import AddBrand from "../pages/brand/dataAdd";
+import CategoryList from "../pages/filters/category";
+import AddCategory from "../pages/filters/category/dataAdd";
+import ProductList from "../pages/product";
+import AddProduct from "../pages/product/dataAdd";
+import Articles from "../pages/articles";
+import AboutUs from "../pages/about-us";
+import Blogs from "../pages/blogs";
 
 export const all_routes = [
     {
@@ -51,6 +68,36 @@ export const all_routes = [
         }
     },
     {
+        title: "Articles",
+        path: "/articles",
+        component: Articles,
+        exact:true,
+        config: {
+            showLink: true,
+            structure: "sectionlayout"
+        }
+    },
+    {
+        title: "About Us",
+        path: "/about-us",
+        component: AboutUs,
+        exact:true,
+        config: {
+            showLink: true,
+            structure: "sectionlayout"
+        }
+    },
+    {
+        title: "Blogs",
+        path: "/blogs",
+        component: Blogs,
+        exact:true,
+        config: {
+            showLink: true,
+            structure: "sectionlayout"
+        }
+    },
+    {
         title: "Company",
         path: "/company/:id",
         component: CompanyPage,
@@ -61,7 +108,7 @@ export const all_routes = [
         }
     },
     {
-        title: "Bank",
+        title: "Admin",
         path: "/admin",
         component: BankList,
         exact:true,
@@ -74,6 +121,146 @@ export const all_routes = [
         title: "Bank",
         path: "/admin/bank/:id",
         component: AddBank,
+        exact:true,
+        config: {
+            showLink: false,
+            structure: "layout"
+        }
+    },
+    {
+        title: "Discount",
+        path: "/discount",
+        component: DiscountList,
+        exact:true,
+        config: {
+            showLink: false,
+            structure: "layout"
+        }
+    },
+    {
+        title: "Discount Add",
+        path: "/discount-add/:id",
+        component: AddDiscount,
+        exact:true,
+        config: {
+            showLink: false,
+            structure: "layout"
+        }
+    },
+    {
+        title: "Size",
+        path: "/size",
+        component: SizeList,
+        exact:true,
+        config: {
+            showLink: false,
+            structure: "layout"
+        }
+    },
+    {
+        title: "Size Add",
+        path: "/size-add/:id",
+        component: AddSize,
+        exact:true,
+        config: {
+            showLink: false,
+            structure: "layout"
+        }
+    },
+    {
+        title: "Season",
+        path: "/season",
+        component: SeasonList,
+        exact:true,
+        config: {
+            showLink: false,
+            structure: "layout"
+        }
+    },
+    {
+        title: "Season Add",
+        path: "/season-add/:id",
+        component: AddSeason,
+        exact:true,
+        config: {
+            showLink: false,
+            structure: "layout"
+        }
+    },
+    {
+        title: "Gender",
+        path: "/gender",
+        component: GenderList,
+        exact:true,
+        config: {
+            showLink: false,
+            structure: "layout"
+        }
+    },
+    {
+        title: "Gender Add",
+        path: "/gender-add/:id",
+        component: AddGender,
+        exact:true,
+        config: {
+            showLink: false,
+            structure: "layout"
+        }
+    },
+    {
+        title: "Category",
+        path: "/category",
+        component: CategoryList,
+        exact:true,
+        config: {
+            showLink: false,
+            structure: "layout"
+        }
+    },
+    {
+        title: "Category Add",
+        path: "/category-add/:id",
+        component: AddCategory,
+        exact:true,
+        config: {
+            showLink: false,
+            structure: "layout"
+        }
+    },
+    {
+        title: "Brand",
+        path: "/brand",
+        component: BrandList,
+        exact:true,
+        config: {
+            showLink: false,
+            structure: "layout"
+        }
+    },
+    {
+        title: "Brand Add",
+        path: "/brand-add/:id",
+        component: AddBrand,
+        exact:true,
+        config: {
+            showLink: false,
+            structure: "layout"
+        }
+    },
+    {
+        title: "Product",
+        path: "/product",
+        component: ProductList,
+        exact:true,
+        config: {
+            showLink: false,
+            structure: "layout"
+        }
+    },
+    {
+        title: "Product add",
+        path: "/product-add/:id",
+        component: AddProduct,
         exact:true,
         config: {
             showLink: false,

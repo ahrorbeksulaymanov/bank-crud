@@ -46,9 +46,9 @@ const FilterDropdown = () => {
 
   return (
     <div style={{display:"inline-block", marginRight:"30px"}} >
-      <Dropdown overlay={menu} trigger={["click"]} visible={visibleDropdown}>
+      <Dropdown overlay={menu} trigger={["click"]}>
         {/* eslint-disable-next-line jsx-a11y/anchor-is-valid */}
-        <a className="ant-dropdown-link text-dark" onClick={(e) => {e.preventDefault(); setvisibleDropdown(!visibleDropdown)}}>
+        <a className="ant-dropdown-link text-dark" onClick={(e) => e.preventDefault()}>
           Sizes <BsChevronDown />
         </a>
       </Dropdown>

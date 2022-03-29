@@ -1,24 +1,10 @@
 .search-input{
     width: 300px;
 }
-
-.data-table-header{
-    padding: 16px !important;
-    cursor: pointer;
-    &:hover{
-        background-color: #e4e4e4 !important;
-    }
-    svg{
-        height: 10px;
-        color: rgb(150, 150, 150);
-    }
-}
 .bg-table-header{
     background-color: #EAEAEA;
 }
 .table-body{
-    max-height: 75vh !important;
-    overflow-y: auto;
     .table-body-padding{
         div{
             padding: 5px 10px;
@@ -42,5 +28,8 @@
         margin-right: 40px;
         text-align: left;
     }
+}
+.table>:not(:first-child) {
+    border-top: 0px solid currentColor;
 }
 

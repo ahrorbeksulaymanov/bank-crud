@@ -2,26 +2,25 @@ import "./App.css";
 import "bootstrap/dist/css/bootstrap.min.css";
 import "antd/dist/antd.css";
 import "react-super-responsive-table/dist/SuperResponsiveTableStyle.css";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { useHistory } from "react-router-dom";
 import RoutesMiddleware from "./routes/reuterMiddleware";
 import axios from "axios";
 import { PATH_API } from "./constants";
 import ScrollToTop from "react-scroll-to-top";
-import {IoIosArrowUp} from 'react-icons/io'
+import { IoIosArrowUp } from "react-icons/io";
 import "swiper/css/bundle";
+import MainContext from "./context";
 
 function App() {
   const history = useHistory();
+  const [user, setUser] = useState({});
 
   useEffect(() => {
-    if (
-      localStorage.getItem("token") &&
-      localStorage.getItem("tokenExpiration") == 1645372769277
-    ) {
-      const token = localStorage.getItem("token");
+    const token = localStorage.getItem("token");
+    // if (token) {
       axios({
-        url: PATH_API + `/Account/GetUserInfo`,
+        url: PATH_API + `/auth/me`,
         method: "get",
         headers: {
           Authorization: "Bearer " + token,
@@ -29,7 +28,8 @@ function App() {
       })
         .then((res) => {
           if (res?.status === 200 || res?.status === "200") {
-            history.push("/admin");
+            setUser(res.data);
+            // history.push("/admin");
           } else {
             localStorage.clear();
             history.push("/login");
@@ -39,16 +39,18 @@ function App() {
           localStorage.clear();
           history.push("/login");
         });
-    } else {
-      history.push("/");
-    }
+    // } else {
+    //   // history.push("/");
+    // }
   }, []);
 
   return (
-      <div className="App">
-        <ScrollToTop smooth component={<IoIosArrowUp className="to_tp" />} />
+    <div className="App">
+      <ScrollToTop smooth component={<IoIosArrowUp className="to_tp" />} />
+      <MainContext.Provider value={{ user }}>
         <RoutesMiddleware />
-      </div>
+      </MainContext.Provider>
+    </div>
   );
 }
 

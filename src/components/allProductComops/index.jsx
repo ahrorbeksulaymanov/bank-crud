@@ -151,7 +151,7 @@ const AllProducts = () => {
             footer={[<button className="w-100" style={{backgroundColor:"var(--dark)", color:"#fff", border:"0", fontSize:"17px"}}>Qidirish</button>]}
         >
             <FilterDropdown />
-            <Slider onChange={(e) => console.log(e)} range defaultValue={[20, 50]} />
+            <Slider range defaultValue={[20, 50]} />
         </Modal>
       </div>
     </div>

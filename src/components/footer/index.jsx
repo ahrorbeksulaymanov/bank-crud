@@ -14,7 +14,7 @@ const Footer = () => {
     <footer>
       <div className="container">
         <div className="row">
-          <div className="col-md-3 col-6">
+          <div className="col-md-4 col-6">
             <h6 className="text-white">Menyu</h6>
             <Link className="text-decoration-none d-block me-4" to="/">
               Yangi tovarlar
@@ -22,41 +22,41 @@ const Footer = () => {
             <Link className="text-decoration-none d-block me-4" to="/all-products">
               Barcha tovarlar
             </Link>
-            <Link className="text-decoration-none d-block me-4" to="/">
+            <Link className="text-decoration-none d-block me-4" to="/blogs">
               Blog
             </Link>
-            <Link className="text-decoration-none d-block me-4" to="/">
+            <Link className="text-decoration-none d-block me-4" to="/articles">
               Qiziqarli maqolalar
             </Link>
-            <Link className="text-decoration-none d-block me-4" to="/">
+            <Link className="text-decoration-none d-block me-4" to="/about-us">
               Biz Haqimizda
             </Link>
             <Link className="text-decoration-none d-block" to="/Kontakt">
               Kontakt
             </Link>
           </div>
-          <div className="col-md-3 col-6">
+          <div className="col-md-4 col-6">
             <h6 className="text-white">Brendlar</h6>
             <Link className="text-decoration-none d-block me-4" to="/">
               Yangi tovarlar
             </Link>
-            <Link className="text-decoration-none d-block me-4" to="/">
+            <Link className="text-decoration-none d-block me-4" to="/all-products">
               Barcha tovarlar
             </Link>
-            <Link className="text-decoration-none d-block me-4" to="/">
+            <Link className="text-decoration-none d-block me-4" to="/blogs">
               Blog
             </Link>
-            <Link className="text-decoration-none d-block me-4" to="/">
+            <Link className="text-decoration-none d-block me-4" to="/articles">
               Qiziqarli maqolalar
             </Link>
-            <Link className="text-decoration-none d-block me-4" to="/">
+            <Link className="text-decoration-none d-block me-4" to="/about-us">
               Biz Haqimizda
             </Link>
             <Link className="text-decoration-none d-block" to="/Kontakt">
               Kontakt
             </Link>
           </div>
-          <div className="col-md-3 col-6">
+          <div className="col-md-4 col-6">
             <h6 className="text-white">Biz bilan aloqa</h6>
             <a href="#" className="contact-icon-link">
               <BsTelegram className="contact-icon" />
@@ -76,13 +76,13 @@ const Footer = () => {
               +998 93 008 55 04
             </a>
           </div>
-          <div className="col-md-3 col-sm-6">
+          {/* <div className="col-md-3 col-sm-6">
             <Radio.Group defaultValue="a" buttonStyle="outline">
               <Radio.Button style={{backgroundColor:"transparent", color:"var(--light)"}} value="a">WOMEN</Radio.Button>
               <Radio.Button style={{backgroundColor:"transparent", color:"var(--light)"}} value="b">MEN</Radio.Button>
               <Radio.Button style={{backgroundColor:"transparent", color:"var(--light)"}} value="c">CHILDREN</Radio.Button>
             </Radio.Group>
-          </div>
+          </div> */}
         </div>
       </div>
     </footer>

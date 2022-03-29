@@ -46,7 +46,6 @@ const SubmitData = ({isModalVisible, setIsModalVisible}) => {
             <InputMask
               mask="+\9\9\8 99 999 99 99"
               maskChar=" "
-              onChange={(e) => console.log(e.target.value)}
               className="input_mask_tel"
               placeholder="Raqam..."
             />

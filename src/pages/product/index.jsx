@@ -98,7 +98,7 @@ const ProductList = () => {
                   <td>{item.active ? <span className="badge rounded-pill bg-success">Active</span> : <span className="badge rounded-pill bg-danger">InActive</span>}</td>
                   <td>
                     <div>
-                      <Link to={`/size-add/${item.id}`}>
+                      <Link to={`/product-add/${item.id}`}>
                         <Tooltip
                           color={"lime"}
                           placement="top"

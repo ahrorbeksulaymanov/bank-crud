@@ -3,7 +3,6 @@ import "bootstrap/dist/css/bootstrap.min.css";
 import "antd/dist/antd.css";
 import "react-super-responsive-table/dist/SuperResponsiveTableStyle.css";
 import { useEffect, useState } from "react";
-import { useHistory } from "react-router-dom";
 import RoutesMiddleware from "./routes/reuterMiddleware";
 import axios from "axios";
 import { PATH_API } from "./constants";
@@ -13,7 +12,6 @@ import "swiper/css/bundle";
 import MainContext from "./context";
 
 function App() {
-  const history = useHistory();
   const [user, setUser] = useState({});
 
   useEffect(() => {
@@ -29,19 +27,13 @@ function App() {
         .then((res) => {
           if (res?.status === 200 || res?.status === "200") {
             setUser(res.data);
-            // history.push("/admin");
           } else {
             localStorage.clear();
-            history.push("/login");
           }
         })
         .catch((err) => {
           localStorage.clear();
-          history.push("/login");
         });
-    // } else {
-    //   // history.push("/");
-    // }
   }, []);
 
   return (

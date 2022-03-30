@@ -1,55 +1,40 @@
-import React from "react";
-import { Dropdown, Menu } from "antd";
-import { Checkbox, Divider } from "antd";
+import React, { useEffect } from "react";
+import { Checkbox, Dropdown, Menu } from "antd";
 import "./style.scss";
-import { BsChevronDown } from 'react-icons/bs'
-const CheckboxGroup = Checkbox.Group;
+import { BsChevronDown } from "react-icons/bs";
 
-const FilterDropdown = () => {
-  const plainOptions = ["Apple", "Pear", "Orange"];
-  const defaultCheckedList = ["Apple", "Orange"];
-  const [checkedList, setCheckedList] = React.useState(defaultCheckedList);
-  const [indeterminate, setIndeterminate] = React.useState(true);
-  const [checkAll, setCheckAll] = React.useState(false);
-  const [visibleDropdown, setvisibleDropdown] = React.useState(false);
+const FilterDropdown = ({ name, data, setCheckedList, checkedList, setRefresh, refresh }) => {
+  // const defaultCheckedList = data?.map((i) => i.id);
+  const options = data?.map((i) => ({ label: i?.name, value: i.id }));
 
-  const onChange = (list) => {
-    setCheckedList(list);
-    setIndeterminate(!!list.length && list.length < plainOptions.length);
-    setCheckAll(list.length === plainOptions.length);
-  };
-
-  const onCheckAllChange = (e) => {
-    setCheckedList(e.target.checked ? plainOptions : []);
-    setIndeterminate(false);
-    setCheckAll(e.target.checked);
-  };
-
+  useEffect(() => {
+  }, [])
+  
+  const filterData = () => {
+    setRefresh(!refresh);
+    console.log("checkedList", checkedList);
+  }
+  
   const menu = (
-    <Menu className="p-2 filter-checkbox">
-      <Checkbox
-        indeterminate={indeterminate}
-        onChange={onCheckAllChange}
-        checked={checkAll}
-      >
-        Check all
-      </Checkbox>
-      <Divider className="my-1" />
-      <CheckboxGroup
-        options={plainOptions}
-        value={checkedList}
-        onChange={onChange}
+    <Menu className=" filter-checkbox">
+      <Checkbox.Group
+        options={options}
+        // defaultValue={defaultCheckedList}
+        onChange={(e) => setCheckedList(e)}
       />
-      <button onClick={() => setvisibleDropdown(false)}>Filterlash</button>
+      <button onClick={filterData}>Filterlash</button>
     </Menu>
   );
 
   return (
-    <div style={{display:"inline-block", marginRight:"30px"}} >
+    <div style={{ display: "inline-block", marginRight: "30px" }}>
       <Dropdown overlay={menu} trigger={["click"]}>
         {/* eslint-disable-next-line jsx-a11y/anchor-is-valid */}
-        <a className="ant-dropdown-link text-dark" onClick={(e) => e.preventDefault()}>
-          Sizes <BsChevronDown />
+        <a
+          className="ant-dropdown-link text-dark"
+          onClick={(e) => e.preventDefault()}
+        >
+          {name} <BsChevronDown />
         </a>
       </Dropdown>
     </div>

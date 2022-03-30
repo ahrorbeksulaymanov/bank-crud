@@ -1,24 +1,24 @@
 import { CheckOutlined, LeftOutlined } from "@ant-design/icons";
 import React, { useEffect, useState } from "react";
-import {
-  Form,
-  Input,
-  Button,
-  message,
-  Spin,
-  Switch,
-  Select,
-} from "antd";
+import { Form, Input, Button, message, Spin, Switch, Select } from "antd";
 import axios from "axios";
 import { useRouteMatch, useHistory } from "react-router-dom";
-import { PATH_API } from "../../../constants";
+import { PATH_API, PATH_API_FILE } from "../../../constants";
 import PicturesWall from "./dataUpload";
-import { getBrends, getCategories, getDiscount, getGenders, getSeasons, getSizes } from "./functions";
+import {
+  getBrends,
+  getCategories,
+  getDiscount,
+  getGenders,
+  getSeasons,
+  getSizes,
+} from "../../../functions";
 const { Option } = Select;
 
 const AddProduct = () => {
   const [loading, setloading] = useState(false);
   const [checked, setchecked] = useState(true);
+  const [sizeId, setsizeId] = useState(null);
   const [categories, setcategories] = useState([]);
   const [seasons, setseasons] = useState([]);
   const [genders, setgenders] = useState([]);
@@ -42,77 +42,96 @@ const AddProduct = () => {
           Authorization: "Bearer " + token,
         },
       }).then((res) => {
-        // form.setFieldsValue({
-        //   code: res?.data?.Code,
-        //   bankname: res?.data?.Bankname,
-        //   stateid: Number(res?.data?.Stateid),
-        // });
+        form.setFieldsValue({
+          name: res?.data?.data?.name,
+          description: res?.data?.data?.description,
+          categoryId: res?.data?.data?.category,
+          sizeId: res?.data?.data?.size,
+          brandId: res?.data?.data?.brand,
+          genderId: res?.data?.data?.gender,
+          seasonId: res?.data?.data?.season,
+          discountId: res?.data?.data?.discountId,
+          price: res?.data?.data?.price,
+          salePrice: res?.data?.data?.salePrice,
+          shortDescription: res?.data?.data?.shortDescription,
+        });
+        setcategoryId(res?.data?.data?.category);
+        setchecked(res?.data?.data?.active);
         setloading(false);
+        setsizeId(res?.data?.data?.size);
+        setimages(
+          res?.data?.data?.photos?.map((i, index) => ({
+            uid: index+1,
+            name: "image.png",
+            status: "done",
+            url: PATH_API_FILE+i,
+          }))
+        );
       });
     }
   }, []);
 
   useEffect(() => {
     getCategories().then((res) => {
-      if(res?.status === 200){
+      if (res?.status === 200) {
         setcategories(res?.data?.data);
       }
-    })
+    });
 
     getSeasons().then((res) => {
-      if(res?.status === 200){
+      if (res?.status === 200) {
         setseasons(res?.data?.data);
       }
-    })
+    });
 
     getGenders().then((res) => {
-      if(res?.status === 200){
+      if (res?.status === 200) {
         setgenders(res?.data?.data);
       }
-    })
+    });
 
     getBrends().then((res) => {
-      if(res?.status === 200){
+      if (res?.status === 200) {
         setbrends(res?.data?.data);
       }
-    })
+    });
 
     getDiscount().then((res) => {
-      if(res?.status === 200){
+      if (res?.status === 200) {
         setdisCount(res?.data?.data);
       }
-    })
-
-  }, [])
+    });
+  }, []);
 
   useEffect(() => {
-    if(categoryId !== null){
+    if (categoryId !== null) {
       getSizes(categoryId).then((res) => {
-        if(res?.status === 200){
+        if (res?.status === 200) {
           setsises(res?.data?.data);
+          if (sizeId !== null) {
+            if (res?.data?.data?.filter((i) => i.id == sizeId)?.length !== 1) {
+              form.setFieldsValue({
+                sizeId: null,
+              });
+            }
+          }
         }
-      })
+      });
     }
-  }, [categoryId])
-
-  console.log("images=>", images);
+  }, [categoryId]);
 
   const updateData = (val) => {
-
     const formdata = new FormData();
-    // const { images }
-    console.log('imagesss', images);
     for (let i = 0; i < images?.length; i++) {
-      formdata.append(`photos`, images[i]?.originFileObj)
+      formdata.append(`photos`, images[i]?.originFileObj);
     }
-    console.log("Dddd", val);
-    val.active = checked;
-    Object.keys(val).map(key => {
-      formdata.append(key, val[key])
+    val.active = checked ? 1 : 0;
+    Object.keys(val).map((key) => {
+      formdata.append(key, val[key]);
     });
-    
+
     const token = localStorage.getItem("token");
-    if(match.params.id == 0){
+    if (match.params.id == 0) {
       axios({
         url: PATH_API + `/product`,
         method: "POST",
@@ -130,7 +149,7 @@ const AddProduct = () => {
         .catch((err) => {
           message.error("Something is wrong!");
         });
-    }else{
+    } else {
       axios({
         url: PATH_API + `/product/${match.params.id}`,
         method: "PUT",
@@ -140,7 +159,7 @@ const AddProduct = () => {
         },
       })
         .then((res) => {
-          if (res?.status===200) {
+          if (res?.status === 200) {
             message.success("Success!");
             history.goBack();
           }
@@ -212,11 +231,11 @@ const AddProduct = () => {
                         .indexOf(input.toLowerCase()) >= 0
                     }
                   >
-                    {
-                      categories?.map((item, index) => (
-                        <Option key={index} value={item.id}>{item.name}</Option>
-                      ))
-                    }
+                    {categories?.map((item, index) => (
+                      <Option key={index} value={Number(item.id)}>
+                        {item.name}
+                      </Option>
+                    ))}
                   </Select>
                 </Form.Item>
               </div>
@@ -246,11 +265,11 @@ const AddProduct = () => {
                         .indexOf(input.toLowerCase()) >= 0
                     }
                   >
-                    {
-                      seasons?.map((item, index) => (
-                        <Option key={index} value={item.id}>{item.name}</Option>
-                      ))
-                    }
+                    {seasons?.map((item, index) => (
+                      <Option key={index} value={item.id}>
+                        {item.name}
+                      </Option>
+                    ))}
                   </Select>
                 </Form.Item>
               </div>
@@ -280,11 +299,11 @@ const AddProduct = () => {
                         .indexOf(input.toLowerCase()) >= 0
                     }
                   >
-                    {
-                      genders?.map((item, index) => (
-                        <Option key={index} value={item.id}>{item.name}</Option>
-                      ))
-                    }
+                    {genders?.map((item, index) => (
+                      <Option key={index} value={item.id}>
+                        {item.name}
+                      </Option>
+                    ))}
                   </Select>
                 </Form.Item>
               </div>
@@ -314,11 +333,11 @@ const AddProduct = () => {
                         .indexOf(input.toLowerCase()) >= 0
                     }
                   >
-                    {
-                      brends?.map((item, index) => (
-                        <Option key={index} value={item.id}>{item.name}</Option>
-                      ))
-                    }
+                    {brends?.map((item, index) => (
+                      <Option key={index} value={item.id}>
+                        {item.name}
+                      </Option>
+                    ))}
                   </Select>
                 </Form.Item>
               </div>
@@ -348,11 +367,11 @@ const AddProduct = () => {
                         .indexOf(input.toLowerCase()) >= 0
                     }
                   >
-                    {
-                      sises?.map((item, index) => (
-                        <Option key={index} value={item.id}>{item.name}</Option>
-                      ))
-                    }
+                    {sises?.map((item, index) => (
+                      <Option key={index} value={item.id}>
+                        {item.name}
+                      </Option>
+                    ))}
                   </Select>
                 </Form.Item>
               </div>
@@ -390,43 +409,48 @@ const AddProduct = () => {
                   </Select>
                 </Form.Item>
               </div> */}
-              
             </div>
             <PicturesWall setimages={setimages} images={images} />
             <div className="row">
-                <div className="col-md-4">
-                  <Form.Item
-                    label="Product nomi"
-                    name="name"
-                    rules={[
-                      { required: true, message: "Iltimos product nomini kiriting!" },
-                    ]}
-                  >
-                    <Input type={"text"} placeholder="Nomi..." />
-                  </Form.Item>
-                </div>
-                <div className="col-md-4">
-                  <Form.Item
-                    label="Product narxi"
-                    name="price"
-                    rules={[
-                      { required: true, message: "Iltimos narxini kiriting!" },
-                    ]}
-                  >
-                    <Input type={"text"} placeholder="Narx..." />
-                  </Form.Item>
-                </div>
-                <div className="col-md-4">
-                  <Form.Item
-                    label="Product sotilish narxi"
-                    name="salePrice"
-                    rules={[
-                      { required: true, message: "Iltimos sotilish narxini kiriting!" },
-                    ]}
-                  >
-                    <Input type={"text"} placeholder="Sotilish narxi..." />
-                  </Form.Item>
-                </div>
+              <div className="col-md-4">
+                <Form.Item
+                  label="Product nomi"
+                  name="name"
+                  rules={[
+                    {
+                      required: true,
+                      message: "Iltimos product nomini kiriting!",
+                    },
+                  ]}
+                >
+                  <Input type={"text"} placeholder="Nomi..." />
+                </Form.Item>
+              </div>
+              <div className="col-md-4">
+                <Form.Item
+                  label="Product narxi"
+                  name="price"
+                  rules={[
+                    { required: true, message: "Iltimos narxini kiriting!" },
+                  ]}
+                >
+                  <Input type={"text"} placeholder="Narx..." />
+                </Form.Item>
+              </div>
+              <div className="col-md-4">
+                <Form.Item
+                  label="Product sotilish narxi"
+                  name="salePrice"
+                  rules={[
+                    {
+                      required: true,
+                      message: "Iltimos sotilish narxini kiriting!",
+                    },
+                  ]}
+                >
+                  <Input type={"text"} placeholder="Sotilish narxi..." />
+                </Form.Item>
+              </div>
             </div>
 
             <Form.Item
@@ -472,7 +496,6 @@ const AddProduct = () => {
                 checked={checked}
               />
             </Form.Item>
-
           </Form>
         </div>
       </div>

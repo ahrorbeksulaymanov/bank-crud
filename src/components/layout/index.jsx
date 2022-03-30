@@ -1,4 +1,4 @@
-import React, { useContext, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import "./style.scss";
 import { Layout, Menu } from "antd";
 import {
@@ -18,7 +18,15 @@ const { Header, Sider, Content } = Layout;
 const { SubMenu } = Menu;
 
 const MyLayout = ({ children }) => {
+  const [collapsed, setcollapsed] = useState(false);
+  const history = useHistory();
   const { user } = useContext(MainContext);
+  // const history = useHistory();
+  // useEffect(() => {
+  //   if(user){
+  //     history.push('/login')
+  //   }
+  // }, []);
   const logOut = () => {
     localStorage.clear();
     history.push("/login");
@@ -46,8 +54,7 @@ const MyLayout = ({ children }) => {
       </Menu.Item>
     </Menu>
   );
-  const [collapsed, setcollapsed] = useState(false);
-  const history = useHistory();
+
 
   return (
     <Layout>

@@ -16,7 +16,7 @@ class PicturesWall extends React.Component {
     previewVisible: false,
     previewImage: '',
     previewTitle: '',
-    fileList: this.props.images || [],
+    fileList: this.props.images,
   };
 
   handleCancel = () => this.setState({ previewVisible: false });
@@ -33,11 +33,10 @@ class PicturesWall extends React.Component {
     });
   };
 
-  handleChange = ({ fileList }) => this.setState({ fileList });
+  handleChange = ({ fileList }) => this.props.setimages(fileList);
 
   render() {
-    const { previewVisible, previewImage, fileList, previewTitle } = this.state;
-    this.props.setimages(fileList)
+    const { previewVisible, previewImage, previewTitle } = this.state;
     const uploadButton = (
       <div>
         <PlusOutlined />
@@ -49,11 +48,11 @@ class PicturesWall extends React.Component {
         <Upload
           action=""
           listType="picture-card"
-          fileList={fileList}
+          fileList={this.props.images}
           onPreview={this.handlePreview}
           onChange={this.handleChange}
         >
-          {fileList.length >= 4 ? null : uploadButton}
+          {this.props.images.length >= 4 ? null : uploadButton}
         </Upload>
         <Modal
           visible={previewVisible}

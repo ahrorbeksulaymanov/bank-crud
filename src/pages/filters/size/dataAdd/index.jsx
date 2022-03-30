@@ -154,7 +154,7 @@ const AddSize = () => {
                   >
                     {
                       categories?.map((item, index) => (
-                        <Option value={index}>{item.name}</Option>
+                        <Option key={index} value={index}>{item.name}</Option>
                       ))
                     }
                   </Select>

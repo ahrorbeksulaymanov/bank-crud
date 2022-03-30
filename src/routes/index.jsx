@@ -26,6 +26,7 @@ import Articles from "../pages/articles";
 import AboutUs from "../pages/about-us";
 import Blogs from "../pages/blogs";
 import FeaturesList from "../pages/features";
+import BlogView from "../pages/blog_view";
 
 export const all_routes = [
     {
@@ -95,6 +96,16 @@ export const all_routes = [
         exact:true,
         config: {
             showLink: true,
+            structure: "sectionlayout"
+        }
+    },
+    {
+        title: "Blog view",
+        path: "/blogs_view",
+        component: BlogView,
+        exact:true,
+        config: {
+            showLink: false,
             structure: "sectionlayout"
         }
     },

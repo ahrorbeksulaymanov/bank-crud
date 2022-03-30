@@ -1,16 +1,24 @@
-import React from "react";
+import React, {useState} from "react";
 import aboutImg from "../../assets/images/about-img.jpg";
-import { Card } from "antd";
+import { Card, Row, Col } from "antd";
+import { Link } from "react-router-dom";
 
 const { Meta } = Card;
 
 const Blogs = () => {
+
+  const [data, setData] = useState([1,2,3,4,5]);
+
+
   return (
     <div className="py-5">
       <img src={aboutImg} className="about-us-img" alt="" />
-      <div className="row pt-4">
       <h5>Bloglar</h5>
-        <div className="col-md-3">
+      <Row gutter={[24,24]} className="pt-4">
+      {
+        data?.length && data?.map((e,i) => (
+          <Col sm={24} lg={6} md={8} xl={6} key={i} onClick={() => {}} >
+          <Link to='/blog_view'>
           <Card
             hoverable
             style={{ width: '100%' }}
@@ -23,78 +31,13 @@ const Blogs = () => {
           >
             <Meta title="Europe Street beat" description="www.instagram.com" />
           </Card>
-        </div>
-        <div className="col-md-3">
-          <Card
-            hoverable
-            style={{ width: '100%' }}
-            cover={
-              <img
-                alt="example"
-                src="https://os.alipayobjects.com/rmsportal/QBnOOoLaAfKPirc.png"
-              />
-            }
-          >
-            <Meta title="Europe Street beat" description="www.instagram.com" />
-          </Card>
-        </div>
-        <div className="col-md-3">
-          <Card
-            hoverable
-            style={{ width: '100%' }}
-            cover={
-              <img
-                alt="example"
-                src="https://os.alipayobjects.com/rmsportal/QBnOOoLaAfKPirc.png"
-              />
-            }
-          >
-            <Meta title="Europe Street beat" description="www.instagram.com" />
-          </Card>
-        </div>
-        <div className="col-md-3">
-          <Card
-            hoverable
-            style={{ width: '100%' }}
-            cover={
-              <img
-                alt="example"
-                src="https://os.alipayobjects.com/rmsportal/QBnOOoLaAfKPirc.png"
-              />
-            }
-          >
-            <Meta title="Europe Street beat" description="www.instagram.com" />
-          </Card>
-        </div>
-        <div className="col-md-3">
-          <Card
-            hoverable
-            style={{ width: '100%' }}
-            cover={
-              <img
-                alt="example"
-                src="https://os.alipayobjects.com/rmsportal/QBnOOoLaAfKPirc.png"
-              />
-            }
-          >
-            <Meta title="Europe Street beat" description="www.instagram.com" />
-          </Card>
-        </div>
-        <div className="col-md-3">
-          <Card
-            hoverable
-            style={{ width: '100%' }}
-            cover={
-              <img
-                alt="example"
-                src="https://os.alipayobjects.com/rmsportal/QBnOOoLaAfKPirc.png"
-              />
-            }
-          >
-            <Meta title="Europe Street beat" description="www.instagram.com" />
-          </Card>
-        </div>
-      </div>
+          </Link>
+        </Col>
+
+
+        ))
+      }
+      </Row>
     </div>
   );
 };

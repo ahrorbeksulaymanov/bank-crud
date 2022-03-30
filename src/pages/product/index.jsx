@@ -11,6 +11,7 @@ import {
   DeleteOutlined,
   EditOutlined,
 } from "@ant-design/icons";
+import { VscNotebook } from 'react-icons/vsc'
 import axios from "axios";
 import { Link } from "react-router-dom";
 import { PATH_API } from "../../constants";
@@ -42,7 +43,7 @@ const ProductList = () => {
   const deleteData = (id) => {
     const token = localStorage.getItem("token");
     axios({
-      url: PATH_API + `/product?id=${id}`,
+      url: PATH_API + `/product/${id}`,
       method: "DELETE",
       headers: {
         Authorization: "Bearer " + token,
@@ -86,6 +87,9 @@ const ProductList = () => {
                 </th>
                 <th scope="col">
                   action
+                </th>
+                <th scope="col">
+                  Features
                 </th>
               </tr>
             </thead>
@@ -141,12 +145,23 @@ const ProductList = () => {
                       </Tooltip>
                     </div>
                   </td>
+                  <td>
+                    <Link to={`/product/features/${item.id}`}>
+                        <Tooltip
+                          color={"lime"}
+                          placement="top"
+                          title={"This is a feature button"}
+                        >
+                          <VscNotebook className="text-success me-3 pointer" />
+                        </Tooltip>
+                      </Link>
+                  </td>
                 </tr>
               ))}
             </tbody>
           </table>
         </div>
-        {data?.length === 0 || data === null && <Empty />}
+        {(data?.length === 0 || data === null) && <Empty />}
       </div>
     </Spin>
   );

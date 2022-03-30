@@ -31,7 +31,7 @@ const DiscountList = () => {
   const deleteData = (id) => {
     const token = localStorage.getItem("token");
     axios({
-      url: PATH_API + `/Bank/Delete?id=${id}`,
+      url: PATH_API + `/discount?id=${id}`,
       method: "Delete",
       headers: {
         Authorization: "Bearer " + token,
@@ -87,7 +87,7 @@ const DiscountList = () => {
                     </td>
                     <td>
                       <div>
-                        <Link to={`/admin/bank/${item.id}`}>
+                        <Link to={`/discount-add/${item.id}`}>
                           <Tooltip
                             color={"lime"}
                             placement="top"

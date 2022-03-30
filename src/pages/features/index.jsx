@@ -1,5 +1,4 @@
 import React, { useEffect, useState } from "react";
-import "./style.scss";
 import {
   Button,
   Empty,
@@ -13,20 +12,23 @@ import {
   EditOutlined,
 } from "@ant-design/icons";
 import axios from "axios";
-import { PATH_API } from "../../constants";
 import { Link } from "react-router-dom";
+import { PATH_API } from "../../constants";
+import { useRouteMatch } from "react-router-dom";
 
-const BankList = () => {
+const FeaturesList = () => {
   const [data, setData] = useState([]);
   const [loading, setLoading] = useState(true);
 
   const [refresh, setRefresh] = useState(false);
+  const [popover, setpopover] = useState({type:false, id:null});
+  const match = useRouteMatch("/product/features/:id")
 
   useEffect(() => {
     setLoading(true);
     const token = localStorage.getItem("token");
     axios({
-      url: PATH_API + `/users`,
+      url: PATH_API + `/product/get-features/${match.params.id}`,
       method: "GET",
       headers: {
         Authorization: "Bearer " + token,
@@ -34,16 +36,17 @@ const BankList = () => {
     }).then((res) => {
       if (res?.status === 200) {
         setData(res?.data?.data);
+        console.log("res?.data?.data", res?.data?.data);
         setLoading(false);
       }
     });
-  }, []);
+  }, [refresh]);
 
   const deleteData = (id) => {
     const token = localStorage.getItem("token");
     axios({
-      url: PATH_API + `/Bank/Delete?id=${id}`,
-      method: "Delete",
+      url: PATH_API + `/brand?id=${id}`,
+      method: "DELETE",
       headers: {
         Authorization: "Bearer " + token,
       },
@@ -51,6 +54,7 @@ const BankList = () => {
       .then((res) => {
         message.success("Data is deleted!");
         setRefresh(!refresh);
+        setpopover({type:false, id:null})
       })
       .catch((err) => {
         message.error("Something is wrong!");
@@ -61,8 +65,8 @@ const BankList = () => {
     <Spin spinning={loading}>
       <div>
         <div className="d-flex justify-content-between align-items-center">
-          <h5>Userlar</h5>
-          <Link to="/admin/bank/0">
+          <h5>Features</h5>
+          <Link to="/brand-add/0">
             <Button type="primary">+ Qo'shish</Button>
           </Link>
         </div>
@@ -75,13 +79,13 @@ const BankList = () => {
                   No
                 </th>
                 <th scope="col">
-                  Fullname
+                  feature name
                 </th>
                 <th scope="col">
-                  Tel nomer
+                  Name
                 </th>
                 <th scope="col">
-                  Roli
+                  Description
                 </th>
                 <th scope="col">
                   status
@@ -95,13 +99,13 @@ const BankList = () => {
               {data && data?.map((item, index) => (
                 <tr key={index} className="table-body-padding">
                   <td>{index+1}</td>
-                  <td>{item?.firstName + " " + item?.lastName}</td>
-                  <td>{item?.phoneNumber}</td>
-                  <td>{item?.roles[0]?.roleName}</td>
-                  <td>{item.active ? <span className="badge rounded-pill bg-success">Success</span> : <span className="badge rounded-pill bg-danger">Danger</span>}</td>
+                  <td>{item?.brnadName}</td>
+                  <td>{item?.name}</td>
+                  <td>{item?.description}</td>
+                  <td>{item.active ? <span className="badge rounded-pill bg-success">Active</span> : <span className="badge rounded-pill bg-danger">InActive</span>}</td>
                   <td>
                     <div>
-                      <Link to={`/admin/bank/${item.id}`}>
+                      <Link to={`/brand-add/${item.id}`}>
                         <Tooltip
                           color={"lime"}
                           placement="top"
@@ -116,6 +120,7 @@ const BankList = () => {
                         title={"This is a delete button"}
                       >
                         <Popover
+                          visible={popover.type && popover?.id == item.id}
                           placement="left"
                           title={"Ma'lumotni o'chirmoqchimisiz?"}
                           content={
@@ -123,6 +128,7 @@ const BankList = () => {
                               <Button
                                 className="d-flex justify-content-between align-items-center me-2"
                                 type=""
+                                onClick={() => setpopover({type:false, id:item.id})}
                               >
                                 Cancel
                               </Button>
@@ -137,7 +143,7 @@ const BankList = () => {
                           }
                           trigger="click"
                         >
-                          <DeleteOutlined className="text-danger pointer" />
+                          <DeleteOutlined onClick={() => setpopover({type:true, id:item.id})} className="text-danger pointer" />
                         </Popover>
                       </Tooltip>
                     </div>
@@ -152,4 +158,4 @@ const BankList = () => {
     </Spin>
   );
 };
-export default BankList;
+export default FeaturesList;

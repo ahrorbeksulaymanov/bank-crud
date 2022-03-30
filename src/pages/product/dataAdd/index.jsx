@@ -50,7 +50,7 @@ const AddProduct = () => {
           brandId: res?.data?.data?.brand,
           genderId: res?.data?.data?.gender,
           seasonId: res?.data?.data?.season,
-          discountId: res?.data?.data?.discountId,
+          discountId: res?.data?.data?.discount,
           price: res?.data?.data?.price,
           salePrice: res?.data?.data?.salePrice,
           shortDescription: res?.data?.data?.shortDescription,
@@ -61,10 +61,10 @@ const AddProduct = () => {
         setsizeId(res?.data?.data?.size);
         setimages(
           res?.data?.data?.photos?.map((i, index) => ({
-            uid: index+1,
+            uid: index + 1,
             name: "image.png",
             status: "done",
-            url: PATH_API_FILE+i,
+            url: PATH_API_FILE + i,
           }))
         );
       });
@@ -120,11 +120,17 @@ const AddProduct = () => {
     }
   }, [categoryId]);
 
+  console.log("vvvvvvv", images);
   const updateData = (val) => {
     const formdata = new FormData();
-    for (let i = 0; i < images?.length; i++) {
-      formdata.append(`photos`, images[i]?.originFileObj);
-    }
+    images?.map((i) => {
+      if (i?.originFileObj) {
+        formdata.append(`photos`, i?.originFileObj);
+      } 
+      // else {
+      //   formdata.append(`photos`, i?.url);
+      // }
+    });
     val.active = checked ? 1 : 0;
     Object.keys(val).map((key) => {
       formdata.append(key, val[key]);
@@ -141,7 +147,7 @@ const AddProduct = () => {
         },
       })
         .then((res) => {
-          if (res?.status === 200) {
+          if (res?.status === 201) {
             message.success("Success!");
             history.goBack();
           }
@@ -159,7 +165,7 @@ const AddProduct = () => {
         },
       })
         .then((res) => {
-          if (res?.status === 200) {
+          if (res?.status === 201) {
             message.success("Success!");
             history.goBack();
           }
@@ -376,7 +382,7 @@ const AddProduct = () => {
                 </Form.Item>
               </div>
 
-              {/* <div className="col-lg-2 col-md-4 col-sm-6">
+              <div className="col-lg-2 col-md-4 col-sm-6">
                 <Form.Item
                   label=""
                   name="discountId"
@@ -401,14 +407,14 @@ const AddProduct = () => {
                         .indexOf(input.toLowerCase()) >= 0
                     }
                   >
-                    {
-                      disCount?.map((item, index) => (
-                        <Option value={index}>{item.name}</Option>
-                      ))
-                    }
+                    {disCount?.map((item, index) => (
+                      <Option key={index} value={item?.id}>
+                        {item.percent}
+                      </Option>
+                    ))}
                   </Select>
                 </Form.Item>
-              </div> */}
+              </div>
             </div>
             <PicturesWall setimages={setimages} images={images} />
             <div className="row">

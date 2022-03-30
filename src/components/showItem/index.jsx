@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import product2 from "../../assets/images/product2.jpg";
 import { IoIosArrowBack } from "react-icons/io";
 import "./style.scss";
@@ -6,18 +6,53 @@ import { Select, Collapse } from "antd";
 import SubmitData from "./submitDataModal";
 import SliderSimiliar from "./sliderSimiliar";
 import ShowItemMobile from "./sliderShowMobile";
-import { Link } from "react-router-dom";
+import { Link, useRouteMatch } from "react-router-dom";
 import { useHistory } from "react-router-dom";
+import axios from 'axios'
+import {PATH_API, PATH_API_FILE} from '../../constants/index'
 const { Panel } = Collapse;
 const { Option } = Select;
 
 const ItemShow = () => {
   const [isModalVisible, setIsModalVisible] = useState(false);
+  const [data, setData] = useState([]);
+  const [features, setfeatures] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const match = useRouteMatch("/product/:id");
+  const [imgIndex, setimgIndex] = useState(0);
 
   const history = useHistory()
   function handleChange(value) {
     console.log(`selected ${value}`);
   }
+
+  useEffect(() => {
+    setLoading(true);
+    const token = localStorage.getItem("token");
+    axios({
+      url: PATH_API + `/product/${match.params.id}`,
+      method: "GET",
+      headers: {
+        Authorization: "Bearer " + token,
+      },
+    }).then((res) => {
+      if (res?.status === 200) {
+        setData(res?.data?.data);
+        setLoading(false);
+      }
+    });
+    axios({
+      url: PATH_API + `/product/get-features/${match.params.id}`,
+      method: "GET",
+      headers: {
+        Authorization: "Bearer " + token,
+      },
+    }).then((res) => {
+      if (res?.status === 200) {
+        console.log(res?.data?.data);
+      }
+    });
+  }, []);
 
   return (
     <div className="show-items pt-4">
@@ -28,13 +63,13 @@ const ItemShow = () => {
               <IoIosArrowBack /> Back
             </div>
           </p>
-          <img src={product2} className="w-100" alt="" />
+          {!loading && <img src={PATH_API_FILE + data?.photos[imgIndex]} className="w-100" alt="" />}
         </div>
         <div className="col-md-1 d-none-md">
-          <img src={product2} className="w-100 mb-4 litle-img" alt="" />
-          <img src={product2} className="w-100 mb-4 litle-img" alt="" />
-          <img src={product2} className="w-100 mb-4 litle-img" alt="" />
-          <img src={product2} className="w-100 mb-4 litle-img" alt="" />
+          {!loading && 
+          data?.photos.map((item, index) => (
+            <img key={index} onClick={() => setimgIndex(index)} src={PATH_API_FILE + item} className={`w-100 mb-4 ${imgIndex === index && 'litle-img'}`} alt="" />
+          ))}
         </div>
         <ShowItemMobile />
         <div className="col-md-4">

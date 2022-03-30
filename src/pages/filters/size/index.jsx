@@ -146,7 +146,7 @@ const SizeList = () => {
             </tbody>
           </table>
         </div>
-        {data?.length === 0 || data === null && <Empty />}
+        {(data?.length === 0 || data === null) && <Empty />}
       </div>
     </Spin>
   );

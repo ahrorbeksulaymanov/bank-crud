@@ -26,6 +26,7 @@ import Articles from "../pages/articles";
 import AboutUs from "../pages/about-us";
 import Blogs from "../pages/blogs";
 import FeaturesList from "../pages/features";
+import AddFeatures from "../pages/features/dataAdd";
 
 export const all_routes = [
     {
@@ -302,6 +303,16 @@ export const all_routes = [
         title: "Features",
         path: "/product/features/:id",
         component: FeaturesList,
+        exact:true,
+        config: {
+            showLink: true,
+            structure: "layout"
+        }
+    },
+    {
+        title: "Features",
+        path: "/product/features-add/:id/:featureId",
+        component: AddFeatures,
         exact:true,
         config: {
             showLink: true,

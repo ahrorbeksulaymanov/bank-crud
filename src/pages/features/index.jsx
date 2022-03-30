@@ -36,7 +36,6 @@ const FeaturesList = () => {
     }).then((res) => {
       if (res?.status === 200) {
         setData(res?.data?.data);
-        console.log("res?.data?.data", res?.data?.data);
         setLoading(false);
       }
     });
@@ -45,7 +44,7 @@ const FeaturesList = () => {
   const deleteData = (id) => {
     const token = localStorage.getItem("token");
     axios({
-      url: PATH_API + `/brand?id=${id}`,
+      url: PATH_API + `/product/features/${id}`,
       method: "DELETE",
       headers: {
         Authorization: "Bearer " + token,
@@ -66,7 +65,7 @@ const FeaturesList = () => {
       <div>
         <div className="d-flex justify-content-between align-items-center">
           <h5>Features</h5>
-          <Link to="/brand-add/0">
+          <Link to={`/product/features-add/${match.params.id}/0`}>
             <Button type="primary">+ Qo'shish</Button>
           </Link>
         </div>
@@ -77,9 +76,6 @@ const FeaturesList = () => {
               <tr>
                 <th scope="col">
                   No
-                </th>
-                <th scope="col">
-                  feature name
                 </th>
                 <th scope="col">
                   Name
@@ -99,13 +95,12 @@ const FeaturesList = () => {
               {data && data?.map((item, index) => (
                 <tr key={index} className="table-body-padding">
                   <td>{index+1}</td>
-                  <td>{item?.brnadName}</td>
                   <td>{item?.name}</td>
                   <td>{item?.description}</td>
                   <td>{item.active ? <span className="badge rounded-pill bg-success">Active</span> : <span className="badge rounded-pill bg-danger">InActive</span>}</td>
                   <td>
                     <div>
-                      <Link to={`/brand-add/${item.id}`}>
+                      <Link to={`/product/features-add/${match.params.id}/${item?.id}`}>
                         <Tooltip
                           color={"lime"}
                           placement="top"

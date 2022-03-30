@@ -7,10 +7,11 @@ import { BiChevronRightSquare } from "react-icons/bi";
 import 'swiper/css/navigation';
 import 'swiper/css/pagination';
 import mainRight2Img from "../../assets/images/main-r2.jpg";
+import { PATH_API_FILE } from "../../constants";
 
 SwiperCore.use([Pagination, Navigation, Autoplay]);
 
-const SliderNews = () => {
+const SliderNews = ({data}) => {
   const [width, setWidth] = useState(0);
   const [slideItem, setslideItem] = useState(4);
 
@@ -70,61 +71,19 @@ const SliderNews = () => {
               });
             }}
           >
-            <SwiperSlide ref={sliderRef}>
-              <div className="image-sale-smaller">
-                <div>
-                  <p>Lorem, ipsum dolor.</p>
-                  <h5>Lorem ipsum dolor sit.</h5>
-                </div>
-                <img className="w-100" src={mainRight2Img} alt="" />
-              </div>
-            </SwiperSlide>
-            <SwiperSlide ref={sliderRef}>
-              <div className="image-sale-smaller">
-                <div>
-                  <p>Lorem, ipsum dolor.</p>
-                  <h5>Lorem ipsum dolor sit.</h5>
-                </div>
-                <img className="w-100" src={mainRight2Img} alt="" />
-              </div>
-            </SwiperSlide>
-            <SwiperSlide ref={sliderRef}>
-              <div className="image-sale-smaller">
-                <div>
-                  <p>Lorem, ipsum dolor.</p>
-                  <h5>Lorem ipsum dolor sit.</h5>
-                </div>
-                <img className="w-100" src={mainRight2Img} alt="" />
-              </div>
-            </SwiperSlide>
-            <SwiperSlide ref={sliderRef}>
-              <div className="image-sale-smaller">
-                <div>
-                  <p>Lorem, ipsum dolor.</p>
-                  <h5>Lorem ipsum dolor sit.</h5>
-                </div>
-                <img className="w-100" src={mainRight2Img} alt="" />
-              </div>
-            </SwiperSlide>
-            <SwiperSlide ref={sliderRef}>
-              <div className="image-sale-smaller">
-                <div>
-                  <p>Lorem, ipsum dolor.</p>
-                  <h5>Lorem ipsum dolor sit.</h5>
-                </div>
-                <img className="w-100" src={mainRight2Img} alt="" />
-              </div>
-            </SwiperSlide>
-            <SwiperSlide ref={sliderRef}>
-              <div className="image-sale-smaller">
-                <div>
-                  <p>Lorem, ipsum dolor.</p>
-                  <h5>Lorem ipsum dolor sit.</h5>
-                </div>
-                <img className="w-100" src={mainRight2Img} alt="" />
-              </div>
-            </SwiperSlide>
-
+            {
+              data?.map((item, index) => (
+                <SwiperSlide key={index} ref={sliderRef}>
+                  <div className="image-sale-smaller">
+                    <div>
+                      <p>{item?.name}</p>
+                      <h5>{item?.brand?.name}</h5>
+                    </div>
+                    <img className="w-100 slider_image" src={PATH_API_FILE + item?.photos[0]} alt="" />
+                  </div>
+                </SwiperSlide>
+              ))
+            }
             <div className="text-end d-flex justify-content-end">
               <div ref={navigationPrevRef}>
                 <BiChevronLeftSquare

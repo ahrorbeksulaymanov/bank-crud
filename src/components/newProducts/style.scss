@@ -56,6 +56,14 @@
       text-align: center;
     }
   }
+  .least_images{
+    height: 250px;
+    object-fit: cover;
+  }
+  .slider_image{
+    height: 200px;
+    object-fit: cover;
+  }
 }
 .hover-effect {
   overflow: hidden;

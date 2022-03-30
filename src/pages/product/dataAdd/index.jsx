@@ -149,7 +149,7 @@ const AddProduct = () => {
         .then((res) => {
           if (res?.status === 201) {
             message.success("Success!");
-            history.goBack();
+            // history.goBack();
           }
         })
         .catch((err) => {

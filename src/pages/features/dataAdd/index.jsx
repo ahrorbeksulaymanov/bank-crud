@@ -8,16 +8,16 @@ import { PATH_API } from "../../../constants";
 const AddFeatures = () => {
   const [loading, setloading] = useState(false);
   const [checked, setchecked] = useState(true);
-  const match = useRouteMatch("/brand-add/:id");
+  const match = useRouteMatch("/product/features-add/:id/:featureId");
   const history = useHistory();
   const [form] = Form.useForm();
 
   useEffect(() => {
-    if (match.params.id != 0) {
+    if (match.params.featureId != 0) {
       setloading(true);
       const token = localStorage.getItem("token");
       axios({
-        url: PATH_API + `/brand/${match.params.id}`,
+        url: PATH_API + `/product/features/${match.params.featureId}`,
         method: "get",
         headers: {
           Authorization: "Bearer " + token,
@@ -25,7 +25,6 @@ const AddFeatures = () => {
       }).then((res) => {
         form.setFieldsValue({
           name: res?.data?.data?.name,
-          brandName: res?.data?.data?.brnadName,
           description: res?.data?.data?.description,
         });
         setchecked(res?.data?.data?.active)
@@ -35,11 +34,12 @@ const AddFeatures = () => {
   }, []);
 
   const updateData = (val) => {
-    val.active = checked
+    val.active = checked?1:0;
+    val.productId = match.params.id;
     const token = localStorage.getItem("token");
-    if(match.params.id == 0){
+    if(match.params.featureId == 0){
       axios({
-        url: PATH_API + `/brand`,
+        url: PATH_API + `/product/features`,
         method: "POST",
         data: val,
         headers: {
@@ -47,7 +47,7 @@ const AddFeatures = () => {
         },
       })
         .then((res) => {
-          if (res?.status === 200) {
+          if (res?.status === 201) {
             message.success("Success!");
             history.goBack();
           }
@@ -57,7 +57,7 @@ const AddFeatures = () => {
         });
     }else{
       axios({
-        url: PATH_API + `/brand/${match.params.id}`,
+        url: PATH_API + `/product/features/${match.params.featureId}`,
         method: "PUT",
         data: val,
         headers: {
@@ -90,7 +90,7 @@ const AddFeatures = () => {
             autoComplete="off"
           >
             <div className="d-flex justify-content-between align-items-center">
-              <h5>Brand</h5>
+              <h5>Features</h5>
               <div className="d-flex justify-content-end">
                 <Button
                   className="d-flex justify-content-between align-items-center me-2"
@@ -117,13 +117,6 @@ const AddFeatures = () => {
               rules={[{ required: true, message: "Iltimos nomini kiriting!" }]}
             >
               <Input type={'text'} placeholder="Nomi..." />
-            </Form.Item>
-            <Form.Item
-              label="Brand nomi"
-              name="brandName"
-              rules={[{ required: true, message: "Iltimos brand nomini kiriting!" }]}
-            >
-              <Input type={'text'} placeholder="Brend nomi..." />
             </Form.Item>
 
             <Form.Item

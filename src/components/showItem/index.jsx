@@ -30,13 +30,14 @@ const ItemShow = () => {
     setLoading(true);
     const token = localStorage.getItem("token");
     axios({
-      url: PATH_API + `/product/${match.params.id}`,
+      url: PATH_API + `/product/${match.params.id}?expand=createdBy,updatedBy,brand,size,gender,discount,season,category`,
       method: "GET",
       headers: {
         Authorization: "Bearer " + token,
       },
     }).then((res) => {
       if (res?.status === 200) {
+        console.log("features",res?.data?.data);
         setData(res?.data?.data);
         setLoading(false);
       }
@@ -49,7 +50,7 @@ const ItemShow = () => {
       },
     }).then((res) => {
       if (res?.status === 200) {
-        console.log(res?.data?.data);
+        setfeatures(res?.data?.data)
       }
     });
   }, []);
@@ -66,30 +67,32 @@ const ItemShow = () => {
           {!loading && <img src={PATH_API_FILE + data?.photos[imgIndex]} className="w-100" alt="" />}
         </div>
         <div className="col-md-1 d-none-md">
-          {!loading && 
-          data?.photos.map((item, index) => (
+          {!loading && data?.photos &&
+          data?.photos?.map((item, index) => (
             <img key={index} onClick={() => setimgIndex(index)} src={PATH_API_FILE + item} className={`w-100 mb-4 ${imgIndex === index && 'litle-img'}`} alt="" />
           ))}
         </div>
         <ShowItemMobile />
         <div className="col-md-4">
-          <h3 className="m-0"><Link to='/company/:id' className="text-dark">OAMC</Link></h3>
-          <p className="m-0">Sneakers - AO36030A</p>
+          <h3 className="m-0"><Link to='/company/:id' className="text-dark">{data?.brand?.brnadName}</Link></h3>
+          <p className="m-0">{data?.name}</p>
           <p className="">Colour ellow</p>
-          <p className="comp-sale mb-1">
-            <span className="through">200</span>{" "}
-            <span className="text-danger ms-2">-20%</span>
-          </p>
-          <p className="comp-price m-0 text-danger">150</p>
-          <p className="text-secondary">
-            Lorem, ipsum dolor sit amet consectetur adipisicing elit. Nam ex
-            perferendis id.
-          </p>
-          <p className="text-secondary">Item number 23513216 - 465</p>
+          {
+            data?.discount ? 
+            <>
+              <p className="comp-sale mb-1">
+                <span className="through">{data?.salePrice}</span>{" "}
+                <span className="text-danger ms-2">-{data?.discount?.percent}%</span>
+              </p>
+              <p className="comp-price m-0 text-danger">{data?.salePrice - (data?.salePrice*data?.discount?.percent/100)}</p>
+            </>:
+            <p className="comp-price m-0 text-danger">{data?.salePrice}</p>
+          }
+          <p className="text-secondary">{data?.shortDescription}</p>
           <hr />
           <div className="d-flex justify-content-between">
             <div>
-              <p className="m-0 text-secondary">Size</p>
+              <p className="m-0 text-secondary">O'lchami</p>
               <Select
                 defaultValue="lucy"
                 style={{ width: 120 }}
@@ -100,18 +103,7 @@ const ItemShow = () => {
                 <Option value="Yiminghe">yiminghe</Option>
               </Select>
             </div>
-            <div>
-              <p className="m-0 text-secondary">Amount</p>
-              <Select
-                defaultValue="lucy"
-                style={{ width: 100 }}
-                onChange={handleChange}
-              >
-                <Option value="jack">Jack</Option>
-                <Option value="lucy">Lucy</Option>
-                <Option value="Yiminghe">yiminghe</Option>
-              </Select>
-            </div>
+            <div></div>
           </div>
           <button
             className="offer-button"
@@ -119,7 +111,7 @@ const ItemShow = () => {
           >
             Buyurtma berish
           </button>
-          <p className="text-secondary">More colours</p>
+          <p className="text-secondary">Boshqa ranglari</p>
           <img
             src={product2}
             className="me-4"
@@ -132,28 +124,16 @@ const ItemShow = () => {
             style={{ backgroundColor: "transparent" }}
             expandIconPosition="right"
           >
-            <Panel header="This is panel header 1" key="1">
-              Lorem ipsum dolor sit amet consectetur adipisicing elit. Sunt
-              maxime sit atque dignissimos libero. Sunt facere assumenda atque
-              iste voluptas laborum est maxime, aut, porro sed consectetur,
-              veritatis tempora accusamus.
-            </Panel>
-            <Panel header="This is panel header 2" key="2">
-              Lorem ipsum dolor sit amet consectetur adipisicing elit. Sunt
-              maxime sit atque dignissimos libero. Sunt facere assumenda atque
-              iste voluptas laborum est maxime, aut, porro sed consectetur,
-              veritatis tempora accusamus.
-            </Panel>
-            <Panel header="This is panel header 3" key="3">
-              Lorem ipsum dolor sit amet consectetur adipisicing elit. Sunt
-              maxime sit atque dignissimos libero. Sunt facere assumenda atque
-              iste voluptas laborum est maxime, aut, porro sed consectetur,
-              veritatis tempora accusamus.
-            </Panel>
+            {
+              features?.map((item, index) => (
+                <Panel header={item?.name} key={index+1}>{item?.description}</Panel>
+              ))
+            }
           </Collapse>
         </div>
       </div>
-      <SubmitData isModalVisible={isModalVisible} setIsModalVisible={setIsModalVisible} />
+      <p className="mt-4 text-secondary">{data?.description}</p>
+      <SubmitData isModalVisible={isModalVisible} setIsModalVisible={setIsModalVisible} id={match.params.id} />
       <SliderSimiliar />
     </div>
   );

@@ -21,10 +21,18 @@
       text-align: center;
     }
   }
+  a{
+    display: block !important;
+    height: 100%;
+  }
+  img{
+    height: 100%;
+    object-fit: cover;
+  }
 }
 
 .left-main-img{
-    max-height: 605px;
+    height: 605px;
     overflow: hidden;
 }
 .right-main-img{

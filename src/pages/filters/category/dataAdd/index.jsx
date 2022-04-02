@@ -65,7 +65,7 @@ const AddCategory = () => {
     const token = localStorage.getItem("token");
     if (match.params.id == 0) {
       axios({
-        url: PATH_API + `/category`,
+        url: PATH_API + `/category?parentId=0`,
         method: "POST",
         data: val,
         headers: {
@@ -116,7 +116,7 @@ const AddCategory = () => {
             autoComplete="off"
           >
             <div className="d-flex justify-content-between align-items-center">
-              <h5>Cateroya</h5>
+              <h5>Categoriya</h5>
               <div className="d-flex justify-content-end">
                 <Button
                   className="d-flex justify-content-between align-items-center me-2"
@@ -142,7 +142,7 @@ const AddCategory = () => {
               name="parentId"
               rules={[
                 {
-                  required: true,
+                  required: false,
                   message: "Iltimos parent categoriyani kiriting!",
                 },
               ]}

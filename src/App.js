@@ -13,7 +13,7 @@ import MainContext from "./context";
 
 function App() {
   const [user, setUser] = useState({});
-
+  
   useEffect(() => {
     const token = localStorage.getItem("token");
     // if (token) {

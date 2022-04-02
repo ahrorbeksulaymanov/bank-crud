@@ -1,7 +1,5 @@
 import BankList from "../components/content";
 import AddBank from "../components/content/dataAdd";
-import PageOne from "../components/emptyPages/pageOne";
-import PageTwo from "../components/emptyPages/pageTwo";
 import LoginPage from "../components/login";
 import HomePage from "../pages/homePage";
 import AllProductsPage from '../pages/all-products';
@@ -27,6 +25,10 @@ import AboutUs from "../pages/about-us";
 import Blogs from "../pages/blogs";
 import FeaturesList from "../pages/features";
 import AddFeatures from "../pages/features/dataAdd";
+import BlogsView from "../pages/blogs/blog-view";
+import OrderList from "../pages/orders";
+import ColorList from "../pages/filters/color";
+import AddColor from "../pages/filters/color/dataAdd";
 
 export const all_routes = [
     {
@@ -96,6 +98,16 @@ export const all_routes = [
         exact:true,
         config: {
             showLink: true,
+            structure: "sectionlayout"
+        }
+    },
+    {
+        title: "Blog view",
+        path: "/blogs-view/:id",
+        component: BlogsView,
+        exact:true,
+        config: {
+            showLink: false,
             structure: "sectionlayout"
         }
     },
@@ -270,6 +282,36 @@ export const all_routes = [
         }
     },
     {
+        title: "Color",
+        path: "/color",
+        component: ColorList,
+        exact:true,
+        config: {
+            showLink: false,
+            structure: "layout"
+        }
+    },
+    {
+        title: "Color add",
+        path: "/color-add/:id",
+        component: AddColor,
+        exact:true,
+        config: {
+            showLink: false,
+            structure: "layout"
+        }
+    },
+    {
+        title: "Orders",
+        path: "/orders",
+        component: OrderList,
+        exact:true,
+        config: {
+            showLink: true,
+            structure: "layout"
+        }
+    },
+    {
         title: "Login",
         path: "/login",
         component: LoginPage,
@@ -277,26 +319,6 @@ export const all_routes = [
         config: {
             showLink: false,
             structure: "nonlayout"
-        }
-    },
-    {
-        title: "Page one",
-        path: "/pageone",
-        component: PageOne,
-        exact: true,
-        config: {
-            showLink: false,
-            structure: "layout"
-        }
-    },
-    {
-        title: "Page two",
-        path: "/pagetwo",
-        component: PageTwo,
-        exact: true,
-        config: {
-            showLink: false,
-            structure: "layout"
         }
     },
     {

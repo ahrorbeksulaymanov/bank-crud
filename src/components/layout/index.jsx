@@ -101,10 +101,20 @@ const MyLayout = ({ children }) => {
                   Categoriyalar
                 </Link>
               </Menu.Item>
+              <Menu.Item key="16">
+                <Link to="/color">
+                  Ranglar
+                </Link>
+              </Menu.Item>
             </SubMenu>
           </Menu>
           <Menu.Item key="3" icon={<UploadOutlined />}>
             <Link to="/product">Product</Link>
+          </Menu.Item>
+          <Menu.Item key="4" icon={<VideoCameraOutlined />}>
+            <Link to="/orders">
+              Buyurtmalar
+            </Link>
           </Menu.Item>
         </Menu>
       </Sider>

@@ -5,14 +5,7 @@ import axios from "axios";
 import { useRouteMatch, useHistory } from "react-router-dom";
 import { PATH_API, PATH_API_FILE } from "../../../constants";
 import PicturesWall from "./dataUpload";
-import {
-  getBrends,
-  getCategories,
-  getDiscount,
-  getGenders,
-  getSeasons,
-  getSizes,
-} from "../../../functions";
+import { getBrends, getCategories, getColor, getDiscount, getGenders, getSeasons, getSizes } from "../../../functions";
 const { Option } = Select;
 
 const AddProduct = () => {
@@ -25,6 +18,7 @@ const AddProduct = () => {
   const [brends, setbrends] = useState([]);
   const [sises, setsises] = useState([]);
   const [disCount, setdisCount] = useState([]);
+  const [color, setcolor] = useState([]);
   const [images, setimages] = useState([]);
   const [categoryId, setcategoryId] = useState(null);
   const match = useRouteMatch("/product-add/:id");
@@ -54,6 +48,7 @@ const AddProduct = () => {
           price: res?.data?.data?.price,
           salePrice: res?.data?.data?.salePrice,
           shortDescription: res?.data?.data?.shortDescription,
+          colors: res?.data?.data?.colors,
         });
         setcategoryId(res?.data?.data?.category);
         setchecked(res?.data?.data?.active);
@@ -101,6 +96,12 @@ const AddProduct = () => {
         setdisCount(res?.data?.data);
       }
     });
+
+    getColor().then((res) => {
+      if (res?.status === 200) {
+        setcolor(res?.data?.data);
+      }
+    });
   }, []);
 
   useEffect(() => {
@@ -123,14 +124,16 @@ const AddProduct = () => {
   console.log("vvvvvvv", images);
   const updateData = (val) => {
     const formdata = new FormData();
+    const oldIamges = []
     images?.map((i) => {
       if (i?.originFileObj) {
         formdata.append(`photos`, i?.originFileObj);
       } 
-      // else {
-      //   formdata.append(`photos`, i?.url);
-      // }
+      else {
+        oldIamges.push(i?.url.split('/').pop())
+      }
     });
+    formdata.append(`oldPhotos`,String(oldIamges));
     val.active = checked ? 1 : 0;
     Object.keys(val).map((key) => {
       formdata.append(key, val[key]);
@@ -149,7 +152,7 @@ const AddProduct = () => {
         .then((res) => {
           if (res?.status === 201) {
             message.success("Success!");
-            // history.goBack();
+            history.goBack();
           }
         })
         .catch((err) => {
@@ -351,40 +354,6 @@ const AddProduct = () => {
               <div className="col-lg-2 col-md-4 col-sm-6">
                 <Form.Item
                   label=""
-                  name="sizeId"
-                  rules={[
-                    {
-                      required: true,
-                      message: "Sizeni tanlang!",
-                    },
-                  ]}
-                  style={{ width: "100% !important" }}
-                  wrapperCol={{ offset: 0, span: 24 }}
-                >
-                  <Select
-                    showSearch
-                    placeholder="Size"
-                    optionFilterProp="children"
-                    allowClear
-                    style={{ width: "100%" }}
-                    filterOption={(input, option) =>
-                      option.children
-                        .toLowerCase()
-                        .indexOf(input.toLowerCase()) >= 0
-                    }
-                  >
-                    {sises?.map((item, index) => (
-                      <Option key={index} value={item.id}>
-                        {item.name}
-                      </Option>
-                    ))}
-                  </Select>
-                </Form.Item>
-              </div>
-
-              <div className="col-lg-2 col-md-4 col-sm-6">
-                <Form.Item
-                  label=""
                   name="discountId"
                   rules={[
                     {
@@ -410,6 +379,74 @@ const AddProduct = () => {
                     {disCount?.map((item, index) => (
                       <Option key={index} value={item?.id}>
                         {item.percent}
+                      </Option>
+                    ))}
+                  </Select>
+                </Form.Item>
+              </div>
+              <div className="col-md-5 col-sm-6">
+                <Form.Item
+                  label=""
+                  name="sizeId"
+                  rules={[
+                    {
+                      required: true,
+                      message: "Sizeni tanlang!",
+                    },
+                  ]}
+                  style={{ width: "100% !important" }}
+                  wrapperCol={{ offset: 0, span: 24 }}
+                >
+                  <Select
+                  mode="multiple"
+                    showSearch
+                    placeholder="Size"
+                    optionFilterProp="children"
+                    allowClear
+                    style={{ width: "100%" }}
+                    filterOption={(input, option) =>
+                      option.children
+                        .toLowerCase()
+                        .indexOf(input.toLowerCase()) >= 0
+                    }
+                  >
+                    {sises?.map((item, index) => (
+                      <Option key={index} value={item.id}>
+                        {item.name}
+                      </Option>
+                    ))}
+                  </Select>
+                </Form.Item>
+              </div>
+              <div className="col-md-5 col-sm-6">
+                <Form.Item
+                  label=""
+                  name="colors"
+                  rules={[
+                    {
+                      required: true,
+                      message: "Rangni tanlang!",
+                    },
+                  ]}
+                  style={{ width: "100% !important" }}
+                  wrapperCol={{ offset: 0, span: 24 }}
+                >
+                  <Select
+                    mode="multiple"
+                    showSearch
+                    placeholder="Rang"
+                    optionFilterProp="children"
+                    allowClear
+                    style={{ width: "100%" }}
+                    filterOption={(input, option) =>
+                      option.children
+                        .toLowerCase()
+                        .indexOf(input.toLowerCase()) >= 0
+                    }
+                  >
+                    {color?.map((item, index) => (
+                      <Option key={index} value={item.id}>
+                        {item.name}
                       </Option>
                     ))}
                   </Select>

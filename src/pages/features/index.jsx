@@ -15,11 +15,13 @@ import axios from "axios";
 import { Link } from "react-router-dom";
 import { PATH_API } from "../../constants";
 import { useRouteMatch } from "react-router-dom";
+import { MdArrowBackIos } from 'react-icons/md'
+import { useHistory } from "react-router-dom";
 
 const FeaturesList = () => {
   const [data, setData] = useState([]);
   const [loading, setLoading] = useState(true);
-
+  const history = useHistory()
   const [refresh, setRefresh] = useState(false);
   const [popover, setpopover] = useState({type:false, id:null});
   const match = useRouteMatch("/product/features/:id")
@@ -64,7 +66,7 @@ const FeaturesList = () => {
     <Spin spinning={loading}>
       <div>
         <div className="d-flex justify-content-between align-items-center">
-          <h5>Features</h5>
+          <h5><MdArrowBackIos onClick={() => history.goBack()} className='pointer' /> Features</h5>
           <Link to={`/product/features-add/${match.params.id}/0`}>
             <Button type="primary">+ Qo'shish</Button>
           </Link>

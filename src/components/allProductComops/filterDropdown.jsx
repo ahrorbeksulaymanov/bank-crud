@@ -3,26 +3,89 @@ import { Checkbox, Dropdown, Menu } from "antd";
 import "./style.scss";
 import { BsChevronDown } from "react-icons/bs";
 
-const FilterDropdown = ({ name, data, setCheckedList, checkedList, setRefresh, refresh }) => {
-  // const defaultCheckedList = data?.map((i) => i.id);
-  const options = data?.map((i) => ({ label: i?.name, value: i.id }));
+const FilterDropdown = ({
+  name,
+  type,
+  data,
+  setCheckedList,
+  checkedList,
+  setRefresh,
+  refresh,
+  isMobile
+}) => {
+  const options = data?.map((i) => ({ label: (i?.name) ? (i?.name) : (i.percent + "%"), value: i.id }));
 
-  useEffect(() => {
-  }, [])
-  
-  const filterData = () => {
-    setRefresh(!refresh);
-    console.log("checkedList", checkedList);
-  }
-  
+  const filterData = (e) => {
+    if (type === "brend") {
+      setCheckedList({
+        brandId: e,
+        discountId: checkedList.discountId,
+        seasonId: checkedList.seasonId,
+        sizeId: checkedList.sizeId,
+        genderId: checkedList.genderId,
+        categiryId: checkedList.categiryId,
+        colorId: checkedList.colorId,
+        salePriceIn: checkedList.salePriceIn,
+      });
+    }else if(type === "discount"){
+      setCheckedList({
+        brandId: checkedList.brandId,
+        discountId: e,
+        seasonId: checkedList.seasonId,
+        sizeId: checkedList.sizeId,
+        genderId: checkedList.genderId,
+        categiryId: checkedList.categiryId,
+        colorId: checkedList.colorId,
+        salePriceIn: checkedList.salePriceIn,
+      });
+    } else if(type === "season"){
+      setCheckedList({
+        brandId: checkedList.brandId,
+        discountId: checkedList.discountId,
+        seasonId: e,
+        sizeId: checkedList.sizeId,
+        genderId: checkedList.genderId,
+        categiryId: checkedList.categiryId,
+        colorId: checkedList.colorId,
+        salePriceIn: checkedList.salePriceIn,
+      });
+    }else if(type === "size"){
+      setCheckedList({
+        brandId: checkedList.brandId,
+        discountId: checkedList.discountId,
+        seasonId: checkedList.seasonId,
+        sizeId: e,
+        genderId: checkedList.genderId,
+        categiryId: checkedList.categiryId,
+        colorId: checkedList.colorId,
+        salePriceIn: checkedList.salePriceIn,
+      });
+    }else if(type === "color"){
+      setCheckedList({
+        brandId: checkedList.brandId,
+        discountId: checkedList.discountId,
+        seasonId: checkedList.seasonId,
+        sizeId: checkedList.sizeId,
+        genderId: checkedList.genderId,
+        categiryId: checkedList.categiryId,
+        colorId: e,
+        salePriceIn: checkedList.salePriceIn,
+      });
+    }
+  };
+const changeData = () => {
+  setRefresh(!refresh)
+}
   const menu = (
     <Menu className=" filter-checkbox">
       <Checkbox.Group
         options={options}
-        // defaultValue={defaultCheckedList}
-        onChange={(e) => setCheckedList(e)}
+        onChange={(e) => filterData(e)}
       />
-      <button onClick={filterData}>Filterlash</button>
+      {
+        !isMobile && <button onClick={() => changeData()}>Filterlash</button>
+      }
+      
     </Menu>
   );
 
@@ -40,4 +103,4 @@ const FilterDropdown = ({ name, data, setCheckedList, checkedList, setRefresh, r
     </div>
   );
 };
-export default FilterDropdown;
+export default React.memo(FilterDropdown);

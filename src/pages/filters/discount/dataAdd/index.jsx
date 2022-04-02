@@ -25,10 +25,9 @@ const AddDiscount = () => {
           Authorization: "Bearer " + token,
         },
       }).then((res) => {
-        // console.log("sssssssssss", moment(res?.data?.data?.expirationDate).format(dateFormat), (res?.data?.data?.expirationDate).slice(0, 10));
         form.setFieldsValue({
           percent: res?.data?.data?.percent,
-          expirationDate: moment((res?.data?.data?.expirationDate).slice(0, 10)).format(dateFormat),
+          expirationDate: moment((res?.data?.data?.expirationDate).slice(0, 10).format(dateFormat)),
           description: res?.data?.data?.description,
         });
         setloading(false);
@@ -38,7 +37,8 @@ const AddDiscount = () => {
   }, []);
 
   const updateData = (val) => {
-    val.active = checked
+    val.name = 'ddd';
+    val.active = checked?1:0;
     const token = localStorage.getItem("token");
     if(match.params.id == 0){
       axios({
@@ -52,7 +52,7 @@ const AddDiscount = () => {
         .then((res) => {
           if (res?.status === 200) {
             message.success("Success!");
-            history.goBack();
+            history.goBack();  
           }
         })
         .catch((err) => {

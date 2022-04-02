@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { Collapse, Pagination, Modal, Slider, Spin } from "antd";
+import { Collapse, Pagination, Modal, Spin, Empty } from "antd";
 import "./style.scss";
 import FilterDropdown from "./filterDropdown";
 import { Card, CardBody } from "reactstrap";
@@ -10,49 +10,93 @@ import { PATH_API, PATH_API_FILE } from "../../constants";
 import {
   getBrends,
   getCategories,
+  getColor,
   getDiscount,
-  getGenders,
   getSeasons,
   getSizes,
 } from "../../functions";
+import PriceDropdown from "./priceDropdown";
 const { Panel } = Collapse;
 
 const AllProducts = () => {
   const [isModalVisible, setIsModalVisible] = useState(false);
   const [loading, setLoading] = useState(true);
   const [refresh, setRefresh] = useState(false);
+  const [total, settotal] = useState(null);
+  const [currentPage, setcurrentPage] = useState(1);
+  const [pageSize, setpageSize] = useState(12);
   const [data, setData] = useState([]);
   const [categories, setcategories] = useState([]);
   const [seasons, setseasons] = useState([]);
-  const [genders, setgenders] = useState([]);
   const [brends, setbrends] = useState([]);
   const [sises, setsises] = useState([]);
   const [disCount, setdisCount] = useState([]);
-  const [images, setimages] = useState([]);
+  const [colors, setcolors] = useState([]);
   const [categoryId, setcategoryId] = useState(null);
-  const [sizeId, setsizeId] = useState(null);
-  const [checkedList, setCheckedList] = useState([]);
-  const [image_number, setimage_number] = useState({num:0, id:null});
+  const [categoryChildId, setcategoryChildId] = useState([]);
+  const [checkedList, setCheckedList] = useState({
+    brandId: [],
+    discountId: [],
+    seasonId: [],
+    sizeId: [],
+    genderId: [localStorage.getItem("genderId")],
+    categiryId: [],
+    colorId: [],
+    salePriceIn: [],
+  });
 
-  function callback(key) {
-    console.log(key);
+  function categoryChange(key) {
+    if (checkedList.categiryId.includes(String(2))) {
+    }
+    setCheckedList({
+      brandId: checkedList.brandId,
+      discountId: checkedList.discountId,
+      seasonId: checkedList.seasonId,
+      sizeId: checkedList.sizeId,
+      genderId: checkedList.genderId,
+      categiryId: [...key, ...categoryChildId],
+      colorId: checkedList.colorId,
+      salePriceIn: checkedList.salePriceIn,
+    });
   }
+
+  const categoryChildchange = (parentId, childId) => {
+    if (checkedList.categiryId.includes(String(parentId))) {
+    }
+    // setcategoryChildId([...categoryChildId, childId]);
+    console.log(
+      checkedList.categiryId.includes(String(parentId)),
+      checkedList.categiryId,
+      parentId,
+      childId
+    );
+  };
 
   useEffect(() => {
     setLoading(true);
+    const json = {};
+    Object.keys(checkedList).map((key, index) => {
+      json[key] = String(checkedList[key]);
+    });
+
     axios({
-      url: PATH_API + `/product?`,
+      url:
+        PATH_API +
+        `/product?expand=discount&filter=${JSON.stringify(json).slice(1, -1)}`,
       method: "GET",
-      // params: {
-      //   brandId:checkedList
-      // }
+      params: {
+        pageSize: pageSize,
+        size: pageSize,
+        page: currentPage,
+      },
     }).then((res) => {
       if (res?.status === 200) {
         setData(res?.data?.data);
+        settotal(res?.data?.meta?.totalElement);
         setLoading(false);
       }
     });
-  }, [refresh]);
+  }, [refresh, currentPage, pageSize]);
 
   useEffect(() => {
     getCategories().then((res) => {
@@ -67,12 +111,6 @@ const AllProducts = () => {
       }
     });
 
-    getGenders().then((res) => {
-      if (res?.status === 200) {
-        setgenders(res?.data?.data);
-      }
-    });
-
     getBrends().then((res) => {
       if (res?.status === 200) {
         setbrends(res?.data?.data);
@@ -84,6 +122,12 @@ const AllProducts = () => {
         setdisCount(res?.data?.data);
       }
     });
+
+    getColor().then((res) => {
+      if (res?.status === 200) {
+        setcolors(res?.data?.data);
+      }
+    });
   }, []);
 
   useEffect(() => {
@@ -91,13 +135,6 @@ const AllProducts = () => {
       getSizes(categoryId).then((res) => {
         if (res?.status === 200) {
           setsises(res?.data?.data);
-          // if (sizeId !== null) {
-          //   if (res?.data?.data?.filter((i) => i.id == sizeId)?.length !== 1) {
-          //     form.setFieldsValue({
-          //       sizeId: null,
-          //     });
-          //   }
-          // }
         }
       });
     }
@@ -108,22 +145,20 @@ const AllProducts = () => {
       <div className="row py-3">
         <div className="col-md-3 d-none-md">
           <h6 className="ms-3">SHOES</h6>
-          <Collapse onChange={callback} ghost expandIconPosition="right">
+          <Collapse onChange={categoryChange} ghost expandIconPosition="right">
             {categories?.map((item, index) => (
-              <Panel header={item?.name} key={index + 1} className="p-0">
+              <Panel header={item?.name} key={item?.id} className="p-0">
                 <ul className="collapse_list ps-1">
-                  <li>
-                    <Link to="/">dasdasd</Link>
-                  </li>
-                  <li>
-                    <Link to="/">dasdasd</Link>
-                  </li>
-                  <li>
-                    <Link to="/">dasdasd</Link>
-                  </li>
-                  <li>
-                    <Link to="/">dasdasd</Link>
-                  </li>
+                  {item?.children &&
+                    item?.children?.map((i, index) => (
+                      <li
+                        key={index}
+                        className="pointer"
+                        onClick={() => categoryChildchange(item.id, i?.id)}
+                      >
+                        {i?.name}
+                      </li>
+                    ))}
                 </ul>
               </Panel>
             ))}
@@ -131,48 +166,86 @@ const AllProducts = () => {
         </div>
         <div className="col-md-9">
           <div className="d-none-md mb-4">
-            {/* <FilterDropdown name='Kategoriyalar' data={categories} setCheckedList={setCheckedList} setRefresh={setRefresh} refresh={refresh} /> */}
             <FilterDropdown
               name="Brend"
+              type="brend"
               data={brends}
               setCheckedList={setCheckedList}
               checkedList={checkedList}
               setRefresh={setRefresh}
               refresh={refresh}
+              isMobile={false}
             />
             <FilterDropdown
               name="Chegirma"
+              type="discount"
               data={disCount}
               setCheckedList={setCheckedList}
               checkedList={checkedList}
               setRefresh={setRefresh}
               refresh={refresh}
+              isMobile={false}
             />
             <FilterDropdown
               name="Fasl"
+              type="season"
               data={seasons}
               setCheckedList={setCheckedList}
               checkedList={checkedList}
               setRefresh={setRefresh}
               refresh={refresh}
+              isMobile={false}
+            />
+            <FilterDropdown
+              name="Rang"
+              type="color"
+              data={colors}
+              setCheckedList={setCheckedList}
+              checkedList={checkedList}
+              setRefresh={setRefresh}
+              refresh={refresh}
+              isMobile={false}
             />
             <FilterDropdown
               name="O'lcham"
+              type="size"
               data={sises}
               setCheckedList={setCheckedList}
               checkedList={checkedList}
               setRefresh={setRefresh}
               refresh={refresh}
+              isMobile={false}
+            />
+            <PriceDropdown
+              name="Narxi"
+              type="price"
+              data={[]}
+              setCheckedList={setCheckedList}
+              checkedList={checkedList}
+              setRefresh={setRefresh}
+              refresh={refresh}
+              isMobile={false}
             />
           </div>
-          <div className="d-flex justify-content-end">
-            <Pagination defaultCurrent={1} total={50} />
+          <div className="pagination_wrapper">
+            {data?.length !== 0 && (
+              <Pagination
+                pageSize={pageSize}
+                current={currentPage}
+                total={total}
+                onChange={(page, pageSize) => {
+                  setcurrentPage(page);
+                  setpageSize(pageSize);
+                }}
+              />
+            )}
           </div>
           <div className="filter_icon">
-            <div className="d-flex justify-content-end">
+            <div className="d-flex justify-content-between align-items-center">
+              <p className="text-secondary text-bold m-0">{total}</p>
               <button
                 onClick={() => setIsModalVisible(true)}
-                className="filter-button mt-2"
+                className="filter-button mt-0"
               >
                 Filter <RiArrowUpDownFill />
               </button>
@@ -180,16 +253,15 @@ const AllProducts = () => {
           </div>
           <Spin spinning={loading}>
             <div className="row mt-3" style={{ minHeight: "45vh" }}>
+              {data?.length === 0 && <Empty description="Ma'lumot topilmadi" />}
               {data?.map((item, index) => (
                 <div key={index} className="col-lg-4 col-sm-6 mb-4">
                   <Link to={`/product/${item.id}`}>
                     <Card className="card-filtered-item text-dark">
                       <CardBody className="p-0 pb-2">
                         <img
-                          // onMouseOver={() => {setimage_number({num:1, id:index}); console.log("hover")}}
-                          // onMouseLeave={() => {setimage_number({num:0, id:index}); console.log("hover")}}
                           className="w-100"
-                          src={PATH_API_FILE + item?.photos[image_number.id === index ? image_number.num : 0]}
+                          src={PATH_API_FILE + item?.photos[0]}
                           alt=""
                         />
                         <p className="comp-name text-center m-0">
@@ -198,13 +270,25 @@ const AllProducts = () => {
                         <p className="comp-model text-center m-0">
                           {item?.name}
                         </p>
-                        <p className="comp-sale text-center m-0">
-                          <span className="through">200</span>{" "}
-                          <span className="text-danger ms-2">-20%</span>
-                        </p>
-                        <p className="comp-price text-center m-0 text-danger">
-                          {item?.salePrice}
-                        </p>
+                        {item?.discount ? (
+                          <>
+                            <p className="comp-sale text-center m-0">
+                              <span className="through">{item?.salePrice}</span>{" "}
+                              <span className="text-danger ms-2">
+                                -{item?.discount?.percent}%
+                              </span>
+                            </p>
+                            <p className="comp-price text-center m-0 text-danger">
+                              {item?.salePrice -
+                                item?.salePrice *
+                                  (item?.discount?.percent / 100).toFixed(2)}
+                            </p>
+                          </>
+                        ) : (
+                          <p className="comp-price text-center m-0 text-danger mb-4">
+                            {item?.salePrice}
+                          </p>
+                        )}
                       </CardBody>
                     </Card>
                   </Link>
@@ -234,8 +318,90 @@ const AllProducts = () => {
             </button>,
           ]}
         >
-          <FilterDropdown />
-          <Slider range defaultValue={[20, 50]} />
+          <Collapse
+            onChange={categoryChange}
+            bordered={false}
+            expandIconPosition="right"
+          >
+            {categories?.map((item, index) => (
+              <Panel header={item?.name} key={item?.id} className="p-0">
+                <ul className="collapse_list ps-1">
+                  {item?.children &&
+                    item?.children?.map((i, index) => (
+                      <li
+                        key={index}
+                        className="pointer"
+                        onClick={() => categoryChildchange(item.id, i?.id)}
+                      >
+                        {i?.name}
+                      </li>
+                    ))}
+                </ul>
+              </Panel>
+            ))}
+          </Collapse>
+          <div className="my-5">
+            <FilterDropdown
+              name="Brend"
+              type="brend"
+              data={brends}
+              setCheckedList={setCheckedList}
+              checkedList={checkedList}
+              setRefresh={setRefresh}
+              refresh={refresh}
+              isMobile={true}
+            />
+            <FilterDropdown
+              name="Chegirma"
+              type="discount"
+              data={disCount}
+              setCheckedList={setCheckedList}
+              checkedList={checkedList}
+              setRefresh={setRefresh}
+              refresh={refresh}
+              isMobile={true}
+            />
+            <FilterDropdown
+              name="Fasl"
+              type="season"
+              data={seasons}
+              setCheckedList={setCheckedList}
+              checkedList={checkedList}
+              setRefresh={setRefresh}
+              refresh={refresh}
+              isMobile={true}
+            />
+            <FilterDropdown
+              name="Rang"
+              type="color"
+              data={colors}
+              setCheckedList={setCheckedList}
+              checkedList={checkedList}
+              setRefresh={setRefresh}
+              refresh={refresh}
+              isMobile={true}
+            />
+            <FilterDropdown
+              name="O'lcham"
+              type="size"
+              data={sises}
+              setCheckedList={setCheckedList}
+              checkedList={checkedList}
+              setRefresh={setRefresh}
+              refresh={refresh}
+              isMobile={true}
+            />
+            <PriceDropdown
+              name="Narxi"
+              type="price"
+              data={[]}
+              setCheckedList={setCheckedList}
+              checkedList={checkedList}
+              setRefresh={setRefresh}
+              refresh={refresh}
+              isMobile={true}
+            />
+          </div>
         </Modal>
       </div>
     </div>

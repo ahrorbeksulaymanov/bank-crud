@@ -1,11 +1,29 @@
 import { Form, Input, message, Modal } from "antd";
+import axios from "axios";
 import React, { useState } from "react";
 import InputMask from "react-input-mask";
+import { PATH_API } from "../../constants";
 
-const SubmitData = ({isModalVisible, setIsModalVisible}) => {
-//   const [isModalVisible, setIsModalVisible] = useState(false);
+const SubmitData = ({isModalVisible, setIsModalVisible, id}) => {
+const [count, setcount] = useState(1);
+const [form] = Form.useForm();
   const onFinish = (values) => {
     console.log("Success:", values);
+    values.confirm = 0;
+    values.productId = id;
+    values.count = count;
+    axios({
+      url: PATH_API + `/order`,
+      method: "POST",
+      data:values,
+    }).then((res) => {
+      if (res?.status === 200) {
+        console.log("eeeeeee",res);
+        setIsModalVisible(false)
+        message.success("So'rovingiz jonatildi!");
+        form.setFieldsValue({});
+      }
+    });
   };
   return (
     <div>
@@ -21,11 +39,12 @@ const SubmitData = ({isModalVisible, setIsModalVisible}) => {
           initialValues={{ remember: true }}
           onFinish={onFinish}
           autoComplete="off"
+          form={form}
           layout="vertical"
         >
           <Form.Item
-            label="Ismingiz"
-            name="name"
+            label="To'liq ismingiz"
+            name="fullName"
             rules={[
               { required: true, message: "Iltimos ismingizni kiriting!" },
             ]}
@@ -35,7 +54,7 @@ const SubmitData = ({isModalVisible, setIsModalVisible}) => {
 
           <Form.Item
             label="Telefon raqamingiz"
-            name="number"
+            name="phoneNumber"
             rules={[
               {
                 required: true,
@@ -50,9 +69,11 @@ const SubmitData = ({isModalVisible, setIsModalVisible}) => {
               placeholder="Raqam..."
             />
           </Form.Item>
-
+            <div onClick={() => {count > 1 && setcount(count-1)}} className="btn btn-light">-</div>
+            <span className="mx-3">{count}</span>
+            <div onClick={() => setcount(count+1)} className="btn btn-light">+</div>
           <Form.Item
-            name="text"
+            name="description"
             label="Xabar"
             rules={[{ required: false, message: "" }]}
           >
@@ -69,10 +90,6 @@ const SubmitData = ({isModalVisible, setIsModalVisible}) => {
               className="offer-button-modal"
               type="primary"
               htmlType="submit"
-              onClick={() => {
-                setIsModalVisible(false);
-                message.success("So'rovingiz jonatildi!");
-              }}
             >
               Jonatish
             </button>

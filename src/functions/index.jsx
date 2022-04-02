@@ -66,3 +66,14 @@ export const getDiscount = async () => {
       },
     });
   };
+
+  export const getColor = async () => {
+    const token = localStorage.getItem("token");
+    return await axios({
+      url: PATH_API + "/color",
+      method: "get",
+      headers: {
+        Authorization: "Bearer " + token,
+      },
+    });
+  };

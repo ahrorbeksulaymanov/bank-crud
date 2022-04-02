@@ -22,10 +22,8 @@ const FilterDropdown = ({
         discountId: checkedList.discountId,
         seasonId: checkedList.seasonId,
         sizeId: checkedList.sizeId,
-        genderId: checkedList.genderId,
         categiryId: checkedList.categiryId,
         colorId: checkedList.colorId,
-        salePriceIn: checkedList.salePriceIn,
       });
     }else if(type === "discount"){
       setCheckedList({
@@ -33,10 +31,8 @@ const FilterDropdown = ({
         discountId: e,
         seasonId: checkedList.seasonId,
         sizeId: checkedList.sizeId,
-        genderId: checkedList.genderId,
         categiryId: checkedList.categiryId,
         colorId: checkedList.colorId,
-        salePriceIn: checkedList.salePriceIn,
       });
     } else if(type === "season"){
       setCheckedList({
@@ -44,10 +40,8 @@ const FilterDropdown = ({
         discountId: checkedList.discountId,
         seasonId: e,
         sizeId: checkedList.sizeId,
-        genderId: checkedList.genderId,
         categiryId: checkedList.categiryId,
         colorId: checkedList.colorId,
-        salePriceIn: checkedList.salePriceIn,
       });
     }else if(type === "size"){
       setCheckedList({
@@ -55,10 +49,8 @@ const FilterDropdown = ({
         discountId: checkedList.discountId,
         seasonId: checkedList.seasonId,
         sizeId: e,
-        genderId: checkedList.genderId,
         categiryId: checkedList.categiryId,
         colorId: checkedList.colorId,
-        salePriceIn: checkedList.salePriceIn,
       });
     }else if(type === "color"){
       setCheckedList({
@@ -66,10 +58,8 @@ const FilterDropdown = ({
         discountId: checkedList.discountId,
         seasonId: checkedList.seasonId,
         sizeId: checkedList.sizeId,
-        genderId: checkedList.genderId,
         categiryId: checkedList.categiryId,
         colorId: e,
-        salePriceIn: checkedList.salePriceIn,
       });
     }
   };

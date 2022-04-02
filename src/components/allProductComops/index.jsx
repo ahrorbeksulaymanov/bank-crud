@@ -16,6 +16,7 @@ import {
   getSizes,
 } from "../../functions";
 import PriceDropdown from "./priceDropdown";
+import { useSelector } from "react-redux";
 const { Panel } = Collapse;
 
 const AllProducts = () => {
@@ -33,44 +34,30 @@ const AllProducts = () => {
   const [disCount, setdisCount] = useState([]);
   const [colors, setcolors] = useState([]);
   const [categoryId, setcategoryId] = useState(null);
-  const [categoryChildId, setcategoryChildId] = useState([]);
   const [checkedList, setCheckedList] = useState({
     brandId: [],
     discountId: [],
     seasonId: [],
     sizeId: [],
-    genderId: [localStorage.getItem("genderId")],
-    categiryId: [],
+    categoryId: [],
     colorId: [],
-    salePriceIn: [],
   });
 
   function categoryChange(key) {
-    if (checkedList.categiryId.includes(String(2))) {
-    }
+    setcategoryId(key)
     setCheckedList({
       brandId: checkedList.brandId,
       discountId: checkedList.discountId,
       seasonId: checkedList.seasonId,
       sizeId: checkedList.sizeId,
-      genderId: checkedList.genderId,
-      categiryId: [...key, ...categoryChildId],
+      categoryId: [key],
       colorId: checkedList.colorId,
-      salePriceIn: checkedList.salePriceIn,
     });
+    setRefresh(!refresh)
   }
+  const searchVal = useSelector((state) => state?.product);
 
-  const categoryChildchange = (parentId, childId) => {
-    if (checkedList.categiryId.includes(String(parentId))) {
-    }
-    // setcategoryChildId([...categoryChildId, childId]);
-    console.log(
-      checkedList.categiryId.includes(String(parentId)),
-      checkedList.categiryId,
-      parentId,
-      childId
-    );
-  };
+  console.log("searchVal=>", searchVal);
 
   useEffect(() => {
     setLoading(true);
@@ -78,7 +65,8 @@ const AllProducts = () => {
     Object.keys(checkedList).map((key, index) => {
       json[key] = String(checkedList[key]);
     });
-
+    json.search = String(searchVal?.search_val);
+    json.genderId = String(searchVal?.gender_val);
     axios({
       url:
         PATH_API +
@@ -96,7 +84,7 @@ const AllProducts = () => {
         setLoading(false);
       }
     });
-  }, [refresh, currentPage, pageSize]);
+  }, [refresh, currentPage, pageSize, searchVal]);
 
   useEffect(() => {
     getCategories().then((res) => {
@@ -145,22 +133,22 @@ const AllProducts = () => {
       <div className="row py-3">
         <div className="col-md-3 d-none-md">
           <h6 className="ms-3">SHOES</h6>
-          <Collapse onChange={categoryChange} ghost expandIconPosition="right">
+          <Collapse ghost expandIconPosition="right">
             {categories?.map((item, index) => (
-              <Panel header={item?.name} key={item?.id} className="p-0">
-                <ul className="collapse_list ps-1">
-                  {item?.children &&
-                    item?.children?.map((i, index) => (
-                      <li
-                        key={index}
-                        className="pointer"
-                        onClick={() => categoryChildchange(item.id, i?.id)}
-                      >
-                        {i?.name}
-                      </li>
-                    ))}
-                </ul>
-              </Panel>
+              item?.children?.length > 0 ? <Panel header={item?.name} key={item?.id} className="p-0">
+              <ul className="collapse_list ps-1">
+                {item?.children &&
+                  item?.children?.map((i, index) => (
+                    <li
+                      key={index}
+                      className={`pointer ${checkedList.categoryId?.includes(i?.id) && 'fw-bold'}`}
+                      onClick={() => categoryChange(i?.id)}
+                    >
+                      {i?.name}
+                    </li>
+                  ))}
+              </ul>
+            </Panel>:<p style={{marginLeft:"16px"}} onClick={() => categoryChange(item?.id)} className={`pointer ${checkedList.categoryId?.includes(item?.id) && 'fw-bold'}`}>{item?.name}</p>
             ))}
           </Collapse>
         </div>
@@ -324,20 +312,20 @@ const AllProducts = () => {
             expandIconPosition="right"
           >
             {categories?.map((item, index) => (
-              <Panel header={item?.name} key={item?.id} className="p-0">
-                <ul className="collapse_list ps-1">
-                  {item?.children &&
-                    item?.children?.map((i, index) => (
-                      <li
-                        key={index}
-                        className="pointer"
-                        onClick={() => categoryChildchange(item.id, i?.id)}
-                      >
-                        {i?.name}
-                      </li>
-                    ))}
-                </ul>
-              </Panel>
+              item?.children?.length > 0 ? <Panel header={item?.name} key={item?.id} className="p-0">
+              <ul className="collapse_list ps-1">
+                {item?.children &&
+                  item?.children?.map((i, index) => (
+                    <li
+                      key={index}
+                      className={`pointer ${checkedList.categoryId?.includes(i?.id) && 'fw-bold'}`}
+                      onClick={() => categoryChange(i?.id)}
+                    >
+                      {i?.name}
+                    </li>
+                  ))}
+              </ul>
+            </Panel>:<p style={{marginLeft:"16px"}} onClick={() => categoryChange(item?.id)} className={`pointer ${checkedList.categoryId?.includes(item?.id) && 'fw-bold'}`}>{item?.name}</p>
             ))}
           </Collapse>
           <div className="my-5">

@@ -24,10 +24,10 @@ const [priceto, setpriceto] = useState("")
         discountId: checkedList.discountId,
         seasonId: checkedList.seasonId,
         sizeId: checkedList.sizeId,
-        genderId: checkedList.genderId,
         categiryId: checkedList.categiryId,
         colorId: checkedList.colorId,
-        salePriceIn: [pricefrom, priceto],
+        saleFrom: pricefrom,
+        saleTo: priceto,
       });
       setRefresh(!refresh)
     }

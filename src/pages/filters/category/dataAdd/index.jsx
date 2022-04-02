@@ -31,7 +31,6 @@ const AddCategory = () => {
         form.setFieldsValue({
           name: res?.data?.data?.name,
           description: res?.data?.data?.description,
-          genderId: res?.data?.data?.genderId,
           seasonId: res?.data?.data?.seasonId,
           parentId: res?.data?.data?.parent,
         });

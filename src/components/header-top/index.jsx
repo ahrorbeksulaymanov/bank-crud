@@ -4,12 +4,20 @@ import { Radio } from "antd";
 import { Input } from "antd";
 import { getGenders } from "../../functions";
 import { useLocation } from "react-router-dom";
+import { useDispatch } from "react-redux"
+import { GENDER_VAL, SEARCH_VAL } from "../../redux/actions";
 const { Search } = Input;
 
 const HeaderTop = () => {
   const [genders, setgenders] = useState([])
-  const [genderId, setgenderId] = useState(null)
-  const onSearch = (value) => console.log(value);
+  const [genderId, setgenderId] = useState('')
+  const [search, setsearch] = useState('')
+  const dispatch = useDispatch()
+  
+  const onSearch = (value) => {
+    setsearch(value)
+    dispatch({ type: SEARCH_VAL, data: {search_val: value, gender_val: genderId} })
+  }
 
   const location = useLocation();
 
@@ -17,14 +25,13 @@ const HeaderTop = () => {
     getGenders().then((res) => {
       if (res?.status === 200) {
         setgenders(res?.data?.data);
-        localStorage.setItem("genderId", res?.data?.data[0]?.id)
       }
     });
   }, [])
 
   const changeGender = (id) => {
-    localStorage.setItem("genderId", id);
     setgenderId(id)
+    dispatch({ type: GENDER_VAL, data: {search_val: search, gender_val: id} })
   }
   return (
     <div>

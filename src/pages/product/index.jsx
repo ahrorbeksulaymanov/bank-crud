@@ -27,7 +27,7 @@ const ProductList = () => {
     setLoading(true);
     const token = localStorage.getItem("token");
     axios({
-      url: PATH_API + `/product`,
+      url: PATH_API + `/product?order=updated_at~asc`,
       method: "GET",
       params: {
         pageSize: pageSize,

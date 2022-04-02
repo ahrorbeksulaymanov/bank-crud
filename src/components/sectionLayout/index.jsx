@@ -5,6 +5,7 @@ import NavbarHorizontal from "../navbar-horizontal";
 import NavbarMobile from "../navbar-horizontal/navbar-mobile";
 
 const SectionLayout = ({ children }) => {
+  
   return (
     <>
       <div>

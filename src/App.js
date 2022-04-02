@@ -1,7 +1,6 @@
 import "./App.css";
 import "bootstrap/dist/css/bootstrap.min.css";
 import "antd/dist/antd.css";
-import "react-super-responsive-table/dist/SuperResponsiveTableStyle.css";
 import { useEffect, useState } from "react";
 import RoutesMiddleware from "./routes/reuterMiddleware";
 import axios from "axios";
@@ -10,7 +9,8 @@ import ScrollToTop from "react-scroll-to-top";
 import { IoIosArrowUp } from "react-icons/io";
 import "swiper/css/bundle";
 import MainContext from "./context";
-
+import { Provider } from 'react-redux';
+import { store } from "./redux/store";
 function App() {
   const [user, setUser] = useState({});
   
@@ -38,10 +38,12 @@ function App() {
 
   return (
     <div className="App">
+      <Provider store={store}>
       <ScrollToTop smooth component={<IoIosArrowUp className="to_tp" />} />
       <MainContext.Provider value={{ user }}>
         <RoutesMiddleware />
       </MainContext.Provider>
+      </Provider>
     </div>
   );
 }

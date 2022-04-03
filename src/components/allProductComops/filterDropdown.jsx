@@ -13,7 +13,7 @@ const FilterDropdown = ({
   refresh,
   isMobile
 }) => {
-  const options = data?.map((i) => ({ label: (i?.name) ? (i?.name) : (i.percent + "%"), value: i.id }));
+  const options = data?.map((i) => ({ label: (i?.percent) ? (i?.percent + "%") : (i.name), value: i.id }));
 
   const filterData = (e) => {
     if (type === "brend") {
@@ -71,6 +71,7 @@ const changeData = () => {
       <Checkbox.Group
         options={options}
         onChange={(e) => filterData(e)}
+        className='w-100'
       />
       {
         !isMobile && <button onClick={() => changeData()}>Filterlash</button>

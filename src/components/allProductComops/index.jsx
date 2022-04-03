@@ -17,6 +17,7 @@ import {
 } from "../../functions";
 import PriceDropdown from "./priceDropdown";
 import { useSelector } from "react-redux";
+import InfiniteScroll from "react-infinite-scroll-component";
 const { Panel } = Collapse;
 
 const AllProducts = () => {
@@ -34,6 +35,7 @@ const AllProducts = () => {
   const [disCount, setdisCount] = useState([]);
   const [colors, setcolors] = useState([]);
   const [categoryId, setcategoryId] = useState(null);
+  const [width, setWidth] = useState(0);
   const [checkedList, setCheckedList] = useState({
     brandId: [],
     discountId: [],
@@ -44,7 +46,7 @@ const AllProducts = () => {
   });
 
   function categoryChange(key) {
-    setcategoryId(key)
+    setcategoryId(key);
     setCheckedList({
       brandId: checkedList.brandId,
       discountId: checkedList.discountId,
@@ -53,11 +55,9 @@ const AllProducts = () => {
       categoryId: [key],
       colorId: checkedList.colorId,
     });
-    setRefresh(!refresh)
+    setRefresh(!refresh);
   }
   const searchVal = useSelector((state) => state?.product);
-
-  console.log("searchVal=>", searchVal);
 
   useEffect(() => {
     setLoading(true);
@@ -70,7 +70,10 @@ const AllProducts = () => {
     axios({
       url:
         PATH_API +
-        `/product?expand=discount&filter=${JSON.stringify(json).slice(1, -1)}`,
+        `/product?expand=discount&filter=${JSON.stringify(json).slice(
+          1,
+          -1
+        )}&order=updated_at~desc`,
       method: "GET",
       params: {
         pageSize: pageSize,
@@ -128,28 +131,60 @@ const AllProducts = () => {
     }
   }, [categoryId]);
 
+  const handleResize = () => setWidth(window.innerWidth);
+
+  useEffect(() => {
+    handleResize();
+  }, []);
+
+  useEffect(() => {
+    window.addEventListener("resize", handleResize);
+    return () => window.removeEventListener("resize", handleResize);
+  }, [handleResize]);
+
+  console.log(width);
+  const fetchMoreData = (e) => {
+    if(width < 768) {
+      setpageSize(pageSize + 10);
+    }
+  };
+
   return (
     <div className="all_products">
       <div className="row py-3">
         <div className="col-md-3 d-none-md">
           <h6 className="ms-3">SHOES</h6>
           <Collapse ghost expandIconPosition="right">
-            {categories?.map((item, index) => (
-              item?.children?.length > 0 ? <Panel header={item?.name} key={item?.id} className="p-0">
-              <ul className="collapse_list ps-1">
-                {item?.children &&
-                  item?.children?.map((i, index) => (
-                    <li
-                      key={index}
-                      className={`pointer ${checkedList.categoryId?.includes(i?.id) && 'fw-bold'}`}
-                      onClick={() => categoryChange(i?.id)}
-                    >
-                      {i?.name}
-                    </li>
-                  ))}
-              </ul>
-            </Panel>:<p style={{marginLeft:"16px"}} onClick={() => categoryChange(item?.id)} className={`pointer ${checkedList.categoryId?.includes(item?.id) && 'fw-bold'}`}>{item?.name}</p>
-            ))}
+            {categories?.map((item, index) =>
+              item?.children?.length > 0 ? (
+                <Panel header={item?.name} key={item?.id} className="p-0">
+                  <ul className="collapse_list ps-1">
+                    {item?.children &&
+                      item?.children?.map((i, index) => (
+                        <li
+                          key={index}
+                          className={`pointer ${
+                            checkedList.categoryId?.includes(i?.id) && "fw-bold"
+                          }`}
+                          onClick={() => categoryChange(i?.id)}
+                        >
+                          {i?.name}
+                        </li>
+                      ))}
+                  </ul>
+                </Panel>
+              ) : (
+                <p
+                  style={{ marginLeft: "16px" }}
+                  onClick={() => categoryChange(item?.id)}
+                  className={`pointer ${
+                    checkedList.categoryId?.includes(item?.id) && "fw-bold"
+                  }`}
+                >
+                  {item?.name}
+                </p>
+              )
+            )}
           </Collapse>
         </div>
         <div className="col-md-9">
@@ -194,16 +229,18 @@ const AllProducts = () => {
               refresh={refresh}
               isMobile={false}
             />
-            <FilterDropdown
-              name="O'lcham"
-              type="size"
-              data={sises}
-              setCheckedList={setCheckedList}
-              checkedList={checkedList}
-              setRefresh={setRefresh}
-              refresh={refresh}
-              isMobile={false}
-            />
+            {categoryId && (
+              <FilterDropdown
+                name="O'lcham"
+                type="size"
+                data={sises}
+                setCheckedList={setCheckedList}
+                checkedList={checkedList}
+                setRefresh={setRefresh}
+                refresh={refresh}
+                isMobile={false}
+              />
+            )}
             <PriceDropdown
               name="Narxi"
               type="price"
@@ -240,49 +277,62 @@ const AllProducts = () => {
             </div>
           </div>
           <Spin spinning={loading}>
-            <div className="row mt-3" style={{ minHeight: "45vh" }}>
-              {data?.length === 0 && <Empty description="Ma'lumot topilmadi" />}
-              {data?.map((item, index) => (
-                <div key={index} className="col-lg-4 col-sm-6 mb-4">
-                  <Link to={`/product/${item.id}`}>
-                    <Card className="card-filtered-item text-dark">
-                      <CardBody className="p-0 pb-2">
-                        <img
-                          className="w-100"
-                          src={PATH_API_FILE + item?.photos[0]}
-                          alt=""
-                        />
-                        <p className="comp-name text-center m-0">
-                          {item?.brand?.brnadName}
-                        </p>
-                        <p className="comp-model text-center m-0">
-                          {item?.name}
-                        </p>
-                        {item?.discount ? (
-                          <>
-                            <p className="comp-sale text-center m-0">
-                              <span className="through">{item?.salePrice}</span>{" "}
-                              <span className="text-danger ms-2">
-                                -{item?.discount?.percent}%
-                              </span>
-                            </p>
-                            <p className="comp-price text-center m-0 text-danger">
-                              {item?.salePrice -
-                                item?.salePrice *
-                                  (item?.discount?.percent / 100).toFixed(2)}
-                            </p>
-                          </>
-                        ) : (
-                          <p className="comp-price text-center m-0 text-danger mb-4">
-                            {item?.salePrice}
+            <InfiniteScroll
+              dataLength={data?.length}
+              next={fetchMoreData}
+              hasMore={true}
+              style={{overflowX:"hidden"}}
+            >
+              <div className="row mt-3" style={{ minHeight: "45vh" }}>
+                {data?.length === 0 && (
+                  <Empty description="Ma'lumot topilmadi" />
+                )}
+                {data?.map((item, index) => (
+                  <div key={index} className="col-lg-4 col-sm-6 mb-4">
+                    <Link to={`/product/${item.id}`}>
+                      <Card className="card-filtered-item text-dark">
+                        <CardBody className="p-0 pb-2">
+                          <img
+                            className="w-100"
+                            src={PATH_API_FILE + item?.photos[0]}
+                            alt=""
+                          />
+                          <p className="comp-name text-center m-0">
+                            {item?.brand?.brnadName}
                           </p>
-                        )}
-                      </CardBody>
-                    </Card>
-                  </Link>
-                </div>
-              ))}
-            </div>
+                          <p className="comp-model text-center m-0">
+                            {item?.name}
+                          </p>
+                          {item?.discount ? (
+                            <>
+                              <p className="comp-sale text-center m-0">
+                                <span className="through">
+                                  {item?.salePrice}
+                                </span>{" "}
+                                <span className="text-danger ms-2">
+                                  -{item?.discount?.percent}%
+                                </span>
+                              </p>
+                              <p className="comp-price text-center m-0 text-danger">
+                                {(
+                                  item?.salePrice -
+                                  item?.salePrice *
+                                    (item?.discount?.percent / 100)
+                                ).toFixed(2)}
+                              </p>
+                            </>
+                          ) : (
+                            <p className="comp-price text-center m-0 text-danger mb-4">
+                              {item?.salePrice}
+                            </p>
+                          )}
+                        </CardBody>
+                      </Card>
+                    </Link>
+                  </div>
+                ))}
+              </div>
+            </InfiniteScroll>
           </Spin>
         </div>
       </div>
@@ -290,7 +340,6 @@ const AllProducts = () => {
         <Modal
           title="Filter"
           visible={isModalVisible}
-          onOk={() => setIsModalVisible(false)}
           onCancel={() => setIsModalVisible(false)}
           footer={[
             <button
@@ -300,6 +349,10 @@ const AllProducts = () => {
                 color: "#fff",
                 border: "0",
                 fontSize: "17px",
+              }}
+              onClick={() => {
+                setRefresh(!refresh);
+                setIsModalVisible(false);
               }}
             >
               Qidirish
@@ -311,22 +364,36 @@ const AllProducts = () => {
             bordered={false}
             expandIconPosition="right"
           >
-            {categories?.map((item, index) => (
-              item?.children?.length > 0 ? <Panel header={item?.name} key={item?.id} className="p-0">
-              <ul className="collapse_list ps-1">
-                {item?.children &&
-                  item?.children?.map((i, index) => (
-                    <li
-                      key={index}
-                      className={`pointer ${checkedList.categoryId?.includes(i?.id) && 'fw-bold'}`}
-                      onClick={() => categoryChange(i?.id)}
-                    >
-                      {i?.name}
-                    </li>
-                  ))}
-              </ul>
-            </Panel>:<p style={{marginLeft:"16px"}} onClick={() => categoryChange(item?.id)} className={`pointer ${checkedList.categoryId?.includes(item?.id) && 'fw-bold'}`}>{item?.name}</p>
-            ))}
+            {categories?.map((item, index) =>
+              item?.children?.length > 0 ? (
+                <Panel header={item?.name} key={item?.id} className="p-0">
+                  <ul className="collapse_list ps-1">
+                    {item?.children &&
+                      item?.children?.map((i, index) => (
+                        <li
+                          key={index}
+                          className={`pointer ${
+                            checkedList.categoryId?.includes(i?.id) && "fw-bold"
+                          }`}
+                          onClick={() => categoryChange(i?.id)}
+                        >
+                          {i?.name}
+                        </li>
+                      ))}
+                  </ul>
+                </Panel>
+              ) : (
+                <p
+                  style={{ marginLeft: "16px" }}
+                  onClick={() => categoryChange(item?.id)}
+                  className={`pointer ${
+                    checkedList.categoryId?.includes(item?.id) && "fw-bold"
+                  }`}
+                >
+                  {item?.name}
+                </p>
+              )
+            )}
           </Collapse>
           <div className="my-5">
             <FilterDropdown

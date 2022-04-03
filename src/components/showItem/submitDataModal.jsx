@@ -8,7 +8,6 @@ const SubmitData = ({isModalVisible, setIsModalVisible, id}) => {
 const [count, setcount] = useState(1);
 const [form] = Form.useForm();
   const onFinish = (values) => {
-    console.log("Success:", values);
     values.confirm = 0;
     values.productId = id;
     values.count = count;
@@ -18,7 +17,6 @@ const [form] = Form.useForm();
       data:values,
     }).then((res) => {
       if (res?.status === 200) {
-        console.log("eeeeeee",res);
         setIsModalVisible(false)
         message.success("So'rovingiz jonatildi!");
         form.setFieldsValue({});

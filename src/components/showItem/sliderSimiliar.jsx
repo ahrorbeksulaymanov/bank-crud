@@ -3,10 +3,11 @@ import { Swiper, SwiperSlide } from "swiper/react";
 import "swiper/css";
 import "swiper/css/pagination";
 import SwiperCore, { Pagination, Autoplay } from "swiper";
-import product2 from "../../assets/images/product2.jpg";
+import { PATH_API_FILE } from "../../constants";
+import { Link } from "react-router-dom";
 
 SwiperCore.use([Pagination, Autoplay]);
-const SliderSimiliar = () => {
+const SliderSimiliar = ({data, setrefresh, refresh}) => {
   const [width, setWidth] = useState(0);
   const [slideItem, setslideItem] = useState(4);
 
@@ -50,33 +51,13 @@ const SliderSimiliar = () => {
         loop={true}
         spaceBetween={30}
       >
-        <SwiperSlide>
-            <img src={product2} className='w-100' alt="" />
+        {data?.map((item, index) => (
+        <SwiperSlide key={index}>
+          <Link to={`/product/${item?.id}`}>
+            <img onClick={() => setrefresh(!refresh)} src={PATH_API_FILE + item?.photos[0]} className='w-100 similiar_img' alt="" />
+          </Link>
         </SwiperSlide>
-        <SwiperSlide>
-            <img src={product2} className='w-100' alt="" />
-        </SwiperSlide>
-        <SwiperSlide>
-            <img src={product2} className='w-100' alt="" />
-        </SwiperSlide>
-        <SwiperSlide>
-            <img src={product2} className='w-100' alt="" />
-        </SwiperSlide>
-        <SwiperSlide>
-            <img src={product2} className='w-100' alt="" />
-        </SwiperSlide>
-        <SwiperSlide>
-            <img src={product2} className='w-100' alt="" />
-        </SwiperSlide>
-        <SwiperSlide>
-            <img src={product2} className='w-100' alt="" />
-        </SwiperSlide>
-        <SwiperSlide>
-            <img src={product2} className='w-100' alt="" />
-        </SwiperSlide>
-        <SwiperSlide>
-            <img src={product2} className='w-100' alt="" />
-        </SwiperSlide>
+        ))}
       </Swiper>
     </div>
   );

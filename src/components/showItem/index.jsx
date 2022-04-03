@@ -1,5 +1,4 @@
 import React, { useState, useEffect } from "react";
-import product2 from "../../assets/images/product2.jpg";
 import { IoIosArrowBack } from "react-icons/io";
 import "./style.scss";
 import { Select, Collapse } from "antd";
@@ -17,11 +16,16 @@ const ItemShow = () => {
   const [isModalVisible, setIsModalVisible] = useState(false);
   const [data, setData] = useState([]);
   const [features, setfeatures] = useState([]);
+  const [similiarData, setsimiliarData] = useState([]);
+  const [images, setimages] = useState([]);
+  const [categoryId, setcategoryId] = useState('');
   const [loading, setLoading] = useState(true);
+  const [refresh, setrefresh] = useState(true);
   const match = useRouteMatch("/product/:id");
   const [imgIndex, setimgIndex] = useState(0);
 
   const history = useHistory()
+
   function handleChange(value) {
     console.log(`selected ${value}`);
   }
@@ -30,15 +34,20 @@ const ItemShow = () => {
     setLoading(true);
     const token = localStorage.getItem("token");
     axios({
-      url: PATH_API + `/product/${match.params.id}?expand=createdBy,updatedBy,brand,size,gender,discount,season,category`,
+      url: PATH_API + `/product/${match.params.id}?expand=brand,size,gender,discount,season,category,color`,
       method: "GET",
       headers: {
         Authorization: "Bearer " + token,
       },
     }).then((res) => {
       if (res?.status === 200) {
-        console.log("features",res?.data?.data);
+        setcategoryId(res?.data?.data?.category?.id)
         setData(res?.data?.data);
+        const imgs = [];
+        res?.data?.data?.photos?.map(i => {
+          imgs.push(PATH_API_FILE + i)
+        })
+        setimages(imgs)
         setLoading(false);
       }
     });
@@ -53,7 +62,22 @@ const ItemShow = () => {
         setfeatures(res?.data?.data)
       }
     });
-  }, []);
+  }, [refresh]);
+
+  useEffect(() => {
+    const json = {};
+    json.categoryId = String(categoryId);
+    axios({
+      url:
+        PATH_API +
+        `/product?expand=discount&filter=${JSON.stringify(json).slice(1, -1)}&order=updated_at~desc`,
+      method: "GET",
+    }).then((res) => {
+      if (res?.status === 200) {
+        setsimiliarData(res?.data?.data)
+      }
+    });
+  }, [categoryId]);
 
   return (
     <div className="show-items pt-4">
@@ -72,7 +96,7 @@ const ItemShow = () => {
             <img key={index} onClick={() => setimgIndex(index)} src={PATH_API_FILE + item} className={`w-100 mb-4 ${imgIndex === index && 'litle-img'}`} alt="" />
           ))}
         </div>
-        <ShowItemMobile />
+        <ShowItemMobile data={images} />
         <div className="col-md-4">
           <h3 className="m-0"><Link to='/company/:id' className="text-dark">{data?.brand?.brnadName}</Link></h3>
           <p className="m-0">{data?.name}</p>
@@ -94,13 +118,16 @@ const ItemShow = () => {
             <div>
               <p className="m-0 text-secondary">O'lchami</p>
               <Select
-                defaultValue="lucy"
+                allowClear
                 style={{ width: 120 }}
                 onChange={handleChange}
+                placeholder="O'lcham"
               >
-                <Option value="jack">Jack</Option>
-                <Option value="lucy">Lucy</Option>
-                <Option value="Yiminghe">yiminghe</Option>
+                {
+                  data?.size?.map((item, index) => (
+                    <Option key={index} value={item.id}>{item?.name}</Option>
+                    ))
+                }
               </Select>
             </div>
             <div></div>
@@ -112,13 +139,9 @@ const ItemShow = () => {
             Buyurtma berish
           </button>
           <p className="text-secondary">Boshqa ranglari</p>
-          <img
-            src={product2}
-            className="me-4"
-            style={{ width: "80px" }}
-            alt=""
-          />
-          <img src={product2} className="" style={{ width: "80px" }} alt="" />
+          <div className="me-2" style={{width:"30px", height:"30px", backgroundColor:"red", display:"inline-block"}}></div>
+          <div className="me-2" style={{width:"30px", height:"30px", backgroundColor:"green", display:"inline-block"}}></div>
+          <div className="me-2" style={{width:"30px", height:"30px", backgroundColor:"blue", display:"inline-block"}}></div>
           <Collapse
             bordered={false}
             style={{ backgroundColor: "transparent" }}
@@ -134,7 +157,7 @@ const ItemShow = () => {
       </div>
       <p className="mt-4 text-secondary">{data?.description}</p>
       <SubmitData isModalVisible={isModalVisible} setIsModalVisible={setIsModalVisible} id={match.params.id} />
-      <SliderSimiliar />
+      <SliderSimiliar data={similiarData} setrefresh={setrefresh} refresh={refresh} />
     </div>
   );
 };

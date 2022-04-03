@@ -29,6 +29,7 @@ import BlogsView from "../pages/blogs/blog-view";
 import OrderList from "../pages/orders";
 import ColorList from "../pages/filters/color";
 import AddColor from "../pages/filters/color/dataAdd";
+import NotFound from "../components/pageNotFound";
 
 export const all_routes = [
     {
@@ -340,5 +341,16 @@ export const all_routes = [
             showLink: true,
             structure: "layout"
         }
-    },
+    }
 ]
+
+export const not_found_page= {
+        title: "Login",
+        path: "/page-not-found",
+        component: NotFound,
+        exact: true,
+        config: {
+            showLink: false,
+            structure: "nonlayout"
+        }
+    };

@@ -7,7 +7,6 @@ import {
   BsFillTelephoneOutboundFill,
 } from "react-icons/bs";
 import { RiInstagramFill } from "react-icons/ri";
-import { Radio } from "antd";
 
 const Footer = () => {
   return (
@@ -76,13 +75,6 @@ const Footer = () => {
               +998 93 008 55 04
             </a>
           </div>
-          {/* <div className="col-md-3 col-sm-6">
-            <Radio.Group defaultValue="a" buttonStyle="outline">
-              <Radio.Button style={{backgroundColor:"transparent", color:"var(--light)"}} value="a">WOMEN</Radio.Button>
-              <Radio.Button style={{backgroundColor:"transparent", color:"var(--light)"}} value="b">MEN</Radio.Button>
-              <Radio.Button style={{backgroundColor:"transparent", color:"var(--light)"}} value="c">CHILDREN</Radio.Button>
-            </Radio.Group>
-          </div> */}
         </div>
       </div>
     </footer>

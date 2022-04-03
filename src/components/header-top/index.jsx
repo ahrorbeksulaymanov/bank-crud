@@ -22,6 +22,8 @@ const HeaderTop = () => {
   const location = useLocation();
 
   useEffect(() => {
+    dispatch({ type: SEARCH_VAL, data: {search_val: "", gender_val: ''} })
+    dispatch({ type: GENDER_VAL, data: {search_val: '', gender_val: ''} })
     getGenders().then((res) => {
       if (res?.status === 200) {
         setgenders(res?.data?.data);

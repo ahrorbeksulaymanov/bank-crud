@@ -121,7 +121,6 @@ const AddProduct = () => {
     }
   }, [categoryId]);
 
-  console.log("vvvvvvv", images);
   const updateData = (val) => {
     const formdata = new FormData();
     const oldIamges = []

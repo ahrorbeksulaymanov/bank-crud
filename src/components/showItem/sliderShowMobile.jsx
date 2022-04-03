@@ -4,8 +4,7 @@ import "swiper/css";
 import "swiper/css/pagination";
 import { Mousewheel, Pagination } from "swiper";
 import './style.scss'
-import product2 from "../../assets/images/product2.jpg";
-const ShowItemMobile = () => {
+const ShowItemMobile = ({data}) => {
   return (
     <div className="d-block-md mobile-slider">
       <Swiper
@@ -20,33 +19,13 @@ const ShowItemMobile = () => {
         modules={[Mousewheel, Pagination]}
         className="mySwiper"
       >
-        <SwiperSlide>
-            <img src={product2} className='w-100' alt="" />
-        </SwiperSlide>
-        <SwiperSlide>
-            <img src={product2} className='w-100' alt="" />
-        </SwiperSlide>
-        <SwiperSlide>
-            <img src={product2} className='w-100' alt="" />
-        </SwiperSlide>
-        <SwiperSlide>
-            <img src={product2} className='w-100' alt="" />
-        </SwiperSlide>
-        <SwiperSlide>
-            <img src={product2} className='w-100' alt="" />
-        </SwiperSlide>
-        <SwiperSlide>
-            <img src={product2} className='w-100' alt="" />
-        </SwiperSlide>
-        <SwiperSlide>
-            <img src={product2} className='w-100' alt="" />
-        </SwiperSlide>
-        <SwiperSlide>
-            <img src={product2} className='w-100' alt="" />
-        </SwiperSlide>
-        <SwiperSlide>
-            <img src={product2} className='w-100' alt="" />
-        </SwiperSlide>
+        {
+          data?.map((item, index) => (
+            <SwiperSlide key={index}>
+                <img src={item} className='w-100' alt="" />
+            </SwiperSlide>
+          ))
+        }
       </Swiper>
       
     </div>

@@ -1,7 +1,8 @@
 import React from "react";
-import { Switch} from 'react-router-dom'
+import {Redirect, Route, Switch} from 'react-router-dom'
 import { all_routes } from ".";
 import RenderComponent from "./renderRoutes";
+import NotFound from "../components/pageNotFound";
 
 const RoutesMiddleware = () => {
 
@@ -20,6 +21,8 @@ const RoutesMiddleware = () => {
                 )
             })
         }
+        <Route component={NotFound} url={"/page-not-found"}/>
+        <Redirect to={"/page-not-found"}/>
     </Switch>
   );
 };

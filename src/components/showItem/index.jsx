@@ -18,6 +18,10 @@ const ItemShow = () => {
   const [features, setfeatures] = useState([]);
   const [similiarData, setsimiliarData] = useState([]);
   const [images, setimages] = useState([]);
+  const [modalSelects, setmodalSelects] = useState({
+    colors:[],
+    sizes: []
+  });
   const [categoryId, setcategoryId] = useState('');
   const [loading, setLoading] = useState(true);
   const [refresh, setrefresh] = useState(true);
@@ -34,7 +38,7 @@ const ItemShow = () => {
     setLoading(true);
     const token = localStorage.getItem("token");
     axios({
-      url: PATH_API + `/product/${match.params.id}?expand=brand,size,gender,discount,season,category,color`,
+      url: PATH_API + `/product/${match.params.id}?expand=brand,size,gender,discount,season,category,colors`,
       method: "GET",
       headers: {
         Authorization: "Bearer " + token,
@@ -46,6 +50,10 @@ const ItemShow = () => {
         const imgs = [];
         res?.data?.data?.photos?.map(i => {
           imgs.push(PATH_API_FILE + i)
+        })
+        setmodalSelects({
+          colors:res?.data?.data?.colors,
+          sizes: res?.data?.data?.size
         })
         setimages(imgs)
         setLoading(false);
@@ -100,7 +108,7 @@ const ItemShow = () => {
         <div className="col-md-4">
           <h3 className="m-0"><Link to='/company/:id' className="text-dark">{data?.brand?.brnadName}</Link></h3>
           <p className="m-0">{data?.name}</p>
-          <p className="">Colour ellow</p>
+          {/* <p className="">Colour ellow</p> */}
           {
             data?.discount ? 
             <>
@@ -139,9 +147,11 @@ const ItemShow = () => {
             Buyurtma berish
           </button>
           <p className="text-secondary">Boshqa ranglari</p>
-          <div className="me-2" style={{width:"30px", height:"30px", backgroundColor:"red", display:"inline-block"}}></div>
-          <div className="me-2" style={{width:"30px", height:"30px", backgroundColor:"green", display:"inline-block"}}></div>
-          <div className="me-2" style={{width:"30px", height:"30px", backgroundColor:"blue", display:"inline-block"}}></div>
+          {
+            data?.colors?.map((item, index) => (
+              <div key={index} className="me-2" style={{width:"30px", height:"30px", backgroundColor:item?.colorHex, display:"inline-block"}}></div>
+            ))
+          }
           <Collapse
             bordered={false}
             style={{ backgroundColor: "transparent" }}
@@ -156,7 +166,7 @@ const ItemShow = () => {
         </div>
       </div>
       <p className="mt-4 text-secondary">{data?.description}</p>
-      <SubmitData isModalVisible={isModalVisible} setIsModalVisible={setIsModalVisible} id={match.params.id} />
+      <SubmitData isModalVisible={isModalVisible} setIsModalVisible={setIsModalVisible} id={match.params.id} modalSelects={modalSelects} />
       <SliderSimiliar data={similiarData} setrefresh={setrefresh} refresh={refresh} />
     </div>
   );

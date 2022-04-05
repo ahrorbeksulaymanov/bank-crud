@@ -6,7 +6,7 @@ import SectionLayout from "../components/sectionLayout";
 import MainContext from "../context";
 import NotFound from "../components/pageNotFound";
 
-const RenderComponent = ({component: Component, structure}) => {
+const RenderComponent = ({component: Component, structure, exact}) => {
     const {user}=useContext(MainContext);
     return (
         <Route
@@ -33,6 +33,7 @@ const RenderComponent = ({component: Component, structure}) => {
                     );
                 }
             }}
+
         />
     );
 };

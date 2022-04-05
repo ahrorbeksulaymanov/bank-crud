@@ -5,7 +5,7 @@ import axios from "axios";
 import { useRouteMatch, useHistory } from "react-router-dom";
 import { PATH_API, PATH_API_FILE } from "../../../constants";
 import PicturesWall from "./dataUpload";
-import { getBrends, getCategories, getColor, getDiscount, getGenders, getSeasons, getSizes } from "../../../functions";
+import { getBrends, getCategoriesAll, getColor, getDiscount, getGenders, getSeasons, getSizes } from "../../../functions";
 const { Option } = Select;
 
 const AddProduct = () => {
@@ -67,7 +67,7 @@ const AddProduct = () => {
   }, []);
 
   useEffect(() => {
-    getCategories().then((res) => {
+    getCategoriesAll().then((res) => {
       if (res?.status === 200) {
         setcategories(res?.data?.data);
       }
@@ -505,7 +505,7 @@ const AddProduct = () => {
                 },
               ]}
             >
-              <Input.TextArea rows={3} placeholder="Qisqacha ma'lumot" />
+              <Input.TextArea showCount maxLength={255} rows={3} placeholder="Qisqacha ma'lumot" />
             </Form.Item>
 
             <Form.Item

@@ -27,7 +27,7 @@ const AddDiscount = () => {
       }).then((res) => {
         form.setFieldsValue({
           percent: res?.data?.data?.percent,
-          expirationDate: moment((res?.data?.data?.expirationDate).slice(0, 10).format(dateFormat)),
+          expirationDate: moment(new Date(res?.data?.data?.expirationDate)),
           description: res?.data?.data?.description,
         });
         setloading(false);
@@ -129,7 +129,7 @@ const AddDiscount = () => {
               className="my-5"
               rules={[{ required: true, message: "Iltimos chegirma amal qilish muddatini kiriting!" }]}
             >
-              <DatePicker format={dateFormat} className="w-100" />
+              <DatePicker className="w-100" />
             </Form.Item>
 
             <Form.Item

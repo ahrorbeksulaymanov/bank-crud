@@ -43,6 +43,8 @@ const AllProducts = () => {
     sizeId: [],
     categoryId: [],
     colorId: [],
+    saleFrom: '',
+    saleTo: '',
   });
 
   function categoryChange(key) {
@@ -54,6 +56,8 @@ const AllProducts = () => {
       sizeId: checkedList.sizeId,
       categoryId: [key],
       colorId: checkedList.colorId,
+      saleFrom: checkedList?.saleFrom,
+      saleTo: checkedList?.saleTo,
     });
     setRefresh(!refresh);
   }
@@ -153,7 +157,7 @@ const AllProducts = () => {
     <div className="all_products">
       <div className="row py-3">
         <div className="col-md-3 d-none-md">
-          <h6 className="ms-3">SHOES</h6>
+          <h6 className="ms-3">Kategoriyalar</h6>
           <Collapse ghost expandIconPosition="right">
             {categories?.map((item, index) =>
               item?.children?.length > 0 ? (

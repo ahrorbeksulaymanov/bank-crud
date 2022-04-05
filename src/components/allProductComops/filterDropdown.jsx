@@ -11,9 +11,12 @@ const FilterDropdown = ({
   checkedList,
   setRefresh,
   refresh,
-  isMobile
+  isMobile,
 }) => {
-  const options = data?.map((i) => ({ label: (i?.percent) ? (i?.percent + "%") : (i.name), value: i.id }));
+  const options = data?.map((i) => ({
+    label: i?.percent ? i?.percent + "%" : i.name,
+    value: i.id,
+  }));
 
   const filterData = (e) => {
     if (type === "brend") {
@@ -22,61 +25,68 @@ const FilterDropdown = ({
         discountId: checkedList.discountId,
         seasonId: checkedList.seasonId,
         sizeId: checkedList.sizeId,
-        categiryId: checkedList.categiryId,
+        categoryId: checkedList.categoryId,
         colorId: checkedList.colorId,
+        saleFrom: checkedList?.saleFrom,
+        saleTo: checkedList?.saleTo,
       });
-    }else if(type === "discount"){
+    } else if (type === "discount") {
       setCheckedList({
         brandId: checkedList.brandId,
         discountId: e,
         seasonId: checkedList.seasonId,
         sizeId: checkedList.sizeId,
-        categiryId: checkedList.categiryId,
+        categoryId: checkedList.categoryId,
         colorId: checkedList.colorId,
+        saleFrom: checkedList?.saleFrom,
+        saleTo: checkedList?.saleTo,
       });
-    } else if(type === "season"){
+    } else if (type === "season") {
       setCheckedList({
         brandId: checkedList.brandId,
         discountId: checkedList.discountId,
         seasonId: e,
         sizeId: checkedList.sizeId,
-        categiryId: checkedList.categiryId,
+        categoryId: checkedList.categoryId,
         colorId: checkedList.colorId,
+        saleFrom: checkedList?.saleFrom,
+        saleTo: checkedList?.saleTo,
       });
-    }else if(type === "size"){
+    } else if (type === "size") {
       setCheckedList({
         brandId: checkedList.brandId,
         discountId: checkedList.discountId,
         seasonId: checkedList.seasonId,
         sizeId: e,
-        categiryId: checkedList.categiryId,
+        categoryId: checkedList.categoryId,
         colorId: checkedList.colorId,
+        saleFrom: checkedList?.saleFrom,
+        saleTo: checkedList?.saleTo,
       });
-    }else if(type === "color"){
+    } else if (type === "color") {
       setCheckedList({
         brandId: checkedList.brandId,
         discountId: checkedList.discountId,
         seasonId: checkedList.seasonId,
         sizeId: checkedList.sizeId,
-        categiryId: checkedList.categiryId,
+        categoryId: checkedList.categoryId,
         colorId: e,
+        saleFrom: checkedList?.saleFrom,
+        saleTo: checkedList?.saleTo,
       });
     }
   };
-const changeData = () => {
-  setRefresh(!refresh)
-}
+  const changeData = () => {
+    setRefresh(!refresh);
+  };
   const menu = (
     <Menu className=" filter-checkbox">
       <Checkbox.Group
         options={options}
         onChange={(e) => filterData(e)}
-        className='w-100'
+        className="w-100"
       />
-      {
-        !isMobile && <button onClick={() => changeData()}>Filterlash</button>
-      }
-      
+      {!isMobile && <button onClick={() => changeData()}>Filterlash</button>}
     </Menu>
   );
 

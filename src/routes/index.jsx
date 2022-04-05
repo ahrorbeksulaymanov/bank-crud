@@ -30,6 +30,9 @@ import OrderList from "../pages/orders";
 import ColorList from "../pages/filters/color";
 import AddColor from "../pages/filters/color/dataAdd";
 import NotFound from "../components/pageNotFound";
+import BlogList from "../pages/blogCrud";
+import AddBlog from "../pages/blogCrud/dataAdd";
+import ContactList from "../pages/contact-admin";
 
 export const all_routes = [
     {
@@ -336,6 +339,36 @@ export const all_routes = [
         title: "Features",
         path: "/product/features-add/:id/:featureId",
         component: AddFeatures,
+        exact:true,
+        config: {
+            showLink: true,
+            structure: "layout"
+        }
+    },
+    {
+        title: "Blogs",
+        path: "/blogs-list",
+        component: BlogList,
+        exact:true,
+        config: {
+            showLink: true,
+            structure: "layout"
+        }
+    },
+    {
+        title: "Blog add",
+        path: "/blogs-add/:id",
+        component: AddBlog,
+        exact:true,
+        config: {
+            showLink: true,
+            structure: "layout"
+        }
+    },
+    {
+        title: "Contact",
+        path: "/contact-admin",
+        component: ContactList,
         exact:true,
         config: {
             showLink: true,

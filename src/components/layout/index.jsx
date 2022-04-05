@@ -9,6 +9,8 @@ import {
   UploadOutlined,
   LoginOutlined,
   SettingOutlined,
+  ContactsOutlined,
+  SortDescendingOutlined,
 } from "@ant-design/icons";
 import { Link, useHistory } from "react-router-dom";
 import { Dropdown } from "antd";
@@ -75,7 +77,7 @@ const MyLayout = ({ children }) => {
             theme="dark" mode="inline"
             style={{ borderRight: 0, }}
           >
-            <SubMenu key="sub1" icon={<UserOutlined />} title="Filterlar">
+            <SubMenu key="sub1" icon={<SortDescendingOutlined />} title="Filterlar">
               <Menu.Item key="11">
                 <Link to="/discount">
                   Skidkalar
@@ -114,6 +116,16 @@ const MyLayout = ({ children }) => {
           <Menu.Item key="4" icon={<VideoCameraOutlined />}>
             <Link to="/orders">
               Buyurtmalar
+            </Link>
+          </Menu.Item>
+          <Menu.Item key="5" icon={<VideoCameraOutlined />}>
+            <Link to="/blogs-list">
+              Bloglar
+            </Link>
+          </Menu.Item>
+          <Menu.Item key="6" icon={<ContactsOutlined />}>
+            <Link to="/contact-admin">
+              Kontaktlar
             </Link>
           </Menu.Item>
         </Menu>

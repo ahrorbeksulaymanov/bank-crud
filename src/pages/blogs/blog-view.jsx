@@ -1,27 +1,54 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import { useHistory } from "react-router-dom";
 import { IoIosArrowBack } from "react-icons/io";
-import product2 from "../../assets/images/main-r1.jpg";
+import axios from "axios";
+import { PATH_API, PATH_API_FILE } from "../../constants";
+import { useRouteMatch } from "react-router-dom";
+import { Spin } from "antd";
 const BlogsView = () => {
     const history = useHistory();
+
+    const [data, setData] = useState([]);
+    const [loading, setLoading] = useState(true);
+    const match = useRouteMatch("/blogs-view/:id")
+  
+    useEffect(() => {
+      setLoading(true);
+      const token = localStorage.getItem("token");
+      axios({
+        url: PATH_API + `/blog/${match.params.id}`,
+        method: "GET",
+        headers: {
+          Authorization: "Bearer " + token,
+        },
+      }).then((res) => {
+        if (res?.status === 200) {
+          setData(res?.data?.data);
+          setLoading(false);
+        }
+      });
+    }, []);
+
     return (
       <div className="conpany-page">
-        <p className="d-flex justify-content-between align-items-center fw-600 mt-4">
-          <div
-            onClick={() => history.goBack()}
-            className="d-flex align-items-center fw-600 back-button pointer"
-          >
-            <IoIosArrowBack /> Back
-          </div>
-          <h4 className="conpany_header_name">bottage veneta</h4>
-          <div></div>
-        </p>
-        <div className="row">
-          <div className="col-md-7">
-              <img src={product2} className='w-100 mb-5' alt="" />
-          </div>
-          <div className="col-md-5">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Reiciendis culpa facilis eum dolore? Saepe dignissimos vero quasi, facilis itaque commodi quisquam nulla minima, reiciendis error corrupti deleniti aut distinctio veritatis nobis odio iste corporis iusto laboriosam repellendus. Ullam rem, veniam quo doloribus adipisci nisi itaque vitae, suscipit, placeat sit corrupti!</div>
-      </div>
+        <Spin spinning={loading}>
+          <p className="d-flex justify-content-between align-items-center fw-600 mt-4">
+            <div
+              onClick={() => history.goBack()}
+              className="d-flex align-items-center fw-600 back-button pointer"
+            >
+              <IoIosArrowBack /> Back
+            </div>
+            <h4 className="conpany_header_name">{data?.title}</h4>
+            <div></div>
+          </p>
+          <div className="row">
+            <div className="col-md-7">
+                <img src={PATH_API_FILE + data?.photo} className='w-100 mb-5' alt="" />
+            </div>
+            <div className="col-md-5">{data?.description}</div>
+        </div>
+        </Spin>
       </div>
     );
 };

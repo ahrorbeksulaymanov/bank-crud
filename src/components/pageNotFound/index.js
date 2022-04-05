@@ -1,17 +1,17 @@
 import React from "react";
-import {Button} from "antd";
-import {useHistory} from 'react-router-dom'
+import { useHistory } from "react-router-dom";
+import { Result, Button } from "antd";
 
 const NotFound = () => {
-    const history = useHistory();
-    return (
-        <div className="d-flex justify-content-center align-items-center h-100 w-100">
-            <div className="w-100">
-                <h4 className="w-100">Page not found</h4>
-                <Button type="link" onClick={() => history.push("/")}>Bosh sahifa</Button>
-            </div>
-        </div>
-    )
-}
+  const history = useHistory();
+  return (
+    <Result
+      status="404"
+      title="404"
+      subTitle="Kechirasiz, siz tashrif buyurgan sahifa mavjud emas."
+      extra={<Button onClick={() => history.goBack()} type="primary">Orqaga</Button>}
+    />
+  );
+};
 
-export default NotFound
+export default NotFound;

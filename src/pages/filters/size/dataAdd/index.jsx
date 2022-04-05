@@ -19,7 +19,7 @@ const AddSize = () => {
       const token = localStorage.getItem("token");
       setloading(true);
       axios({
-        url: PATH_API + `/size/${match.params.id}`,
+        url: PATH_API + `/size/${match.params.id}?expand=category`,
         method: "get",
         headers: {
           Authorization: "Bearer " + token,
@@ -28,6 +28,7 @@ const AddSize = () => {
         form.setFieldsValue({
           name: res?.data?.data?.name,
           description: res?.data?.data?.description,
+          categoryId: res?.data?.data?.category?.id,
         });
         setchecked(res?.data?.data?.active)
         setloading(false);
@@ -107,7 +108,7 @@ const AddSize = () => {
             autoComplete="off"
           >
             <div className="d-flex justify-content-between align-items-center">
-              <h5>Size</h5>
+              <h5>O'lchamlar</h5>
               <div className="d-flex justify-content-end">
                 <Button
                   className="d-flex justify-content-between align-items-center me-2"

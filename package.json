@@ -1,5 +1,4 @@
 {
-  "homepage": "https://ahrorbeksulaymanov.github.io/bank-crud",
   "name": "bank-crud",
   "version": "0.1.0",
   "private": true,
@@ -24,12 +23,11 @@
     "reactstrap": "^9.0.1",
     "redux": "^4.1.2",
     "sass": "^1.49.8",
+    "serve": "^13.0.2",
     "swiper": "^8.0.7",
     "web-vitals": "^2.1.4"
   },
   "scripts": {
-    "predeploy": "npm run build",
-    "deploy": "gh-pages -d build",
     "start": "react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test",

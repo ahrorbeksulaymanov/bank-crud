@@ -12,6 +12,17 @@ export const getCategories = async () => {
   });
 };
 
+export const getCategoriesAll = async () => {
+  const token = localStorage.getItem("token");
+  return await axios({
+    url: PATH_API + "/category",
+    method: "get",
+    headers: {
+      Authorization: "Bearer " + token,
+    },
+  });
+};
+
 export const getSeasons = async () => {
   const token = localStorage.getItem("token");
   return await axios({

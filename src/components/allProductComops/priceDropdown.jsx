@@ -1,5 +1,5 @@
-import React, { useEffect, useState } from "react";
-import { Slider, Dropdown, Menu, Input } from "antd";
+import React, { useState } from "react";
+import { Dropdown, Menu, Input } from "antd";
 import "./style.scss";
 import { BsChevronDown } from "react-icons/bs";
 import { Label } from "reactstrap";
@@ -24,7 +24,7 @@ const [priceto, setpriceto] = useState("")
         discountId: checkedList.discountId,
         seasonId: checkedList.seasonId,
         sizeId: checkedList.sizeId,
-        categiryId: checkedList.categiryId,
+        categoryId: checkedList.categoryId,
         colorId: checkedList.colorId,
         saleFrom: pricefrom,
         saleTo: priceto,

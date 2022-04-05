@@ -185,8 +185,8 @@ const OrderList = () => {
                 <p><span className="text-secondary fw-bolder me-2">Tovar chegirmasi:</span>{oneProduct?.discount?.percent}</p>
                 <p><span className="text-secondary fw-bolder me-2">Tovar turi:</span>{oneProduct?.gender?.name}</p>
                 <p><span className="text-secondary fw-bolder me-2">Tovar fasli:</span>{oneProduct?.season?.name}</p>
-                <p><span className="text-secondary fw-bolder me-2">Tovar o'lchami:</span>{oneProduct?.size?.name}</p>
-                <p><span className="text-secondary fw-bolder me-2">Tovar Id:</span>{oneProduct?.id}</p>
+                <p><span className="text-secondary fw-bolder me-2">Tovar o'lchami:</span>{filteredData?.size}</p>
+                <p><span className="text-secondary fw-bolder me-2">Tovar rangi:</span>{filteredData?.color}</p>
             </div>
             <div className="col-sm-6">
                 <p><span className="text-secondary fw-bolder me-2">Klient:</span>{filteredData?.user?.firstName}</p>

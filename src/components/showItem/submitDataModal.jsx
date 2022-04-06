@@ -96,7 +96,7 @@ const SubmitData = ({
             </div>
           </div>
           <div className="row">
-            <div className="col-md-5">
+            <div className="col-6">
               <Form.Item
                 label="Tovar rangi"
                 name="color"
@@ -126,7 +126,7 @@ const SubmitData = ({
                 </Select>
               </Form.Item>
             </div>
-            <div className="col-md-5">
+            <div className="col-6">
             <Form.Item
                 label="Tovar o'lchami"
                 name="size"

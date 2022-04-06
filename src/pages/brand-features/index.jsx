@@ -14,20 +14,23 @@ import {
 import axios from "axios";
 import { Link } from "react-router-dom";
 import { PATH_API } from "../../constants";
-import { VscNotebook } from "react-icons/vsc";
+import { useRouteMatch } from "react-router-dom";
+import { MdArrowBackIos } from 'react-icons/md'
+import { useHistory } from "react-router-dom";
 
-const BrandList = () => {
+const BrandFeaturesList = () => {
   const [data, setData] = useState([]);
   const [loading, setLoading] = useState(true);
-
+  const history = useHistory()
   const [refresh, setRefresh] = useState(false);
   const [popover, setpopover] = useState({type:false, id:null});
+  const match = useRouteMatch("/brand/features/:id")
 
   useEffect(() => {
     setLoading(true);
     const token = localStorage.getItem("token");
     axios({
-      url: PATH_API + `/brand`,
+      url: PATH_API + `/brand/feature/${match.params.id}`,
       method: "GET",
       headers: {
         Authorization: "Bearer " + token,
@@ -43,7 +46,7 @@ const BrandList = () => {
   const deleteData = (id) => {
     const token = localStorage.getItem("token");
     axios({
-      url: PATH_API + `/brand?id=${id}`,
+      url: PATH_API + `/brand/feature/${id}`,
       method: "DELETE",
       headers: {
         Authorization: "Bearer " + token,
@@ -63,8 +66,8 @@ const BrandList = () => {
     <Spin spinning={loading}>
       <div>
         <div className="d-flex justify-content-between align-items-center">
-          <h5>Brandlar</h5>
-          <Link to="/brand-add/0">
+          <h5><MdArrowBackIos onClick={() => history.goBack()} className='pointer' /> Features</h5>
+          <Link to={`/brand/features-add/${match.params.id}/0`}>
             <Button type="primary">+ Qo'shish</Button>
           </Link>
         </div>
@@ -75,9 +78,6 @@ const BrandList = () => {
               <tr>
                 <th scope="col">
                   No
-                </th>
-                <th scope="col">
-                  Brand name
                 </th>
                 <th scope="col">
                   Name
@@ -91,22 +91,18 @@ const BrandList = () => {
                 <th scope="col">
                   action
                 </th>
-                <th scope="col" className="text-center">
-                  Features
-                </th>
               </tr>
             </thead>
             <tbody>
               {data && data?.map((item, index) => (
                 <tr key={index} className="table-body-padding">
                   <td>{index+1}</td>
-                  <td>{item?.brnadName}</td>
                   <td>{item?.name}</td>
                   <td>{item?.description}</td>
                   <td>{item.active ? <span className="badge rounded-pill bg-success">Active</span> : <span className="badge rounded-pill bg-danger">InActive</span>}</td>
                   <td>
                     <div>
-                      <Link to={`/brand-add/${item.id}`}>
+                      <Link to={`/brand/features-add/${match.params.id}/${item?.id}`}>
                         <Tooltip
                           color={"lime"}
                           placement="top"
@@ -149,18 +145,6 @@ const BrandList = () => {
                       </Tooltip>
                     </div>
                   </td>
-                  <td className="text-center">
-                    <Link to={`/brand/features/${item.id}`}>
-                        <Tooltip
-                          color={"lime"}
-                          placement="top"
-                          title={"This is a edit button"}
-                        >
-                          <VscNotebook className="text-success me-3 pointer" />
-                          {/* <EditOutlined className="text-success me-3 pointer" /> */}
-                        </Tooltip>
-                      </Link>
-                  </td>
                 </tr>
               ))}
             </tbody>
@@ -171,4 +155,4 @@ const BrandList = () => {
     </Spin>
   );
 };
-export default BrandList;
+export default BrandFeaturesList;

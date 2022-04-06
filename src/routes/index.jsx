@@ -33,6 +33,11 @@ import NotFound from "../components/pageNotFound";
 import BlogList from "../pages/blogCrud";
 import AddBlog from "../pages/blogCrud/dataAdd";
 import ContactList from "../pages/contact-admin";
+import ArticleList from "../pages/articleCrud";
+import AddArticle from "../pages/articleCrud/dataAdd";
+import ArticleView from "../pages/articles/article-view";
+import BrandFeaturesList from "../pages/brand-features";
+import AddBrandFeatures from "../pages/brand-features/dataAdd";
 
 export const all_routes = [
     {
@@ -79,6 +84,16 @@ export const all_routes = [
         title: "Articles",
         path: "/articles",
         component: Articles,
+        exact:true,
+        config: {
+            showLink: true,
+            structure: "sectionlayout"
+        }
+    },
+    {
+        title: "Article view",
+        path: "/article-view/:id",
+        component: ArticleView,
         exact:true,
         config: {
             showLink: true,
@@ -346,6 +361,26 @@ export const all_routes = [
         }
     },
     {
+        title: "Features",
+        path: "/brand/features/:id",
+        component: BrandFeaturesList,
+        exact:true,
+        config: {
+            showLink: true,
+            structure: "layout"
+        }
+    },
+    {
+        title: "Features",
+        path: "/brand/features-add/:id/:featureId",
+        component: AddBrandFeatures,
+        exact:true,
+        config: {
+            showLink: true,
+            structure: "layout"
+        }
+    },
+    {
         title: "Blogs",
         path: "/blogs-list",
         component: BlogList,
@@ -359,6 +394,26 @@ export const all_routes = [
         title: "Blog add",
         path: "/blogs-add/:id",
         component: AddBlog,
+        exact:true,
+        config: {
+            showLink: true,
+            structure: "layout"
+        }
+    },
+    {
+        title: "Article",
+        path: "/article-list",
+        component: ArticleList,
+        exact:true,
+        config: {
+            showLink: true,
+            structure: "layout"
+        }
+    },
+    {
+        title: "Article add",
+        path: "/article-add/:id",
+        component: AddArticle,
         exact:true,
         config: {
             showLink: true,

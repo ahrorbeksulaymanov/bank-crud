@@ -146,7 +146,6 @@ const AllProducts = () => {
     return () => window.removeEventListener("resize", handleResize);
   }, [handleResize]);
 
-  console.log(width);
   const fetchMoreData = (e) => {
     if(width < 768) {
       setpageSize(pageSize + 10);
@@ -157,7 +156,7 @@ const AllProducts = () => {
     <div className="all_products">
       <div className="row py-3">
         <div className="col-md-3 d-none-md">
-          <h6 className="ms-3">Kategoriyalar</h6>
+          <h6 className="ms-3 mb-4">Kategoriyalar</h6>
           <Collapse ghost expandIconPosition="right">
             {categories?.map((item, index) =>
               item?.children?.length > 0 ? (

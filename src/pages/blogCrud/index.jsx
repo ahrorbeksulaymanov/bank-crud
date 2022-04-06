@@ -94,7 +94,7 @@ const BlogList = () => {
                 <tr key={index} className="table-body-padding">
                   <td>{index+1}</td>
                   <td>{item?.title}</td>
-                  <td>{item?.description}</td>
+                  <td>{(item?.description).slice(0, 80)}...</td>
                   <td>{item.active ? <span className="badge rounded-pill bg-success">Active</span> : <span className="badge rounded-pill bg-danger">InActive</span>}</td>
                   <td>
                     <div>

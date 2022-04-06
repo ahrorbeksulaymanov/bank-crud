@@ -123,6 +123,11 @@ const MyLayout = ({ children }) => {
               Bloglar
             </Link>
           </Menu.Item>
+          <Menu.Item key="7" icon={<VideoCameraOutlined />}>
+            <Link to="/article-list">
+              Maqolalar
+            </Link>
+          </Menu.Item>
           <Menu.Item key="6" icon={<ContactsOutlined />}>
             <Link to="/contact-admin">
               Kontaktlar

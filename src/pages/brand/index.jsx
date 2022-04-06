@@ -1,16 +1,6 @@
 import React, { useEffect, useState } from "react";
-import {
-  Button,
-  Empty,
-  message,
-  Popover,
-  Spin,
-  Tooltip,
-} from "antd";
-import {
-  DeleteOutlined,
-  EditOutlined,
-} from "@ant-design/icons";
+import { Button, Empty, message, Popover, Spin, Tooltip } from "antd";
+import { DeleteOutlined, EditOutlined } from "@ant-design/icons";
 import axios from "axios";
 import { Link } from "react-router-dom";
 import { PATH_API } from "../../constants";
@@ -21,7 +11,7 @@ const BrandList = () => {
   const [loading, setLoading] = useState(true);
 
   const [refresh, setRefresh] = useState(false);
-  const [popover, setpopover] = useState({type:false, id:null});
+  const [popover, setpopover] = useState({ type: false, id: null });
 
   useEffect(() => {
     setLoading(true);
@@ -52,7 +42,7 @@ const BrandList = () => {
       .then((res) => {
         message.success("Data is deleted!");
         setRefresh(!refresh);
-        setpopover({type:false, id:null})
+        setpopover({ type: false, id: null });
       })
       .catch((err) => {
         message.error("Something is wrong!");
@@ -73,84 +63,90 @@ const BrandList = () => {
           <table className="table">
             <thead className="bg-table-header">
               <tr>
-                <th scope="col">
-                  No
-                </th>
-                <th scope="col">
-                  Brand name
-                </th>
-                <th scope="col">
-                  Name
-                </th>
-                <th scope="col">
-                  Description
-                </th>
-                <th scope="col">
-                  status
-                </th>
-                <th scope="col">
-                  action
-                </th>
+                <th scope="col">No</th>
+                <th scope="col"> name</th>
+                <th scope="col">Name</th>
+                <th scope="col">Description</th>
+                <th scope="col">status</th>
+                <th scope="col">action</th>
                 <th scope="col" className="text-center">
                   Features
                 </th>
               </tr>
             </thead>
             <tbody>
-              {data && data?.map((item, index) => (
-                <tr key={index} className="table-body-padding">
-                  <td>{index+1}</td>
-                  <td>{item?.brnadName}</td>
-                  <td>{item?.name}</td>
-                  <td>{item?.description}</td>
-                  <td>{item.active ? <span className="badge rounded-pill bg-success">Active</span> : <span className="badge rounded-pill bg-danger">InActive</span>}</td>
-                  <td>
-                    <div>
-                      <Link to={`/brand-add/${item.id}`}>
+              {data &&
+                data?.map((item, index) => (
+                  <tr key={index} className="table-body-padding">
+                    <td>{index + 1}</td>
+                    <td>{item?.brnadName}</td>
+                    <td>{item?.name}</td>
+                    <td>{item?.description}</td>
+                    <td>
+                      {item.active ? (
+                        <span className="badge rounded-pill bg-success">
+                          Active
+                        </span>
+                      ) : (
+                        <span className="badge rounded-pill bg-danger">
+                          InActive
+                        </span>
+                      )}
+                    </td>
+                    <td>
+                      <div>
+                        <Link to={`/brand-add/${item.id}`}>
+                          <Tooltip
+                            color={"lime"}
+                            placement="top"
+                            title={"This is a edit button"}
+                          >
+                            <EditOutlined className="text-success me-3 pointer" />
+                          </Tooltip>
+                        </Link>
                         <Tooltip
-                          color={"lime"}
+                          color={"red"}
                           placement="top"
-                          title={"This is a edit button"}
+                          title={"This is a delete button"}
                         >
-                          <EditOutlined className="text-success me-3 pointer" />
+                          <Popover
+                            visible={popover.type && popover?.id == item.id}
+                            placement="left"
+                            title={"Ma'lumotni o'chirmoqchimisiz?"}
+                            content={
+                              <div className="d-flex justify-content-end">
+                                <Button
+                                  className="d-flex justify-content-between align-items-center me-2"
+                                  type=""
+                                  onClick={() =>
+                                    setpopover({ type: false, id: item.id })
+                                  }
+                                >
+                                  Cancel
+                                </Button>
+                                <Button
+                                  className="d-flex justify-content-between align-items-center"
+                                  type="primary"
+                                  onClick={() => deleteData(item.id)}
+                                >
+                                  Ok
+                                </Button>
+                              </div>
+                            }
+                            trigger="click"
+                          >
+                            <DeleteOutlined
+                              onClick={() =>
+                                setpopover({ type: true, id: item.id })
+                              }
+                              className="text-danger pointer"
+                            />
+                          </Popover>
                         </Tooltip>
-                      </Link>
-                      <Tooltip
-                        color={"red"}
-                        placement="top"
-                        title={"This is a delete button"}
-                      >
-                        <Popover
-                          visible={popover.type && popover?.id == item.id}
-                          placement="left"
-                          title={"Ma'lumotni o'chirmoqchimisiz?"}
-                          content={
-                            <div className="d-flex justify-content-end">
-                              <Button
-                                className="d-flex justify-content-between align-items-center me-2"
-                                type=""
-                                onClick={() => setpopover({type:false, id:item.id})}
-                              >
-                                Cancel
-                              </Button>
-                              <Button
-                                className="d-flex justify-content-between align-items-center"
-                                type="primary"
-                                onClick={() => deleteData(item.id)}
-                              >
-                                Ok
-                              </Button>
-                            </div>
-                          }
-                          trigger="click"
-                        >
-                          <DeleteOutlined onClick={() => setpopover({type:true, id:item.id})} className="text-danger pointer" />
-                        </Popover>
-                      </Tooltip>
-                    </div>
-                  </td>
-                  <td className="text-center">
-                    <Link to={`/brand/features/${item.id}`}>
+                      </div>
+                    </td>
+                    <td className="text-center">
+                      <Link to={`/brand/features/${item.id}`}>
                         <Tooltip
                           color={"lime"}
                           placement="top"
@@ -160,9 +156,9 @@ const BrandList = () => {
                           {/* <EditOutlined className="text-success me-3 pointer" /> */}
                         </Tooltip>
                       </Link>
-                  </td>
-                </tr>
-              ))}
+                    </td>
+                  </tr>
+                ))}
             </tbody>
           </table>
         </div>

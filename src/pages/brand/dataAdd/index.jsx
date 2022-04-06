@@ -3,11 +3,13 @@ import React, { useEffect, useState } from "react";
 import { Form, Input, Button, message, Spin, Switch } from "antd";
 import axios from "axios";
 import { useRouteMatch, useHistory } from "react-router-dom";
-import { PATH_API } from "../../../constants";
+import { PATH_API, PATH_API_FILE } from "../../../constants";
+import PicturesWall from "./imgUpload";
 
 const AddBrand = () => {
   const [loading, setloading] = useState(false);
   const [checked, setchecked] = useState(true);
+  const [images, setimages] = useState([]);
   const match = useRouteMatch("/brand-add/:id");
   const history = useHistory();
   const [form] = Form.useForm();
@@ -30,49 +32,73 @@ const AddBrand = () => {
         });
         setchecked(res?.data?.data?.active)
         setloading(false);
+        setimages([
+          {
+            uid: 1,
+            name: "image.png",
+            status: "done",
+            url: PATH_API_FILE + res?.data?.data?.photoId,
+          },
+        ]);
       });
     }
   }, []);
 
   const updateData = (val) => {
-    val.active = checked
-    const token = localStorage.getItem("token");
-    if(match.params.id == 0){
-      axios({
-        url: PATH_API + `/brand`,
-        method: "POST",
-        data: val,
-        headers: {
-          Authorization: "Bearer " + token,
-        },
-      })
-        .then((res) => {
-          if (res?.status === 200) {
-            message.success("Success!");
-            history.goBack();
-          }
+    if (images[0]){
+
+      val.active = checked
+      const token = localStorage.getItem("token");
+
+      const formdata = new FormData();
+      val.active = checked;
+      if (images[0]?.originFileObj) {
+        formdata.append("photo", images[0]?.originFileObj);
+      }
+      formdata.append("active", checked ? 1 : 0);
+      Object.keys(val).map((key) => {
+        formdata.append(key, val[key]);
+      });
+
+      if(match.params.id == 0){
+        axios({
+          url: PATH_API + `/brand`,
+          method: "POST",
+          data: formdata,
+          headers: {
+            Authorization: "Bearer " + token,
+          },
         })
-        .catch((err) => {
-          message.error("Something is wrong!");
-        });
+          .then((res) => {
+            if (res?.status === 200) {
+              message.success("Success!");
+              history.goBack();
+            }
+          })
+          .catch((err) => {
+            message.error("Something is wrong!");
+          });
+      }else{
+        axios({
+          url: PATH_API + `/brand/${match.params.id}`,
+          method: "PUT",
+          data: formdata,
+          headers: {
+            Authorization: "Bearer " + token,
+          },
+        })
+          .then((res) => {
+            if (res?.status===200) {
+              message.success("Success!");
+              history.goBack();
+            }
+          })
+          .catch((err) => {
+            message.error("Something is wrong!");
+          });
+      }
     }else{
-      axios({
-        url: PATH_API + `/brand/${match.params.id}`,
-        method: "PUT",
-        data: val,
-        headers: {
-          Authorization: "Bearer " + token,
-        },
-      })
-        .then((res) => {
-          if (res?.status===200) {
-            message.success("Success!");
-            history.goBack();
-          }
-        })
-        .catch((err) => {
-          message.error("Something is wrong!");
-        });
+      message.warn("Blog uchun rasm tanlang!");
     }
   };
 
@@ -133,6 +159,19 @@ const AddBrand = () => {
               rules={[{ required: false, message: "Iltimos chegirma amal qilish muddatini kiriting!" }]}
             >
               <Switch onChange={() => setchecked(!checked)} checkedChildren="Active" unCheckedChildren="InActive" checked={checked} />
+            </Form.Item>
+
+            <Form.Item
+              label="Brand uchun rasm"
+              name="title"
+              rules={[
+                {
+                  required: false,
+                  message: "Iltimos Brand uchun rasm kiriting!",
+                },
+              ]}
+            >
+              <PicturesWall setimages={setimages} images={images} />
             </Form.Item>
 
             <Form.Item

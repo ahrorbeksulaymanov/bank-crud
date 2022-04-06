@@ -62,9 +62,9 @@ const BankList = () => {
       <div>
         <div className="d-flex justify-content-between align-items-center">
           <h5>Userlar</h5>
-          <Link to="/admin/bank/0">
+          {/* <Link to="/admin/bank/0">
             <Button type="primary">+ Qo'shish</Button>
-          </Link>
+          </Link> */}
         </div>
         <hr />
         <div className="table-body">
@@ -86,9 +86,9 @@ const BankList = () => {
                 <th scope="col">
                   status
                 </th>
-                <th scope="col">
+                {/* <th scope="col">
                   action
-                </th>
+                </th> */}
               </tr>
             </thead>
             <tbody>
@@ -99,7 +99,7 @@ const BankList = () => {
                   <td>{item?.phoneNumber}</td>
                   <td>{item?.roles[0]?.roleName}</td>
                   <td>{item.active ? <span className="badge rounded-pill bg-success">Success</span> : <span className="badge rounded-pill bg-danger">Danger</span>}</td>
-                  <td>
+                  {/* <td>
                     <div>
                       <Link to={`/admin/bank/${item.id}`}>
                         <Tooltip
@@ -141,7 +141,7 @@ const BankList = () => {
                         </Popover>
                       </Tooltip>
                     </div>
-                  </td>
+                  </td> */}
                 </tr>
               ))}
             </tbody>

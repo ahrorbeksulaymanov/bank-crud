@@ -5,7 +5,7 @@ import "./style.scss";
 import product2 from "../../assets/images/main-r1.jpg";
 import { useRouteMatch } from "react-router-dom";
 import axios from "axios";
-import { PATH_API } from "../../constants";
+import { PATH_API, PATH_API_FILE } from "../../constants";
 import { Spin } from "antd";
 
 const CompanyPage = (props) => {
@@ -47,11 +47,11 @@ const CompanyPage = (props) => {
             </p>
             <div className="row">
               <div className="col-md-5">
-                  <img src={product2} className='w-100 mb-5' alt="" />
+                  <img src={PATH_API_FILE + props.location?.brand?.photo} className='w-100 mb-5' alt="" />
               </div>
               <div className="col-md-7">
                 {data?.map((item, index) => (
-                  <p><span className="me-2 fw-bold">{item?.name}</span>{item?.description}</p>
+                  <p key={index}><span className="me-2 fw-bold">{item?.name}</span>{item?.description}</p>
                 ))}
               </div>
           </div>

@@ -1,4 +1,4 @@
-import React from "react";
+import React, {useState, useEffect} from "react";
 import "./style.scss";
 import { Link } from "react-router-dom";
 import {
@@ -7,13 +7,30 @@ import {
   BsFillTelephoneOutboundFill,
 } from "react-icons/bs";
 import { RiInstagramFill } from "react-icons/ri";
+import { PATH_API } from "../../constants";
+import axios from "axios";
 
-const Footer = () => {
+const Footer = (props) => {
+
+  const [data, setData] = useState([]);
+
+  // useEffect(() => {
+  //   axios({
+  //     url: PATH_API + `/brand`,
+  //     method: "GET",
+  //   }).then((res) => {
+  //     if (res?.status === 200) {
+  //       setData(res?.data?.data);
+  //     }
+  //   });
+  // }, []);
+  
+  console.log("dddddd",props)
   return (
     <footer>
       <div className="container">
         <div className="row">
-          <div className="col-md-4 col-6">
+          <div className="col-md-3 col-6">
             <h6 className="text-white">Menyu</h6>
             <Link className="text-decoration-none d-block me-4" to="/">
               Yangi tovarlar
@@ -34,28 +51,27 @@ const Footer = () => {
               Kontakt
             </Link>
           </div>
-          <div className="col-md-4 col-6">
+          <div className="col-md-3 col-6">
             <h6 className="text-white">Brendlar</h6>
-            <Link className="text-decoration-none d-block me-4" to="/">
-              Yangi tovarlar
-            </Link>
-            <Link className="text-decoration-none d-block me-4" to="/all-products">
-              Barcha tovarlar
-            </Link>
-            <Link className="text-decoration-none d-block me-4" to="/blogs">
-              Blog
-            </Link>
-            <Link className="text-decoration-none d-block me-4" to="/articles">
-              Qiziqarli maqolalar
-            </Link>
-            <Link className="text-decoration-none d-block me-4" to="/about-us">
-              Biz Haqimizda
-            </Link>
-            <Link className="text-decoration-none d-block" to="/Kontakt">
-              Kontakt
-            </Link>
+            {
+              data?.slice(0, 6)?.map((item, index) => (
+                <Link key={index} className="text-decoration-none d-block me-4" to={`/company/${item?.id}`}>
+                  {item?.brnadName}
+                </Link>
+              ))
+            }
           </div>
-          <div className="col-md-4 col-6">
+          <div className="col-md-3 col-6">
+            <h6 className="text-white">Brendlar</h6>
+            {
+              data?.slice(6, 12)?.map((item, index) => (
+                <Link key={index} className="text-decoration-none d-block me-4" to={`/company/${item?.id}`}>
+                  {item?.brnadName}
+                </Link>
+              ))
+            }
+          </div>
+          <div className="col-md-3 col-6">
             <h6 className="text-white">Biz bilan aloqa</h6>
             <a href="#" className="contact-icon-link">
               <BsTelegram className="contact-icon" />

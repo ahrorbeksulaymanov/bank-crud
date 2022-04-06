@@ -108,7 +108,7 @@ const NewProducts = () => {
           <h4 className=" mb-4">Yangi toplam</h4>
           <div className="row">
             {LastData?.map((item, index) => (
-              <div className="col-md-4 col-sm-6 mb-4">
+              <div key={index} className="col-md-4 col-sm-6 mb-4">
                 <Link to={`/product/${item?.id}`}>
                   <div className="image-sale-smaller hover-effect">
                     <div>

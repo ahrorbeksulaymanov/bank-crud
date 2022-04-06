@@ -76,12 +76,8 @@ const BrandFeaturesList = () => {
           <table className="table">
             <thead className="bg-table-header">
               <tr>
-                <th scope="col">
-                  No
-                </th>
-                <th scope="col">
-                  Name
-                </th>
+                <th scope="col">No</th>
+                <th scope="col">Name</th>
                 <th scope="col">
                   Description
                 </th>

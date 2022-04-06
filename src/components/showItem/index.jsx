@@ -38,9 +38,6 @@ const ItemShow = () => {
         PATH_API +
         `/product/${match.params.id}?expand=brand,size,gender,discount,season,category,colors`,
       method: "GET",
-      headers: {
-        Authorization: "Bearer " + token,
-      },
     }).then((res) => {
       if (res?.status === 200) {
         setcategoryId(res?.data?.data?.category?.id);
@@ -127,7 +124,7 @@ const ItemShow = () => {
             <Link
               to={{
                 pathname: `/company/${data?.brand?.id}`,
-                brand: { name: data?.brand?.brnadName, photo: "" },
+                brand: { name: data?.brand?.brnadName, photo: data?.brand?.photoId },
               }}
               className="text-dark"
             >

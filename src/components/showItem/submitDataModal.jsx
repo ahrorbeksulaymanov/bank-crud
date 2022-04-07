@@ -34,7 +34,7 @@ const SubmitData = ({
   return (
     <div>
       <Modal
-        title="Form (Biz sizga 2 soat ichida aloqaga chiqamiz!&#128522;)"
+        title="Biz sizga 2 soat ichida aloqaga chiqamiz!&#128522;"
         visible={isModalVisible}
         onOk={() => setIsModalVisible(false)}
         onCancel={() => setIsModalVisible(false)}

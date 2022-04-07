@@ -1,5 +1,6 @@
 import "./App.css";
 import "bootstrap/dist/css/bootstrap.min.css";
+import 'react-modal-video/scss/modal-video.scss';
 import "antd/dist/antd.css";
 import { useEffect, useState } from "react";
 import RoutesMiddleware from "./routes/reuterMiddleware";

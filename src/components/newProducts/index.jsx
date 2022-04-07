@@ -5,7 +5,7 @@ import axios from "axios";
 import { PATH_API, PATH_API_FILE } from "../../constants";
 import { Link } from "react-router-dom";
 import { useSelector } from "react-redux";
-import { Empty, Spin } from "antd";
+import { Empty } from "antd";
 import LoaderMain from "../../components/loader/index";
 const NewProducts = () => {
   const [data, setData] = useState([]);
@@ -56,16 +56,18 @@ const NewProducts = () => {
       {loading ? (
         <LoaderMain />
       ) : data?.length === 0 ? (
-        <Empty description="Ma'lumot topilmadi" style={{height:"40vh"}} />
+        <Empty description="Ma'lumot topilmadi" style={{ height: "40vh" }} />
       ) : (
         <>
           <div className="row">
             <div className="col-md-6">
               <Link to={`/product/${data[0]?.id}`}>
-                <div className="image-sale left-main-img mb-4">
-                  <div>
-                    <p>{data[0]?.name}</p>
-                    <h5>{data[0]?.brand?.name}</h5>
+                <div className="image-sale left-main-img hover-effect-color mb-4">
+                  <div className="title_wrapper">
+                    <div>
+                      <p>{data[0]?.name}</p>
+                      <h5>{data[0]?.brand?.name}</h5>
+                    </div>
                   </div>
                   <img
                     className="w-100"
@@ -77,10 +79,12 @@ const NewProducts = () => {
             </div>
             <div className="col-md-6">
               <Link to={`/product/${data[1]?.id}`}>
-                <div className="image-sale right-main-img mb-4">
-                  <div>
-                    <p>{data[1]?.name}</p>
-                    <h5>{data[1]?.brand?.name}</h5>
+                <div className="image-sale right-main-img hover-effect-color mb-4">
+                  <div className="title_wrapper">
+                    <div>
+                      <p>{data[1]?.name}</p>
+                      <h5>{data[1]?.brand?.name}</h5>
+                    </div>
                   </div>
                   <img
                     className="w-100"
@@ -90,10 +94,12 @@ const NewProducts = () => {
                 </div>
               </Link>
               <Link to={`/product/${data[2]?.id}`}>
-                <div className="image-sale right-main-img">
-                  <div>
-                    <p>{data[2]?.name}</p>
-                    <h5>{data[2]?.brand?.name}</h5>
+                <div className="image-sale right-main-img hover-effect-color">
+                  <div className="title_wrapper">
+                    <div>
+                      <p>{data[2]?.name}</p>
+                      <h5>{data[2]?.brand?.name}</h5>
+                    </div>
                   </div>
                   <img
                     className="w-100"
@@ -105,7 +111,7 @@ const NewProducts = () => {
             </div>
           </div>
           <SliderNews data={sliderData} />
-          <h4 className=" mb-4">Yangi toplam</h4>
+          <h4 className=" mb-4">Yangi to'plam</h4>
           <div className="row">
             {LastData?.map((item, index) => (
               <div key={index} className="col-md-4 col-sm-6 mb-4">

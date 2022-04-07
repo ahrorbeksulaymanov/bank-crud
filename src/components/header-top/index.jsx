@@ -3,27 +3,28 @@ import './style.scss'
 import { Radio } from "antd";
 import { Input } from "antd";
 import { getGenders } from "../../functions";
-import { useLocation } from "react-router-dom";
-import { useDispatch } from "react-redux"
+import { useDispatch, useSelector } from "react-redux"
 import { GENDER_VAL, SEARCH_VAL } from "../../redux/actions";
+import { useHistory, useLocation } from "react-router-dom";
 const { Search } = Input;
 
 const HeaderTop = () => {
+  const searchVal = useSelector((state) => state?.product);
   const [genders, setgenders] = useState([])
-  const [genderId, setgenderId] = useState('')
-  const [search, setsearch] = useState('')
+  const [genderId, setgenderId] = useState(searchVal?.gender_val)
+  const [search_val, setsearch_val] = useState(searchVal?.search_val)
   const dispatch = useDispatch()
-  
-  const onSearch = (value) => {
-    setsearch(value)
-    dispatch({ type: SEARCH_VAL, data: {search_val: value, gender_val: genderId} })
-  }
-
+  const history = useHistory()
   const location = useLocation();
 
+  const onSearch = (value) => {
+    dispatch({ type: SEARCH_VAL, data: {search_val: value, gender_val: genderId} })
+    if(location.pathname !== '/'){
+      history.push("/all-products")
+    }
+  }
+
   useEffect(() => {
-    dispatch({ type: SEARCH_VAL, data: {search_val: "", gender_val: ''} })
-    dispatch({ type: GENDER_VAL, data: {search_val: '', gender_val: ''} })
     getGenders().then((res) => {
       if (res?.status === 200) {
         setgenders(res?.data?.data);
@@ -33,35 +34,39 @@ const HeaderTop = () => {
 
   const changeGender = (id) => {
     setgenderId(id)
-    dispatch({ type: GENDER_VAL, data: {search_val: search, gender_val: id} })
+    dispatch({ type: GENDER_VAL, data: {search_val: search_val, gender_val: id} })
+    if(location.pathname !== '/'){
+      history.push("/all-products")
+    }
   }
   return (
     <div>
       <div className="my-3 header-top-content">
-        {
-          location.pathname === "/all-products" || location.pathname === "/"? 
         <>
           <Search
-              placeholder="Search..."
+              placeholder="Qidirish..."
               onSearch={onSearch}
               className='search_input2'
+              onChange={(e)=>setsearch_val(e.target.value)}
+              value={search_val}
             />
             <Radio.Group className="radio_gender" value={genderId} buttonStyle="outline">
               {
                 genders?.map((item, index) => (
-                  <Radio.Button onClick={() => changeGender(item?.id)} key={index} value={item?.id}>{item?.name}</Radio.Button>
+                  <Radio.Button onClick={() => changeGender(item?.id)} key={index}  value={item?.id}>{item?.name}</Radio.Button>
                 ))
               }
             </Radio.Group>
             <div>
               <Search
-                placeholder="Search..."
+                placeholder="Qidirish..."
                 onSearch={onSearch}
                 className='search_input'
+                onChange={(e)=>setsearch_val(e.target.value)}
+                value={search_val}
               />
             </div>
-        </>:<div style={{height:"32px"}}></div>
-        }
+        </>
       </div>
     </div>
   );

@@ -11,7 +11,7 @@ const NavbarHorizontal = () => {
                 <NavLink exact activeClassName="selected" className='me-4 navbr_link_md' to='/'>Yangi tovarlar</NavLink>
                 <NavLink activeClassName="selected" className='me-4 navbr_link_md' to='/all-products'>Barcha tovarlar</NavLink>
                 <NavLink activeClassName="selected" className='me-4 navbr_link_md' to='/blogs'>Blog</NavLink>
-                <NavLink activeClassName="selected" className='me-4 navbr_link_md' to='/articles'>Qiziqarli maqolalar</NavLink>
+                <NavLink activeClassName="selected" className='me-4 navbr_link_md' to='/articles'>Maqola</NavLink>
                 <NavLink activeClassName="selected" className='me-4 navbr_link_md' to='/about-us'>Biz Haqimizda</NavLink>
                 <NavLink activeClassName="selected" className='navbr_link_md' to='/contact-us'>Kontakt</NavLink>
             </div>

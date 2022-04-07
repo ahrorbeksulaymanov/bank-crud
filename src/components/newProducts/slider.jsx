@@ -46,7 +46,7 @@ const SliderNews = ({data}) => {
     <div>
       <div className="slider_my">
         <div className="pb-4">
-          <h4 className="pt-5 mb-4">Yangi toplam</h4>
+          <h4 className="pt-5 mb-4">Yangi to'plam</h4>
           <Swiper
             loop={true}
             className="mySwiper"
@@ -75,10 +75,12 @@ const SliderNews = ({data}) => {
               data?.map((item, index) => (
                 <SwiperSlide key={index} ref={sliderRef}>
                   <Link to={`/product/${data[0]?.id}`}>
-                      <div className="image-sale-smaller">
-                        <div>
-                          <p>{item?.name}</p>
-                          <h5>{item?.brand?.name}</h5>
+                      <div className="image-sale-smaller hover-effect-color">
+                        <div className="title_wrapper">
+                          <div>
+                            <p>{item?.name}</p>
+                            <h5>{item?.brand?.name}</h5>
+                          </div>
                         </div>
                         <img className="w-100 slider_image" src={PATH_API_FILE + item?.photos[0]} alt="" />
                       </div>

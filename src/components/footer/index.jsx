@@ -14,16 +14,16 @@ const Footer = (props) => {
 
   const [data, setData] = useState([]);
 
-  // useEffect(() => {
-  //   axios({
-  //     url: PATH_API + `/brand`,
-  //     method: "GET",
-  //   }).then((res) => {
-  //     if (res?.status === 200) {
-  //       setData(res?.data?.data);
-  //     }
-  //   });
-  // }, []);
+  useEffect(() => {
+    axios({
+      url: PATH_API + `/brand`,
+      method: "GET",
+    }).then((res) => {
+      if (res?.status === 200) {
+        setData(res?.data?.data);
+      }
+    });
+  }, []);
   
   console.log("dddddd",props)
   return (

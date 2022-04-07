@@ -35,7 +35,7 @@ const SliderSimiliar = ({data, setrefresh, refresh}) => {
   }, [width]);
   return (
     <div className="pb-5">
-        <h4 className="text-center my-4">Sizga yoqishi mumkin bo'lgan tovarlar</h4>
+        <h5 className="text-center my-4">Sizga yoqishi mumkin bo'lgan tovarlar</h5>
       <Swiper
         pagination={{
           dynamicBullets: true,

@@ -290,7 +290,51 @@ const AllProducts = () => {
                 {data?.length === 0 && (
                   <Empty description="Ma'lumot topilmadi" />
                 )}
-                {data?.map((item, index) => (
+                {data?.slice(0, 3)?.map((item, index) => (
+                  <div key={index} className="col-lg-4 col-sm-6 mb-4">
+                    <Link to={`/product/${item.id}`}>
+                      <Card className="card-filtered-item text-dark">
+                        <CardBody className="p-0 pb-2">
+                          <img
+                            className="w-100"
+                            src={PATH_API_FILE + item?.photos[0]}
+                            alt=""
+                          />
+                          <p className="comp-name text-center m-0">
+                            {item?.brand?.brnadName}
+                          </p>
+                          <p className="comp-model text-center m-0">
+                            {item?.name}
+                          </p>
+                          {item?.discount ? (
+                            <>
+                              <p className="comp-sale text-center m-0">
+                                <span className="through">
+                                  {item?.salePrice}
+                                </span>{" "}
+                                <span className="text-danger ms-2">
+                                  -{item?.discount?.percent}%
+                                </span>
+                              </p>
+                              <p className="comp-price text-center m-0 text-danger">
+                                {(
+                                  item?.salePrice -
+                                  item?.salePrice *
+                                    (item?.discount?.percent / 100)
+                                ).toFixed(2)}
+                              </p>
+                            </>
+                          ) : (
+                            <p className="comp-price text-center m-0 text-danger mb-4">
+                              {item?.salePrice}
+                            </p>
+                          )}
+                        </CardBody>
+                      </Card>
+                    </Link>
+                  </div>
+                ))}
+                 {data?.map((item, index) => (
                   <div key={index} className="col-lg-4 col-sm-6 mb-4">
                     <Link to={`/product/${item.id}`}>
                       <Card className="card-filtered-item text-dark">
@@ -439,6 +483,7 @@ const AllProducts = () => {
               refresh={refresh}
               isMobile={true}
             />
+            {categoryId && 
             <FilterDropdown
               name="O'lcham"
               type="size"
@@ -449,6 +494,7 @@ const AllProducts = () => {
               refresh={refresh}
               isMobile={true}
             />
+            }
             <PriceDropdown
               name="Narxi"
               type="price"

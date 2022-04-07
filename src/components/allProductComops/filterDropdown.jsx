@@ -91,7 +91,7 @@ const FilterDropdown = ({
   );
 
   return (
-    <div style={{ display: "inline-block", marginRight: "30px" }} className="filterDown_mobile">
+    <div style={isMobile ? { display: "inline-block", marginRight: "0px", width:"45%", margin:"0 2.5%"}:{ display: "inline-block", marginRight: "30px"}} className="filterDown_mobile">
       <Dropdown overlay={menu} trigger={["click"]}>
         {/* eslint-disable-next-line jsx-a11y/anchor-is-valid */}
         <a

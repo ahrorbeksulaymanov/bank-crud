@@ -1,4 +1,4 @@
-import React, {useState, useEffect} from "react";
+import React from "react";
 import "./style.scss";
 import { Link } from "react-router-dom";
 import {
@@ -7,25 +7,12 @@ import {
   BsFillTelephoneOutboundFill,
 } from "react-icons/bs";
 import { RiInstagramFill } from "react-icons/ri";
-import { PATH_API } from "../../constants";
-import axios from "axios";
+import { useSelector } from "react-redux";
 
-const Footer = (props) => {
+const Footer = () => {
 
-  const [data, setData] = useState([]);
-
-  useEffect(() => {
-    axios({
-      url: PATH_API + `/brand`,
-      method: "GET",
-    }).then((res) => {
-      if (res?.status === 200) {
-        setData(res?.data?.data);
-      }
-    });
-  }, []);
+  const brands = useSelector((state) => state.brands?.brands);
   
-  console.log("dddddd",props)
   return (
     <footer>
       <div className="container">
@@ -54,7 +41,7 @@ const Footer = (props) => {
           <div className="col-md-3 col-6">
             <h6 className="text-white">Brendlar</h6>
             {
-              data?.slice(0, 6)?.map((item, index) => (
+              brands?.slice(0, 6)?.map((item, index) => (
                 <Link key={index} className="text-decoration-none d-block me-4" to={`/company/${item?.id}`}>
                   {item?.brnadName}
                 </Link>
@@ -64,7 +51,7 @@ const Footer = (props) => {
           <div className="col-md-3 col-6">
             <h6 className="text-white">Brendlar</h6>
             {
-              data?.slice(6, 12)?.map((item, index) => (
+              brands?.slice(6, 12)?.map((item, index) => (
                 <Link key={index} className="text-decoration-none d-block me-4" to={`/company/${item?.id}`}>
                   {item?.brnadName}
                 </Link>

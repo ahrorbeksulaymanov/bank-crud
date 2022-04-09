@@ -6,6 +6,7 @@ import {PATH_API} from "../../constants";
 import {useHistory} from "react-router-dom";
 import loginImg from "../../assets/images/login-img.jpg";
 import MainContext from "../../context";
+import { Link } from "react-router-dom";
 
 const LoginPage = () => {
     const history = useHistory();
@@ -64,44 +65,49 @@ const LoginPage = () => {
                     <img src={loginImg} alt=""/>
                 </div>
                 <div className="col-md-4 p-0">
-                    <div className="d-flex align-items-center justify-content-center height_100">
-                        <div>
-                            <h4>Welcome to Admin panel</h4>
-                            <Form
-                                form={form}
-                                name="basic"
-                                initialValues={{remember: true}}
-                                onFinish={onFinish}
-                                autoComplete="off"
-                            >
-                                <Form.Item
-                                    name="username"
-                                    rules={[
-                                        {required: true, message: "Please input your username!"},
-                                    ]}
+                    <div className="height_100">
+                        <div className="pt-5 ms-4">
+                            <Link to='/' >Asosiy sahifaga o'tish</Link>
+                        </div>
+                        <div className="d-flex align-items-center justify-content-center height_90">
+                            <div>
+                                <h4>Welcome to Admin panel</h4>
+                                <Form
+                                    form={form}
+                                    name="basic"
+                                    initialValues={{remember: true}}
+                                    onFinish={onFinish}
+                                    autoComplete="off"
                                 >
-                                    <Input className="w-100"/>
-                                </Form.Item>
-
-                                <Form.Item
-                                    name="password"
-                                    rules={[
-                                        {required: true, message: "Please input your password!"},
-                                    ]}
-                                >
-                                    <Input.Password className="w-100"/>
-                                </Form.Item>
-
-                                <Form.Item className="text-center">
-                                    <button
-                                        className="w-100 login-button"
-                                        type="primary"
-                                        htmlType="submit"
+                                    <Form.Item
+                                        name="username"
+                                        rules={[
+                                            {required: true, message: "Please input your username!"},
+                                        ]}
                                     >
-                                        Login
-                                    </button>
-                                </Form.Item>
-                            </Form>
+                                        <Input className="w-100"/>
+                                    </Form.Item>
+
+                                    <Form.Item
+                                        name="password"
+                                        rules={[
+                                            {required: true, message: "Please input your password!"},
+                                        ]}
+                                    >
+                                        <Input.Password className="w-100"/>
+                                    </Form.Item>
+
+                                    <Form.Item className="text-center">
+                                        <button
+                                            className="w-100 login-button"
+                                            type="primary"
+                                            htmlType="submit"
+                                        >
+                                            Login
+                                        </button>
+                                    </Form.Item>
+                                </Form>
+                            </div>
                         </div>
                     </div>
                 </div>

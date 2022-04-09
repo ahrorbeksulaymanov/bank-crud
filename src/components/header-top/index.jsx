@@ -1,40 +1,30 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import './style.scss'
 import { Radio } from "antd";
 import { Input } from "antd";
-import { getGenders } from "../../functions";
 import { useDispatch, useSelector } from "react-redux"
-import { GENDER_VAL, SEARCH_VAL } from "../../redux/actions";
 import { useHistory, useLocation } from "react-router-dom";
+import { ActionTypes } from "../../redux/constants/action-types";
 const { Search } = Input;
 
 const HeaderTop = () => {
   const searchVal = useSelector((state) => state?.product);
-  const [genders, setgenders] = useState([])
+  const genders = useSelector((state) => state.genders?.genders);
   const [genderId, setgenderId] = useState(searchVal?.gender_val)
   const [search_val, setsearch_val] = useState(searchVal?.search_val)
   const dispatch = useDispatch()
   const history = useHistory()
   const location = useLocation();
-
   const onSearch = (value) => {
-    dispatch({ type: SEARCH_VAL, data: {search_val: value, gender_val: genderId} })
+    dispatch({ type: ActionTypes.SEARCH_VAL, data: {search_val: value, gender_val: genderId} })
     if(location.pathname !== '/'){
       history.push("/all-products")
     }
   }
 
-  useEffect(() => {
-    getGenders().then((res) => {
-      if (res?.status === 200) {
-        setgenders(res?.data?.data);
-      }
-    });
-  }, [])
-
   const changeGender = (id) => {
     setgenderId(id)
-    dispatch({ type: GENDER_VAL, data: {search_val: search_val, gender_val: id} })
+    dispatch({ type: ActionTypes.GENDER_VAL, data: {search_val: search_val, gender_val: id} })
     if(location.pathname !== '/'){
       history.push("/all-products")
     }

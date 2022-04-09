@@ -51,6 +51,7 @@ class PicturesWall extends React.Component {
           fileList={this.props.images}
           onPreview={this.handlePreview}
           onChange={this.handleChange}
+          customRequest={({onSuccess}) => onSuccess("ok")}
         >
           {this.props.images.length >= 4 ? null : uploadButton}
         </Upload>

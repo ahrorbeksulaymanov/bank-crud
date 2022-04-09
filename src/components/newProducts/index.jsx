@@ -7,18 +7,17 @@ import { Link } from "react-router-dom";
 import { useSelector } from "react-redux";
 import { Empty } from "antd";
 import LoaderMain from "../../components/loader/index";
+
 const NewProducts = () => {
   const [data, setData] = useState([]);
   const [sliderData, setsliderData] = useState([]);
   const [LastData, setLastData] = useState([]);
   const [loading, setLoading] = useState(true);
-
   const searchVal = useSelector((state) => state?.product);
 
   useEffect(() => {
     setLoading(true);
     const token = localStorage.getItem("token");
-
     const json = {};
     json.search = String(searchVal?.search_val);
     json.genderId = String(searchVal?.gender_val);

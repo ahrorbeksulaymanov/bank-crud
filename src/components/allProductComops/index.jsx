@@ -8,16 +8,12 @@ import { Link } from "react-router-dom";
 import axios from "axios";
 import { PATH_API, PATH_API_FILE } from "../../constants";
 import {
-  getBrends,
-  getCategories,
-  getColor,
-  getDiscount,
-  getSeasons,
   getSizes,
 } from "../../functions";
 import PriceDropdown from "./priceDropdown";
-import { useSelector } from "react-redux";
 import InfiniteScroll from "react-infinite-scroll-component";
+import { useSelector, useDispatch } from "react-redux";
+import { setDisCounts, setSeasons, setColors, setCategories } from "../../redux/actions";
 const { Panel } = Collapse;
 
 const AllProducts = () => {
@@ -28,12 +24,7 @@ const AllProducts = () => {
   const [currentPage, setcurrentPage] = useState(1);
   const [pageSize, setpageSize] = useState(12);
   const [data, setData] = useState([]);
-  const [categories, setcategories] = useState([]);
-  const [seasons, setseasons] = useState([]);
-  const [brends, setbrends] = useState([]);
   const [sises, setsises] = useState([]);
-  const [disCount, setdisCount] = useState([]);
-  const [colors, setcolors] = useState([]);
   const [categoryId, setcategoryId] = useState(null);
   const [width, setWidth] = useState(0);
   const [checkedList, setCheckedList] = useState({
@@ -46,7 +37,14 @@ const AllProducts = () => {
     saleFrom: '',
     saleTo: '',
   });
-
+  const dispatch = useDispatch();
+  const brands = useSelector((state) => state.brands?.brands);
+  const searchVal = useSelector((state) => state?.product);
+  const discounts = useSelector((state) => state.discounts?.discounts);
+  const seasons = useSelector((state) => state.seasons?.seasons);
+  const colors = useSelector((state) => state.colors?.colors);
+  const categories = useSelector((state) => state.categories?.categories);
+  
   function categoryChange(key) {
     setcategoryId(key);
     setCheckedList({
@@ -61,7 +59,6 @@ const AllProducts = () => {
     });
     setRefresh(!refresh);
   }
-  const searchVal = useSelector((state) => state?.product);
 
   useEffect(() => {
     setLoading(true);
@@ -94,38 +91,6 @@ const AllProducts = () => {
   }, [refresh, currentPage, pageSize, searchVal]);
 
   useEffect(() => {
-    getCategories().then((res) => {
-      if (res?.status === 200) {
-        setcategories(res?.data?.data);
-      }
-    });
-
-    getSeasons().then((res) => {
-      if (res?.status === 200) {
-        setseasons(res?.data?.data);
-      }
-    });
-
-    getBrends().then((res) => {
-      if (res?.status === 200) {
-        setbrends(res?.data?.data);
-      }
-    });
-
-    getDiscount().then((res) => {
-      if (res?.status === 200) {
-        setdisCount(res?.data?.data);
-      }
-    });
-
-    getColor().then((res) => {
-      if (res?.status === 200) {
-        setcolors(res?.data?.data);
-      }
-    });
-  }, []);
-
-  useEffect(() => {
     if (categoryId !== null) {
       getSizes(categoryId).then((res) => {
         if (res?.status === 200) {
@@ -135,6 +100,8 @@ const AllProducts = () => {
     }
   }, [categoryId]);
 
+  
+  // mobilniyda scroll bottom bolganda pagination function
   const handleResize = () => setWidth(window.innerWidth);
 
   useEffect(() => {
@@ -146,11 +113,60 @@ const AllProducts = () => {
     return () => window.removeEventListener("resize", handleResize);
   }, [handleResize]);
 
+
   const fetchMoreData = (e) => {
     if(width < 768) {
       setpageSize(pageSize + 10);
     }
   };
+
+
+  // filterlarni reduxga saqlovchi code
+  const getDisCounts = async () => {
+    const response = await axios.get(PATH_API + '/discount').catch(err => {
+      console.log("Err", err);
+    })
+    dispatch(setDisCounts(response?.data?.data))
+  }
+
+  const getSeasons = async () => {
+    const response = await axios.get(PATH_API + '/season').catch(err => {
+      console.log("Err", err);
+    })
+    dispatch(setSeasons(response?.data?.data))
+  }
+
+  const getColors = async () => {
+    const response = await axios.get(PATH_API + '/color').catch(err => {
+      console.log("Err", err);
+    })
+    dispatch(setColors(response?.data?.data))
+  }
+
+  const getCategories = async () => {
+    const response = await axios.get(PATH_API + '/category?expand=children').catch(err => {
+      console.log("Err", err);
+    })
+    dispatch(setCategories(response?.data?.data))
+  }
+
+  useEffect(() => {
+    if(discounts.length === 0){
+      getDisCounts()
+    }
+
+    if(seasons.length === 0){
+      getSeasons()
+    }
+
+    if(colors.length === 0){
+      getColors()
+    }
+
+    if(categories.length === 0){
+      getCategories()
+    }
+  }, [])
 
   return (
     <div className="all_products">
@@ -195,7 +211,7 @@ const AllProducts = () => {
             <FilterDropdown
               name="Brend"
               type="brend"
-              data={brends}
+              data={brands}
               setCheckedList={setCheckedList}
               checkedList={checkedList}
               setRefresh={setRefresh}
@@ -205,7 +221,7 @@ const AllProducts = () => {
             <FilterDropdown
               name="Chegirma"
               type="discount"
-              data={disCount}
+              data={discounts}
               setCheckedList={setCheckedList}
               checkedList={checkedList}
               setRefresh={setRefresh}
@@ -446,7 +462,7 @@ const AllProducts = () => {
             <FilterDropdown
               name="Brend"
               type="brend"
-              data={brends}
+              data={brands}
               setCheckedList={setCheckedList}
               checkedList={checkedList}
               setRefresh={setRefresh}
@@ -456,7 +472,7 @@ const AllProducts = () => {
             <FilterDropdown
               name="Chegirma"
               type="discount"
-              data={disCount}
+              data={discounts}
               setCheckedList={setCheckedList}
               checkedList={checkedList}
               setRefresh={setRefresh}
